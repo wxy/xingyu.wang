@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "home": "首页",
+    "extensions": "扩展",
+    "apps": "应用",
+    "about": "关于"
+  },
+  "home": {
+    "title": "Xingyu Wang",
+    "subtitle": "精工打造浏览器扩展与移动应用。",
+    "extensions": "Chrome 扩展",
+    "apps": "Android 应用",
+    "achievements": "成就",
+    "viewAll": "查看全部 →",
+    "browseExtensions": "浏览扩展",
+    "browseApps": "浏览应用",
+    "extensionsDesc": "增强浏览体验的工具。",
+    "appsDesc": "随手可用的移动工具。"
+  },
+  "extensions": {
+    "title": "Chrome 扩展",
+    "subtitle": "为提升效率、增加功能和解决日常问题而打造的浏览器扩展。",
+    "empty": "暂无扩展",
+    "emptyHint": "将你的 Chrome 扩展添加到",
+    "backToList": "← 所有扩展",
+    "about": "关于",
+    "features": "功能特性",
+    "techStack": "技术栈",
+    "viewOnGitHub": "在 GitHub 查看 →",
+    "install": "从 Chrome Web Store 安装 →"
+  },
+  "apps": {
+    "title": "Android 应用",
+    "subtitle": "Android 应用——从效率工具到解决小需求的自用小工具。",
+    "empty": "暂无应用",
+    "emptyHint": "将你的 Android 应用添加到",
+    "backToList": "← 所有应用",
+    "about": "关于",
+    "features": "功能特性",
+    "techStack": "技术栈",
+    "viewOnGitHub": "在 GitHub 查看 →",
+    "install": "从 Google Play 获取 →"
+  },
+  "about": {
+    "title": "关于",
+    "content": {
+      "p1": "你好，我是 Xingyu Wang —— 一个热爱打造让日常生活更便捷的工具的开发者。我制作 Chrome 扩展、Android 应用以及各类小项目。",
+      "p2": "这个网站汇集了我的作品——每个扩展和应用都有独立的详情页，包含功能、技术栈和相关链接。",
+      "p3": "不写代码的时候，我可能在捣鼓新技术、做设计，或者探索下一个项目的点子。",
+      "p4": "我曾是 Linux 中国翻译项目（LCTT）的核心贡献者，十多年来帮助将数千篇技术文章翻译成中文。"
+    },
+    "contact": "联系方式",
+    "emailLabel": "邮箱",
+    "githubLabel": "GitHub",
+    "namecardTitle": "数字名片",
+    "namecardDesc": "这是我在 2016 年用 Adobe Illustrator 设计的数字名片，一直作为我的网络身份。点击可翻转正反面。"
+  },
+  "badge": {
+    "stars": "stars",
+    "license": "license",
+    "lastCommit": "last commit"
+  },
+  "footer": {
+    "allRightsReserved": "保留所有权利。"
+  },
+  "achievements": {
+    "lctt": {
+      "name": "LCTT 翻译项目",
+      "description": "Linux 中国翻译项目（LCTT）核心贡献者，中国最大的开源翻译社区之一。十余年间帮助将数千篇技术文章翻译并出版，让中文读者得以接触到 Linux 和开源知识。",
+      "org": "Linux 中国",
+      "year": "2013 – 2025"
+    }
+  }
+}

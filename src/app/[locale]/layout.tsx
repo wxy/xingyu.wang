@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import "./globals.css";
+import "../globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +17,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 export const metadata: Metadata = {
   title: {
     default: "Xingyu Wang — developer & maker",
@@ -24,20 +31,29 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://xingyu.wang"),
 };
 
-export default function RootLayout({
+export default async function LocaleLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+
+  const messages = (await import(`../../../messages/${locale}.json`)).default;
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="flex min-h-screen flex-col bg-background text-foreground">
-        <Navigation />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body className="flex min-h-screen flex-col">
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Navigation locale={locale} />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

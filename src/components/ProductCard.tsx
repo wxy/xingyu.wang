@@ -1,36 +1,79 @@
+"use client";
+
 import Link from "next/link";
-import type { Product } from "@/lib/products";
+import { useLocale } from "next-intl";
+import type { Product, Locale } from "@/lib/products";
+import { localized } from "@/lib/products";
+
+const badgeBase = "https://img.shields.io/github";
 
 export function ProductCard({ product }: { product: Product }) {
+  const locale = useLocale() as Locale;
+  const p = localized(product, locale);
+
   const href =
-    product.type === "extension"
-      ? `/extensions/${product.slug}`
-      : `/apps/${product.slug}`;
+    p.type === "extension"
+      ? `/extensions/${p.slug}`
+      : `/apps/${p.slug}`;
+
+  const owner = p.repoUrl?.split("/").slice(-2, -1)[0] || "";
+  const repo = p.repoUrl?.split("/").pop() || "";
 
   return (
     <Link
       href={href}
-      className="group rounded-2xl border border-border bg-surface p-6 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
+      className="group card flex flex-col p-5 transition-all hover:-translate-y-0.5"
     >
-      <div className="mb-4 flex items-start justify-between">
-        <span className="text-3xl" role="img" aria-hidden>
-          {product.icon}
-        </span>
-        <span className="rounded-full bg-background px-2.5 py-0.5 text-xs font-medium text-muted">
-          {product.type === "extension" ? "Extension" : "App"}
+      {/* Header */}
+      <div className="mb-3 flex items-start justify-between">
+        {p.iconUrl ? (
+          <img
+            src={p.iconUrl}
+            alt=""
+            className="h-8 w-8 rounded-lg object-contain"
+            loading="lazy"
+          />
+        ) : (
+          <span className="text-2xl" role="img" aria-hidden>
+            {p.icon}
+          </span>
+        )}
+        <span className="rounded-full border border-border px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted">
+          {p.type}
         </span>
       </div>
-      <h3 className="mb-1.5 text-lg font-semibold text-foreground">
-        {product.name}
+
+      <h3 className="mb-1 font-semibold text-fg group-hover:text-accent transition-colors">
+        {p.name}
       </h3>
-      <p className="mb-3 text-sm leading-relaxed text-muted">
-        {product.tagline}
+      <p className="mb-4 text-sm leading-relaxed text-muted line-clamp-2">
+        {p.tagline}
       </p>
-      <div className="flex flex-wrap gap-1.5">
-        {product.technologies.slice(0, 3).map((tech) => (
+
+      {/* Badges — only for public repos */}
+      {p.repoUrl && (
+        <div className="mt-auto flex flex-wrap gap-1.5">
+          <img
+            src={`${badgeBase}/stars/${owner}/${repo}?style=flat&color=0d9488`}
+            alt="GitHub stars"
+            className="h-5"
+            loading="lazy"
+          />
+          <img
+            src={`${badgeBase}/last-commit/${owner}/${repo}?style=flat&color=71717a`}
+            alt="Last commit"
+            className="h-5"
+            loading="lazy"
+          />
+        </div>
+      )}
+
+      {/* Tech tags */}
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        {p.technologies.slice(0, 3).map((tech) => (
           <span
             key={tech}
-            className="rounded-md bg-background px-2 py-0.5 text-xs text-muted"
+            className="rounded bg-accent/10 px-2 py-0.5 text-[11px] text-accent"
           >
             {tech}
           </span>

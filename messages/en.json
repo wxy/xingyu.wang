@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "home": "Home",
+    "extensions": "Extensions",
+    "apps": "Apps",
+    "about": "About"
+  },
+  "home": {
+    "title": "Xingyu Wang",
+    "subtitle": "Crafting browser extensions & mobile apps with precision.",
+    "extensions": "Chrome Extensions",
+    "apps": "Android Apps",
+    "achievements": "Achievements",
+    "viewAll": "View all →",
+    "browseExtensions": "Browse Extensions",
+    "browseApps": "Browse Apps",
+    "extensionsDesc": "Tools that enhance your browsing experience.",
+    "appsDesc": "Handy utilities on the go."
+  },
+  "extensions": {
+    "title": "Chrome Extensions",
+    "subtitle": "Browser extensions built to enhance productivity, add features, and solve everyday problems on the web.",
+    "empty": "No extensions yet",
+    "emptyHint": "Add your Chrome extensions to",
+    "backToList": "← All Extensions",
+    "about": "About",
+    "features": "Features",
+    "techStack": "Tech Stack",
+    "viewOnGitHub": "View on GitHub →",
+    "install": "Install from Chrome Web Store →"
+  },
+  "apps": {
+    "title": "Android Apps",
+    "subtitle": "Android applications — from productivity tools to little utilities that scratch my own itch.",
+    "empty": "No apps yet",
+    "emptyHint": "Add your Android apps to",
+    "backToList": "← All Apps",
+    "about": "About",
+    "features": "Features",
+    "techStack": "Tech Stack",
+    "viewOnGitHub": "View on GitHub →",
+    "install": "Get it on Google Play →"
+  },
+  "about": {
+    "title": "About",
+    "content": {
+      "p1": "Hi, I'm Xingyu Wang — a developer who enjoys building tools that make everyday life a little better. I create Chrome extensions, Android apps, and other side projects.",
+      "p2": "This site is a home for my projects — each extension and app gets its own page with details, features, and links to learn more.",
+      "p3": "When I'm not coding, you might find me tinkering with new technologies, designing things, or exploring ideas for the next project.",
+      "p4": "I was a core contributor to the Linux China Translation Project (LCTT), helping translate thousands of technical articles into Chinese for over a decade."
+    },
+    "contact": "Get in touch",
+    "emailLabel": "Email",
+    "githubLabel": "GitHub",
+    "namecardTitle": "Digital Namecard",
+    "namecardDesc": "This is my original digital namecard, designed in Adobe Illustrator back in 2016. Click it to flip between the front and back."
+  },
+  "badge": {
+    "stars": "stars",
+    "license": "license",
+    "lastCommit": "last commit"
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved."
+  },
+  "achievements": {
+    "lctt": {
+      "name": "LCTT TranslateProject",
+      "description": "Core contributor to the Linux China Translation Project (LCTT), the largest Chinese open-source translation community. Helped translate and publish thousands of technical articles, making Linux and open-source knowledge accessible to Chinese readers worldwide.",
+      "org": "Linux China",
+      "year": "2013 – 2025"
+    }
+  }
+}
