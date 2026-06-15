@@ -61,12 +61,12 @@ export default function AboutPage() {
           <p>
             GitHub:{" "}
             <a
-              href="https://github.com/xingyuwang"
+              href="https://github.com/wxy"
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-accent hover:text-accent-hover"
             >
-              @xingyuwang
+              @wxy
             </a>
           </p>
         </div>

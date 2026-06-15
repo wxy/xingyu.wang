@@ -95,18 +95,31 @@ export default async function ExtensionDetailPage({ params }: Props) {
         </div>
       </div>
 
-      {/* CTA */}
-      {product.url && (
-        <a
-          href={product.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90"
-        >
-          Install from Chrome Web Store
-          <span aria-hidden>→</span>
-        </a>
-      )}
+      {/* Links */}
+      <div className="flex flex-wrap gap-3">
+        {product.url && (
+          <a
+            href={product.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90"
+          >
+            Install from Chrome Web Store
+            <span aria-hidden>→</span>
+          </a>
+        )}
+        {product.repoUrl && (
+          <a
+            href={product.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium transition-colors hover:bg-surface"
+          >
+            View on GitHub
+            <span aria-hidden>→</span>
+          </a>
+        )}
+      </div>
     </div>
   );
 }

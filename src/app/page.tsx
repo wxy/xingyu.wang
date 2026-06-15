@@ -1,4 +1,4 @@
-import { getFeaturedProducts } from "@/lib/products";
+import { getFeaturedProducts, achievements } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
 import Link from "next/link";
 
@@ -34,46 +34,91 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Products */}
-      {featured.length > 0 && (
-        <section className="px-6 pb-20">
+      {/* Chrome Extensions */}
+      <section className="px-6 pb-20">
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-8 flex items-center justify-between">
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Chrome Extensions
+            </h2>
+            <Link
+              href="/extensions"
+              className="text-sm font-medium text-accent hover:text-accent-hover"
+            >
+              View all →
+            </Link>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {featured
+              .filter((p) => p.type === "extension")
+              .map((product) => (
+                <ProductCard key={product.slug} product={product} />
+              ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Android Apps */}
+      <section className="border-t border-border px-6 pb-20 pt-16">
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-8 flex items-center justify-between">
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Android Apps
+            </h2>
+            <Link
+              href="/apps"
+              className="text-sm font-medium text-accent hover:text-accent-hover"
+            >
+              View all →
+            </Link>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {featured
+              .filter((p) => p.type === "app")
+              .map((product) => (
+                <ProductCard key={product.slug} product={product} />
+              ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Achievements */}
+      {achievements.length > 0 && (
+        <section className="border-t border-border px-6 py-16">
           <div className="mx-auto max-w-4xl">
             <h2 className="mb-8 text-center text-2xl font-semibold tracking-tight">
-              Featured projects
+              Achievements
             </h2>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {featured.map((product) => (
-                <ProductCard key={product.slug} product={product} />
+            <div className="grid gap-6 sm:grid-cols-2">
+              {achievements.map((ach) => (
+                <a
+                  key={ach.name}
+                  href={ach.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group rounded-2xl border border-border bg-surface p-6 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
+                >
+                  <div className="mb-3 flex items-center gap-2">
+                    <span className="text-2xl" aria-hidden>
+                      {ach.icon}
+                    </span>
+                    <span className="rounded-full bg-background px-2.5 py-0.5 text-xs font-medium text-muted">
+                      {ach.org}
+                    </span>
+                  </div>
+                  <h3 className="mb-2 text-lg font-semibold text-foreground">
+                    {ach.name}
+                  </h3>
+                  <p className="mb-3 text-sm leading-relaxed text-muted">
+                    {ach.description}
+                  </p>
+                  <p className="text-xs text-muted">{ach.year}</p>
+                </a>
               ))}
             </div>
           </div>
         </section>
       )}
-
-      {/* Getting Started Hint */}
-      <section className="border-t border-border px-6 py-16">
-        <div className="mx-auto max-w-4xl text-center">
-          <div className="mx-auto max-w-lg rounded-2xl border border-border bg-surface p-8">
-            <h3 className="mb-3 text-lg font-semibold">Add your projects</h3>
-            <p className="mb-4 text-sm leading-relaxed text-muted">
-              Edit{" "}
-              <code className="rounded bg-background px-1.5 py-0.5 text-xs">
-                src/lib/products.ts
-              </code>{" "}
-              to add your Chrome extensions, Android apps, and other projects.
-              Each product gets its own page automatically.
-            </p>
-            <a
-              href="https://vercel.com/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-accent hover:text-accent-hover"
-            >
-              Deploy to Vercel →
-            </a>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
