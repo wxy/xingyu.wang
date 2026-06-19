@@ -20,7 +20,6 @@ export interface Product {
   technologies: string[];
   features: string[];
   featuresZh?: string[];
-  screenshots?: string[];
   chromeStoreId?: string;
   featured: boolean;
 }
@@ -68,12 +67,6 @@ export const extensions: Product[] = [
       "导出结果以供进一步分析",
       "支持离线使用",
     ],
-    screenshots: [
-      "https://lh3.googleusercontent.com/UebtiweBQXPxeKtnjH-sp6JORBXboidt9ZmtXA4jFkz23LNM3LlImhPM0AsdHgrCexVyKgaDkEf82MBau99akJ8Qpw=w1280-h800",
-      "https://lh3.googleusercontent.com/T5EHymEIHjaEX5R-m2W41UG862l71Njh3fH2lIjDYURPyekQFkAi6wAgw1NmkgIW-wpqVH-UvFOxr2UDy28Agnst=w1280-h800",
-      "https://lh3.googleusercontent.com/zKOll-DPTwoNqpiB5aQchjp126g2a7C-gM_FYnucxTNxIGOPwqI6qnxr0-XHgAvJ_2cqytdKjg=w1280-h800",
-      "https://lh3.googleusercontent.com/uBvJ0URxesL9M9JuK5Obx_OUdh360qU_klJkGP--3RMpRjQGkI3Gc5eOEEqFLSU6XRUV8G1QYNTiAAma3EFwaOc_bA=w1280-h800",
-    ],
     featured: true,
   },
   {
@@ -107,13 +100,6 @@ export const extensions: Product[] = [
       "轻松追溯到达任意页面的路径",
       "隐私优先——所有数据仅存本地",
     ],
-    screenshots: [
-      "https://lh3.googleusercontent.com/BJRLLTUk-JnOdaz6I0pXvg-NFMrdMqpc-_TmLoTlOloQhVCs3AS5u718IRy74ZXJ3WZAYhBR5EELIrOeQwd4IgIOqw=w1280-h800",
-      "https://lh3.googleusercontent.com/4FJctuZgf6NrYaJ7K_MwjzGlzmSpQp3zdAV_GDPTXaOU8PwYxIwSNj6HZjEyICJkj_inVSuk7WXKTqYygtjOBm3fRg=w1280-h800",
-      "https://lh3.googleusercontent.com/eAHRcuCKJNlawhHsHGsTW2njjzQrk0UOSgo2Ck3W2UdZYH-Q3okbzl24q-IgJEEPuaQR3AmYeyONci_4rMgJbIwt=w1280-h800",
-      "https://lh3.googleusercontent.com/7xNL-Tl6a3ShWZdbs0rF5IWwqQKqOs0JwVs-MJGvDuYFNidbCS_AnyLH0ASz5MCEheUzksMpLiywnGBteDgrwCn-IQ=w1280-h800",
-      "https://lh3.googleusercontent.com/Jksx1cD5E2BsZogUyR_8FLkpxAnOFxV6i1IiZBcflbhSHPtTYzN6yfZHM0lbIRiZLMGU7Dxnn8FMcLxUx7fwxh4yeg=w1280-h800",
-    ],
     featured: true,
   },
   {
@@ -146,11 +132,6 @@ export const extensions: Product[] = [
       "保持信息流干净专注",
       "支持多个 RSS 源",
       "尊重隐私的架构设计",
-    ],
-    screenshots: [
-      "https://lh3.googleusercontent.com/nQgnK2JleJQG1p2sw6POg-VCcX9CxchuJjD0GRTHBp6V-eXoy0CNtX2MZt3K-uze1qvjE3V9IIG9wFwEZfCL3djQ=w1280-h800",
-      "https://lh3.googleusercontent.com/G6ZqHSyjyC9-7G09-RA2uIckX5sZ9w4smCAtfvKZbjLeggnMICgjD-6mkpdujbTAzrUuukT8ZC9xvoR6B7iKPOINq9E=w1280-h800",
-      "https://lh3.googleusercontent.com/ddEgF0jzIsgd0dFMCMPV5pZPAQqb4qAZEkL6hAvsi4gzU9Hjmdg6F0wyS6jmJ7YfQAT2_EsOHX37RgY6RyZHGXPB=w1280-h800",
     ],
     featured: true,
   },

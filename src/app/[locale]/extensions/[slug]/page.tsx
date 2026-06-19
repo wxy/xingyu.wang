@@ -89,23 +89,6 @@ export default async function ExtensionDetailPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Screenshots */}
-      {product.screenshots && product.screenshots.length > 0 && (
-        <div className="mb-12">
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-2 px-2">
-            {product.screenshots.map((url, i) => (
-              <img
-                key={i}
-                src={url}
-                alt={`${product.name} screenshot ${i + 1}`}
-                className="h-64 w-auto flex-shrink-0 rounded-xl border border-border object-cover"
-                loading="lazy"
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Description */}
       <div className="mb-12">
         <h2 className="mb-3 text-lg font-semibold">{t("about")}</h2>
