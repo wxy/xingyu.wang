@@ -21,6 +21,7 @@ export interface Product {
   features: string[];
   featuresZh?: string[];
   screenshots?: string[];
+  chromeStoreId?: string;
   featured: boolean;
 }
 
@@ -33,9 +34,46 @@ export interface Achievement {
   year: string;
 }
 
-// --- Chrome Extensions ---
+// --- Chrome Extensions (sorted by install count) ---
 
 export const extensions: Product[] = [
+  {
+    slug: "hitable",
+    name: "HiTable",
+    nameZh: "HiTable",
+    tagline: "On-the-go data analysis tool, simplified",
+    taglineZh: "随行数据分析工具，化繁为简",
+    description:
+      "HiTable simplifies your data analysis workflow. It's a lightweight, on-the-go tool for quickly exploring and analyzing tabular data right in your browser — no heavy software needed.",
+    descriptionZh:
+      "HiTable 简化你的数据分析流程。它是一款轻量的随行工具，让你在浏览器中快速探索和分析表格数据——无需安装重型软件。",
+    type: "extension",
+    icon: "📊",
+    iconUrl: "https://raw.githubusercontent.com/wxy/HiTable/master/assets/logo.png",
+    url: "https://chromewebstore.google.com/detail/hitable/gepfjnfkjimhdfemijfnnpefdpocldpc",
+    repoUrl: "https://github.com/wxy/HiTable",
+    chromeStoreId: "gepfjnfkjimhdfemijfnnpefdpocldpc",
+    technologies: ["JavaScript", "Chrome APIs", "HTML/CSS"],
+    features: [
+      "Quick tabular data exploration in-browser",
+      "Lightweight — no heavy dependencies",
+      "Intuitive data filtering and sorting",
+      "Export results for further analysis",
+      "Works offline",
+    ],
+    featuresZh: [
+      "在浏览器中快速探索表格数据",
+      "轻量级——无重型依赖",
+      "直观的数据筛选与排序",
+      "导出结果以供进一步分析",
+      "支持离线使用",
+    ],
+    screenshots: [
+      "https://lh3.googleusercontent.com/b8zHzOf6Mkd-0JmzNJy_kRnBIBkJ8xp1xrDSctuC6ZAwOow673Lgk8gTh_QCCZ2GdpHwdRM6wbytKEauiVf4_B5EwQ=w640-h400",
+      "https://lh3.googleusercontent.com/YaohN7kc-NG570JBEakcAqE_ukHtdJ25gaQV9f0snmvsAALsQqcsx9bLIvtKnE9B_kQKjVa65D01XRBX0_5waUPB0Uw=w640-h400",
+    ],
+    featured: true,
+  },
   {
     slug: "navigraph",
     name: "Navigraph",
@@ -51,6 +89,7 @@ export const extensions: Product[] = [
     iconUrl: "https://raw.githubusercontent.com/wxy/Navigraph/master/images/logo-128.png",
     url: "https://chromewebstore.google.com/detail/navigraph/jfjgdldpgmnhclffkkcnbhleijeopkhi",
     repoUrl: "https://github.com/wxy/Navigraph",
+    chromeStoreId: "jfjgdldpgmnhclffkkcnbhleijeopkhi",
     technologies: ["TypeScript", "Chrome APIs", "D3.js", "React"],
     features: [
       "Visualize browsing paths as interactive graphs",
@@ -65,6 +104,10 @@ export const extensions: Product[] = [
       "理解站点间的信息流转",
       "轻松追溯到达任意页面的路径",
       "隐私优先——所有数据仅存本地",
+    ],
+    screenshots: [
+      "https://lh3.googleusercontent.com/quoeLJjjYeqp3p9mSlxrZETk8-NG-qPRipFOnJ0qyLPGqFr_WHRe4DFvvn_IhfRi5_pXbpl-_o3wKl5qqEff7B0Cgg=w640-h400",
+      "https://lh3.googleusercontent.com/dPIWdepErp2BUvNvtmnP4H2_b5lWocUu_aIXyYHW0NxnwjPTijsK4DCrlW2sSdaaNLayYY25TU4sWftqL08l0bfZ=w640-h400",
     ],
     featured: true,
   },
@@ -83,6 +126,7 @@ export const extensions: Product[] = [
     iconUrl: "https://raw.githubusercontent.com/wxy/SilentFeed/master/assets/icon.png",
     url: "https://chromewebstore.google.com/detail/silentfeed/pieiedlagbmcnooloibhigmidpakneca",
     repoUrl: "https://github.com/wxy/SilentFeed",
+    chromeStoreId: "pieiedlagbmcnooloibhigmidpakneca",
     technologies: ["TypeScript", "React", "Python", "AI/ML", "Chrome APIs"],
     features: [
       "AI learns your reading preferences over time",
@@ -98,37 +142,9 @@ export const extensions: Product[] = [
       "支持多个 RSS 源",
       "尊重隐私的架构设计",
     ],
-    featured: true,
-  },
-  {
-    slug: "hitable",
-    name: "HiTable",
-    nameZh: "HiTable",
-    tagline: "On-the-go data analysis tool, simplified",
-    taglineZh: "随行数据分析工具，化繁为简",
-    description:
-      "HiTable simplifies your data analysis workflow. It's a lightweight, on-the-go tool for quickly exploring and analyzing tabular data right in your browser — no heavy software needed.",
-    descriptionZh:
-      "HiTable 简化你的数据分析流程。它是一款轻量的随行工具，让你在浏览器中快速探索和分析表格数据——无需安装重型软件。",
-    type: "extension",
-    icon: "📊",
-    iconUrl: "https://raw.githubusercontent.com/wxy/HiTable/master/assets/logo.png",
-    url: "https://chromewebstore.google.com/detail/hitable/gepfjnfkjimhdfemijfnnpefdpocldpc",
-    repoUrl: "https://github.com/wxy/HiTable",
-    technologies: ["JavaScript", "Chrome APIs", "HTML/CSS"],
-    features: [
-      "Quick tabular data exploration in-browser",
-      "Lightweight — no heavy dependencies",
-      "Intuitive data filtering and sorting",
-      "Export results for further analysis",
-      "Works offline",
-    ],
-    featuresZh: [
-      "在浏览器中快速探索表格数据",
-      "轻量级——无重型依赖",
-      "直观的数据筛选与排序",
-      "导出结果以供进一步分析",
-      "支持离线使用",
+    screenshots: [
+      "https://lh3.googleusercontent.com/reJn960jDI2vrIw_1CvyrincVckG6LzoBVvT3EPLnIgNGPtkRnXKzweM70IB74xE5qGSeLQeukUjI48jCjqYUFgbBVE=w640-h400",
+      "https://lh3.googleusercontent.com/l5NTT2M0NpSQg3ubfJkmXM2ZVBBnjIR53uCoV7BHvWXTOkCbxUgqHum8KgsxbT97b2P5i5UbFM6QH8dJgnTzPiJVkw=w640-h400",
     ],
     featured: true,
   },
@@ -145,7 +161,9 @@ export const extensions: Product[] = [
     type: "extension",
     icon: "🤖",
     iconUrl: "https://raw.githubusercontent.com/wxy/ai-pulse/main/public/icons/icon-128.png",
+    url: "https://chromewebstore.google.com/detail/ai-pulse/nnjaedlkifjimaajkgaifknaapapbloc",
     repoUrl: "https://github.com/wxy/ai-pulse",
+    chromeStoreId: "nnjaedlkifjimaajkgaifknaapapbloc",
     technologies: ["TypeScript", "React", "WXT", "Chrome APIs"],
     features: [
       "Monitor multiple AI providers: DeepSeek, Kimi, ChatGLM, Baichuan, Qwen, Wenxin",

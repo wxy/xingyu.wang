@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useLocale } from "next-intl";
 import type { Product, Locale } from "@/lib/products";
 import { localized } from "@/lib/products";
+import { BadgeImg } from "./BadgeImg";
 
-const badgeBase = "https://img.shields.io/github";
+const ghBadgeBase = "https://img.shields.io/github";
+const cwsBadgeBase = "https://img.shields.io/chrome-web-store";
 
 export function ProductCard({ product }: { product: Product }) {
   const locale = useLocale() as Locale;
@@ -50,30 +52,34 @@ export function ProductCard({ product }: { product: Product }) {
         {p.tagline}
       </p>
 
-      {/* Badges — only for public repos */}
-      {p.repoUrl && (
-        <div className="mt-auto flex flex-wrap gap-1.5">
-          <img
-            src={`${badgeBase}/stars/${owner}/${repo}?style=flat&color=0d9488`}
-            alt="GitHub stars"
-            className="h-5"
-            loading="lazy"
+      {/* Badges */}
+      <div className="mt-auto flex flex-wrap gap-1.5">
+        {p.chromeStoreId && (
+          <BadgeImg
+            src={`${cwsBadgeBase}/users/${p.chromeStoreId}?style=flat&color=0d9488`}
+            alt="Install count"
           />
-          <img
-            src={`${badgeBase}/last-commit/${owner}/${repo}?style=flat&color=71717a`}
-            alt="Last commit"
-            className="h-5"
-            loading="lazy"
-          />
-        </div>
-      )}
+        )}
+        {p.repoUrl && (
+          <>
+            <BadgeImg
+              src={`${ghBadgeBase}/stars/${owner}/${repo}?style=flat&color=0d9488`}
+              alt="GitHub stars"
+            />
+            <BadgeImg
+              src={`${ghBadgeBase}/last-commit/${owner}/${repo}?style=flat&color=71717a`}
+              alt="Last commit"
+            />
+          </>
+        )}
+      </div>
 
       {/* Tech tags */}
       <div className="mt-3 flex flex-wrap gap-1.5">
         {p.technologies.slice(0, 3).map((tech) => (
           <span
             key={tech}
-            className="rounded bg-accent/10 px-2 py-0.5 text-[11px] text-accent"
+            className="rounded bg-accent-light px-2 py-0.5 text-[11px] font-medium text-accent-strong"
           >
             {tech}
           </span>

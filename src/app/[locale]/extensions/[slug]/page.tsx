@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BadgeImg } from "@/components/BadgeImg";
 
 interface Props {
   params: Promise<{ slug: string; locale: string }>;
@@ -20,7 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: product.name };
 }
 
-const badgeBase = "https://img.shields.io/github";
+const ghBadgeBase = "https://img.shields.io/github";
+const cwsBadgeBase = "https://img.shields.io/chrome-web-store";
 
 export default async function ExtensionDetailPage({ params }: Props) {
   const { slug, locale } = await params;
@@ -41,43 +43,68 @@ export default async function ExtensionDetailPage({ params }: Props) {
       </nav>
 
       {/* Header */}
-      <div className="mb-12">
+      <div className="mb-8">
         <div className="mb-4 flex items-center gap-4">
           {product.iconUrl ? (
             <img
               src={product.iconUrl}
               alt=""
-              className="h-12 w-12 rounded-xl object-contain"
+              className="h-14 w-14 rounded-xl object-contain"
             />
           ) : (
             <span className="text-4xl">{product.icon}</span>
           )}
           <div>
-            <h1 className="font-mono text-3xl font-bold">{product.name}</h1>
+            <h1 className="text-3xl font-bold">{product.name}</h1>
             <p className="text-lg text-muted">{product.tagline}</p>
           </div>
         </div>
-        {/* Badges — only for public repos */}
-        {product.repoUrl && (
-          <div className="flex flex-wrap gap-1.5 mt-4">
-            <img
-              src={`${badgeBase}/stars/${owner}/${repo}?style=for-the-badge&color=0d9488`}
-              alt="Stars"
-              className="h-7"
-            />
-            <img
-              src={`${badgeBase}/license/${owner}/${repo}?style=for-the-badge&color=71717a`}
-              alt="License"
-              className="h-7"
-            />
-            <img
-              src={`${badgeBase}/last-commit/${owner}/${repo}?style=for-the-badge&color=71717a`}
-              alt="Last commit"
-              className="h-7"
-            />
-          </div>
-        )}
+
+        {/* Badges */}
+        <div className="flex flex-wrap gap-2 mt-4">
+          {product.chromeStoreId && (
+            <>
+              <BadgeImg
+                src={`${cwsBadgeBase}/users/${product.chromeStoreId}?style=for-the-badge&color=0d9488`}
+                alt="Users"
+              />
+              <BadgeImg
+                src={`${cwsBadgeBase}/rating/${product.chromeStoreId}?style=for-the-badge&color=0d9488`}
+                alt="Rating"
+              />
+            </>
+          )}
+          {product.repoUrl && (
+            <>
+              <BadgeImg
+                src={`${ghBadgeBase}/stars/${owner}/${repo}?style=for-the-badge&color=0d9488`}
+                alt="Stars"
+              />
+              <BadgeImg
+                src={`${ghBadgeBase}/last-commit/${owner}/${repo}?style=for-the-badge&color=71717a`}
+                alt="Last commit"
+              />
+            </>
+          )}
+        </div>
       </div>
+
+      {/* Screenshots */}
+      {product.screenshots && product.screenshots.length > 0 && (
+        <div className="mb-12">
+          <div className="flex gap-4 overflow-x-auto pb-4 -mx-2 px-2">
+            {product.screenshots.map((url, i) => (
+              <img
+                key={i}
+                src={url}
+                alt={`${product.name} screenshot ${i + 1}`}
+                className="h-64 w-auto flex-shrink-0 rounded-xl border border-border object-cover"
+                loading="lazy"
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Description */}
       <div className="mb-12">
@@ -112,7 +139,7 @@ export default async function ExtensionDetailPage({ params }: Props) {
           {product.technologies.map((tech) => (
             <span
               key={tech}
-              className="rounded-md bg-accent/10 px-3 py-1.5 text-sm text-accent"
+              className="rounded-md bg-accent-light px-3 py-1.5 text-sm font-medium text-accent-strong"
             >
               {tech}
             </span>
@@ -127,9 +154,9 @@ export default async function ExtensionDetailPage({ params }: Props) {
             href={product.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-accent/90"
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-accent-strong"
           >
-            {product.type === "app" ? product.url : t("install")}
+            {t("install")}
           </a>
         )}
         {product.repoUrl && (
