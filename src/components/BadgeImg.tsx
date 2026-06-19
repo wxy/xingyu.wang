@@ -17,11 +17,10 @@ export function BadgeImg({ src, alt, className = "h-5" }: Props) {
     <img
       src={src}
       alt={alt}
-      className={className}
+      className={`${className} pointer-events-none`}
       loading="lazy"
+      decoding="async"
       onError={() => setError(true)}
-      referrerPolicy="no-referrer"
-      crossOrigin="anonymous"
     />
   );
 }
