@@ -107,7 +107,8 @@ export const extensions: Product[] = [
     ],
     screenshots: [
       "https://lh3.googleusercontent.com/quoeLJjjYeqp3p9mSlxrZETk8-NG-qPRipFOnJ0qyLPGqFr_WHRe4DFvvn_IhfRi5_pXbpl-_o3wKl5qqEff7B0Cgg=w640-h400",
-      "https://lh3.googleusercontent.com/dPIWdepErp2BUvNvtmnP4H2_b5lWocUu_aIXyYHW0NxnwjPTijsK4DCrlW2sSdaaNLayYY25TU4sWftqL08l0bfZ=w640-h400",
+      "https://lh3.googleusercontent.com/BJRLLTUk-JnOdaz6I0pXvg-NFMrdMqpc-_TmLoTlOloQhVCs3AS5u718IRy74ZXJ3WZAYhBR5EELIrOeQwd4IgIOqw=w640-h400",
+      "https://lh3.googleusercontent.com/4FJctuZgf6NrYaJ7K_MwjzGlzmSpQp3zdAV_GDPTXaOU8PwYxIwSNj6HZjEyICJkj_inVSuk7WXKTqYygtjOBm3fRg=w640-h400",
     ],
     featured: true,
   },
