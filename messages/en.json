@@ -15,7 +15,7 @@
     "browseExtensions": "Browse Extensions",
     "browseApps": "Browse Apps",
     "extensionsDesc": "Tools that enhance your browsing experience.",
-    "appsDesc": "Handy utilities on the go."
+    "appsDesc": "Apps for your devices."
   },
   "extensions": {
     "title": "Chrome Extensions",
@@ -70,5 +70,27 @@
       "org": "Linux China",
       "year": "2013 – 2025"
     }
+  },
+  "productPage": {
+    "privacyTitle": "Privacy Policy",
+    "aboutTitle": "About {product}",
+    "backToProduct": "← Back to {product}",
+    "support": "Support",
+    "supportContact": "For bug reports, feature requests, or questions, please contact:",
+    "openSource": "Open Source",
+    "licenseLabel": "Licensed under {license}.",
+    "viewSource": "View source on GitHub →",
+    "lastUpdated": "Last updated: {date}",
+    "dataCollection": "Data Collection",
+    "apiKeys": "API Keys",
+    "networkRequests": "Network Requests",
+    "permissions": "Permissions",
+    "fileAccess": "File System Access",
+    "appSandbox": "App Sandbox",
+    "thirdParty": "Third-Party Services",
+    "contact": "Contact",
+    "privacyContact": "If you have questions about this privacy policy, please contact:",
+    "features": "Features",
+    "techStack": "Tech Stack"
   }
 }

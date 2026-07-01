@@ -15,7 +15,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = getProductBySlug(slug, "app");
   if (!product) return { title: "Not Found" };
   return { title: product.name };
 }
@@ -25,7 +25,7 @@ const badgeBase = "https://img.shields.io/github";
 export default async function AppDetailPage({ params }: Props) {
   const { slug, locale } = await params;
   const t = await getTranslations("apps");
-  const raw = getProductBySlug(slug);
+  const raw = getProductBySlug(slug, "app");
   if (!raw || raw.type !== "app") notFound();
 
   const product = localized(raw, locale as Locale);

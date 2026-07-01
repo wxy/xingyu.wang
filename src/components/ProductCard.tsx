@@ -41,7 +41,7 @@ export function ProductCard({ product }: { product: Product }) {
           </span>
         )}
         <span className="rounded-full border border-border px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted">
-          {p.type}
+          {p.platform === "chrome" ? "Chrome" : p.platform === "macos" ? "macOS" : p.platform === "android" ? "Android" : p.type}
         </span>
       </div>
 

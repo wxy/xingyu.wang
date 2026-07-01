@@ -2,6 +2,7 @@
 
 export type ProductType = "extension" | "app";
 export type Locale = "en" | "zh";
+export type Platform = "chrome" | "android" | "macos";
 
 export interface Product {
   slug: string;
@@ -22,6 +23,8 @@ export interface Product {
   featuresZh?: string[];
   chromeStoreId?: string;
   featured: boolean;
+  platform?: Platform;
+  license?: string;
 }
 
 export interface Achievement {
@@ -146,6 +149,8 @@ export const extensions: Product[] = [
     descriptionZh:
       "AI Pulse 监控多个 AI 服务商的用量、余额和服务状态——包括 DeepSeek、Kimi、ChatGLM、百川智能、通义千问和文心一言。支持双模式：带余额历史图表的完整监控（需 API Key），或仅服务状态监控（无需 Key）。",
     type: "extension",
+    platform: "chrome",
+    license: "Apache-2.0",
     icon: "🤖",
     iconUrl: "https://raw.githubusercontent.com/wxy/ai-pulse/main/public/icons/icon-128.png",
     url: "https://chromewebstore.google.com/detail/ai-pulse/nnjaedlkifjimaajkgaifknaapapbloc",
@@ -207,6 +212,45 @@ export const apps: Product[] = [
     ],
     featured: true,
   },
+  {
+    slug: "ai-pulse",
+    name: "AI Pulse",
+    nameZh: "AI Pulse",
+    tagline: "Your AI fuel gauge — track spending and code output",
+    taglineZh: "AI 燃油表 — 追踪 AI 花费与代码产出",
+    description:
+      "AI Pulse for macOS is your AI coding fuel gauge. It tracks how much you spend on AI coding tools (Claude Code, aider, Cursor, Windsurf, etc.) and compares it against your code output — so you always know your cost-per-line. Fully local, zero data leaves your machine.",
+    descriptionZh:
+      "AI Pulse for macOS 是你的 AI 编码燃油表。追踪 AI 编码工具（Claude Code、aider、Cursor、Windsurf 等）的花费，与代码产出对比，让你始终掌握代码行成本。完全本地运行，零数据离开你的设备。",
+    type: "app",
+    platform: "macos",
+    icon: "⛽",
+    iconUrl: "https://raw.githubusercontent.com/wxy/ai-pulse/main/mac-app/Resources/AIPulse.iconset/icon_128x128.png",
+    repoUrl: "https://github.com/wxy/ai-pulse",
+    license: "Apache-2.0",
+    technologies: ["Swift", "SwiftUI", "AppKit", "SQLite", "libgit2"],
+    features: [
+      "Dock fuel gauge with real-time spending display",
+      "Dashboard: cost charts + code change charts side by side",
+      "Tiered data collection: log parsing (Claude Code, aider) + balance API polling (DeepSeek, OpenAI, Kimi, Zhipu) + subscription detection (Cursor, Windsurf, Copilot, Trae, Augment Code)",
+      "Cost Per Line (CPL) metric — know what your AI code costs",
+      "Anomaly detection for spending spikes",
+      "100% local processing — no data ever leaves your machine",
+      "API keys secured in macOS Keychain",
+      "Sandboxed for Mac App Store distribution",
+    ],
+    featuresZh: [
+      "Dock 油表 — 实时显示今日花费",
+      "Dashboard：花费图表 + 代码变更图表并排展示",
+      "分级数据采集：日志解析（Claude Code、aider）+ 余额 API 轮询（DeepSeek、OpenAI、Kimi、智谱）+ 订阅检测（Cursor、Windsurf、Copilot、Trae、Augment Code）",
+      "CPL（代码行成本）指标 — 清楚你的 AI 代码花了多少钱",
+      "花费异常检测与告警",
+      "100% 本地处理 — 数据绝不离开你的设备",
+      "API Key 存储在 macOS Keychain 中",
+      "沙盒化适配 Mac App Store 分发",
+    ],
+    featured: true,
+  },
 ];
 
 // --- Achievements ---
@@ -245,6 +289,7 @@ export function getFeaturedProducts(): Product[] {
   return getAllProducts().filter((p) => p.featured);
 }
 
-export function getProductBySlug(slug: string): Product | undefined {
+export function getProductBySlug(slug: string, type?: ProductType): Product | undefined {
+  if (type) return getAllProducts().find((p) => p.slug === slug && p.type === type);
   return getAllProducts().find((p) => p.slug === slug);
 }

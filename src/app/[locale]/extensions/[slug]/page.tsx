@@ -16,7 +16,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = getProductBySlug(slug, "extension");
   if (!product) return { title: "Not Found" };
   return { title: product.name };
 }
@@ -27,7 +27,7 @@ const cwsBadgeBase = "https://img.shields.io/chrome-web-store";
 export default async function ExtensionDetailPage({ params }: Props) {
   const { slug, locale } = await params;
   const t = await getTranslations("extensions");
-  const raw = getProductBySlug(slug);
+  const raw = getProductBySlug(slug, "extension");
   if (!raw || raw.type !== "extension") notFound();
 
   const product = localized(raw, locale as Locale);

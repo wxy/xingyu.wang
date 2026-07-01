@@ -15,7 +15,7 @@
     "browseExtensions": "浏览扩展",
     "browseApps": "浏览应用",
     "extensionsDesc": "增强浏览体验的工具。",
-    "appsDesc": "随手可用的移动工具。"
+    "appsDesc": "各平台应用。"
   },
   "extensions": {
     "title": "Chrome 扩展",
@@ -70,5 +70,27 @@
       "org": "Linux 中国",
       "year": "2013 – 2025"
     }
+  },
+  "productPage": {
+    "privacyTitle": "隐私政策",
+    "aboutTitle": "关于 {product}",
+    "backToProduct": "← 返回 {product}",
+    "support": "技术支持",
+    "supportContact": "如有 Bug 反馈、功能建议或其他问题，请联系：",
+    "openSource": "开源",
+    "licenseLabel": "基于 {license} 协议开源。",
+    "viewSource": "在 GitHub 查看源码 →",
+    "lastUpdated": "最后更新：{date}",
+    "dataCollection": "数据收集",
+    "apiKeys": "API 密钥",
+    "networkRequests": "网络请求",
+    "permissions": "浏览器权限",
+    "fileAccess": "文件系统访问",
+    "appSandbox": "应用沙盒",
+    "thirdParty": "第三方服务",
+    "contact": "联系方式",
+    "privacyContact": "如有关于本隐私政策的问题，请联系：",
+    "features": "功能特性",
+    "techStack": "技术栈"
   }
 }
