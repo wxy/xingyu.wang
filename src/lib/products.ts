@@ -225,8 +225,8 @@ export const apps: Product[] = [
     type: "app",
     platform: "macos",
     icon: "⛽",
-    iconUrl: "https://raw.githubusercontent.com/wxy/ai-pulse/main/mac-app/Resources/AIPulse.iconset/icon_128x128.png",
-    repoUrl: "https://github.com/wxy/ai-pulse",
+    iconUrl: "https://raw.githubusercontent.com/wxy/ai-pulse-macos/main/Resources/AIPulse.png",
+    repoUrl: "https://github.com/wxy/ai-pulse-macos",
     license: "Apache-2.0",
     technologies: ["Swift", "SwiftUI", "AppKit", "SQLite", "libgit2"],
     features: [
@@ -236,7 +236,7 @@ export const apps: Product[] = [
       "Cost Per Line (CPL) metric — know what your AI code costs",
       "Anomaly detection for spending spikes",
       "100% local processing — no data ever leaves your machine",
-      "API keys secured in macOS Keychain",
+      "Coin sound & Dock pulse feedback on spending",
       "Sandboxed for Mac App Store distribution",
     ],
     featuresZh: [
