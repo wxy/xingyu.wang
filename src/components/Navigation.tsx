@@ -90,7 +90,9 @@ export function Navigation({ locale }: { locale: string }) {
 
         <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
           {links.map(({ href, label }) => {
-            const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}/, "") || "/";
+            // Strip locale prefix: /en/xxx → /xxx, /en → /
+            let pathWithoutLocale = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
+            if (!pathWithoutLocale.startsWith("/")) pathWithoutLocale = "/" + pathWithoutLocale;
             const isActive =
               href === "/"
                 ? pathWithoutLocale === "/"

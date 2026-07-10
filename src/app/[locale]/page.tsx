@@ -47,6 +47,7 @@ export default async function HomePage({ params }: Props) {
       activity: snap.activity
         ? m(snap.activity as "active" | "maintained" | "quiet" | "unknown")
         : undefined,
+      rawActivity: snap.activity,
     };
   }
 

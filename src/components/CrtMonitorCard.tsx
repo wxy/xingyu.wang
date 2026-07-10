@@ -8,14 +8,14 @@ interface Props {
   href: string;
   mon: string;
   status?: "rec" | "idle" | "standby";
-  stats?: { commits?: number; prs?: number; release?: string; activity?: string };
+  stats?: { commits?: number; prs?: number; release?: string; activity?: string; rawActivity?: string };
 }
 
 export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
-  // Derive monitor status from project activity level
-  const activityLevel = stats?.activity;
-  const derivedStatus = activityLevel === "Active" ? "rec"
-    : activityLevel === "Maintained" ? "idle"
+  // Derive monitor status from untranslated activity level
+  const raw = stats?.rawActivity;
+  const derivedStatus = raw === "active" ? "rec"
+    : raw === "maintained" ? "idle"
     : "standby";
   const actualStatus = status ?? derivedStatus;
 
@@ -23,7 +23,7 @@ export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
     actualStatus === "rec"
       ? { color: "#ffaa00", label: "● REC", bg: "#ffaa00" }
       : actualStatus === "idle"
-        ? { color: "#33ff3366", label: "● IDLE", bg: "#666" }
+        ? { color: "#33ff3366", label: "● IDLE", bg: "#33ff3366" }
         : { color: "#666", label: "● STBY", bg: "#666" };
 
   return (
@@ -184,18 +184,18 @@ export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
                     )}
                   </div>
                   {/* Activity label — always on its own line */}
-                  {stats.activity && (
-                    <div style={{ fontSize: 8, marginTop: 4 }}>
-                      <span
-                        style={{
-                          color: stats.activity === "Active" ? "#33ff33" : "#666",
-                          textShadow: stats.activity === "Active" ? "0 0 4px #33ff3366" : undefined,
-                        }}
-                      >
+                  <div style={{ fontSize: 8, marginTop: 4, minHeight: 12 }}>
+                    {stats.activity ? (
+                      <span style={{
+                        color: raw === "active" ? "#33ff33" : "#666",
+                        textShadow: raw === "active" ? "0 0 4px #33ff3366" : undefined,
+                      }}>
                         ● {stats.activity}
                       </span>
-                    </div>
-                  )}
+                    ) : (
+                      <span style={{ color: "transparent" }}>—</span>
+                    )}
+                  </div>
                 </>
               )}
             </div>

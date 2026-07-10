@@ -9,18 +9,17 @@ export default async function AboutPage() {
   return (
     <div style={{ background: "#0a0a06", minHeight: "100vh", padding: "32px 24px", fontFamily: "'Courier New', monospace" }}>
       <div style={{ maxWidth: 700, margin: "0 auto" }}>
+        {/* Title — outside box */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 16 }}>
+          <span style={{ fontSize: 14, fontWeight: "bold", color: "#ffaa00", textShadow: "0 0 6px rgba(255,170,0,0.3)" }}>
+            ═══ {t("title").toUpperCase()} ═══
+          </span>
+        </div>
         <div style={{
           border: "4px double #ffaa00",
           padding: "20px 32px",
           boxShadow: "0 0 20px rgba(255,170,0,0.08), inset 0 0 20px rgba(255,170,0,0.04)",
         }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>
-            <span style={{ flex: 1, height: 2, background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)", maxWidth: 80 }} />
-            <span style={{ fontSize: 13, fontWeight: "bold", color: "#ffaa00", textShadow: "0 0 6px rgba(255,170,0,0.3)" }}>
-              {t("title").toUpperCase()}
-            </span>
-            <span style={{ flex: 1, height: 2, background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)", maxWidth: 80 }} />
-          </div>
 
           <div style={{ fontSize: 11, color: "rgba(51,255,51,0.5)", lineHeight: 1.8 }}>
             <p>{t("content.p1")}</p>
