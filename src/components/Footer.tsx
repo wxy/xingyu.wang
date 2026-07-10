@@ -6,31 +6,29 @@ export function Footer() {
   const n = useTranslations("nav");
 
   return (
-    <footer className="border-t border-border">
-      <div className="mx-auto flex max-w-4xl flex-col items-center gap-2 px-6 py-6 text-center sm:flex-row sm:justify-between sm:text-left">
-        <p className="font-mono text-xs text-muted">
+    <footer style={{ borderTop: "3px solid #3a3a2a", background: "rgba(10,10,6,0.9)" }}>
+      <div style={{
+        margin: "0 auto",
+        maxWidth: 1024,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 6,
+        padding: "16px 24px",
+        textAlign: "center",
+      }}>
+        <p style={{ fontFamily: "'Courier New', monospace", fontSize: 10, color: "rgba(51,255,51,0.3)", margin: 0 }}>
           &copy; {new Date().getFullYear()} Xingyu Wang. {t("allRightsReserved")}
         </p>
-        <div className="flex items-center gap-4 text-xs text-muted">
-          <Link
-            href="/activity"
-            className="transition-colors hover:text-accent"
-          >
-            {n("activity")}
+        <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 10 }}>
+          <Link href="/activity" style={{ color: "rgba(51,255,51,0.35)", textDecoration: "none", fontFamily: "'Courier New', monospace" }}>
+            [{n("activity")}]
           </Link>
-          <a
-            href="https://github.com/wxy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-accent/80"
-          >
-            GitHub
+          <a href="https://github.com/wxy" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(51,255,51,0.35)", textDecoration: "none", fontFamily: "'Courier New', monospace" }}>
+            [GitHub]
           </a>
-          <a
-            href="mailto:xingyu.wang@gmail.com"
-            className="transition-colors hover:text-accent-warm"
-          >
-            xingyu.wang@gmail.com
+          <a href="mailto:xingyu.wang@gmail.com" style={{ color: "rgba(51,255,51,0.35)", textDecoration: "none", fontFamily: "'Courier New', monospace" }}>
+            [xingyu.wang@gmail.com]
           </a>
         </div>
       </div>

@@ -12,70 +12,89 @@
   --color-border: var(--border);
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-geist-mono);
   --font-mono: var(--font-geist-mono);
 }
 
 :root {
-  --bg: #f2f7f6;
-  --fg: #134e4a;
-  --accent: #0d9488;
-  --accent-strong: #0f766e;
-  --accent-light: #ccfbf1;
-  --surface: #ffffff;
-  --surface-alt: #f6faf9;
-  --surface-hover: #e6f3f0;
-  --border: #d0e4e1;
-  --muted: #5b7c78;
-  --subtle: #edf5f3;
+  --bg: #0a0a06;
+  --fg: #33ff33;
+  --accent: #ffaa00;
+  --accent-strong: #e89900;
+  --accent-light: rgba(255, 170, 0, 0.08);
+  --surface: rgba(10, 20, 10, 0.6);
+  --surface-alt: rgba(10, 16, 10, 0.8);
+  --surface-hover: rgba(20, 30, 20, 0.7);
+  --border: rgba(51, 255, 51, 0.1);
+  --muted: rgba(51, 255, 51, 0.4);
+  --subtle: rgba(51, 255, 51, 0.05);
 }
 
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-sans, system-ui, sans-serif);
+  font-family: var(--font-geist-mono), "Courier New", monospace;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Subtle teal grid */
+/* CRT scanline overlay — global */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 20, 0, 0.03) 2px,
+    rgba(0, 20, 0, 0.03) 4px
+  );
+}
+
+/* CRT vignette */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -1;
-  opacity: 0.25;
-  background-image: radial-gradient(var(--border) 0.6px, transparent 0.6px);
-  background-size: 16px 16px;
+  z-index: 9998;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
 }
 
-/* Card with teal-tinted shadow */
+/* Card — terminal panel style */
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 3px rgba(13, 148, 136, 0.06);
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  background: rgba(10, 20, 10, 0.6);
+  border: 1px solid rgba(51, 255, 51, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 .card:hover {
   border-color: var(--accent);
-  box-shadow: 0 4px 20px rgba(13, 148, 136, 0.12);
+  box-shadow: 0 0 12px rgba(255, 170, 0, 0.1);
 }
 
-/* Teal section */
+/* Section alt */
 .section-alt {
-  background: var(--surface-alt);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  background: rgba(10, 16, 10, 0.4);
+  border-top: 1px solid rgba(51, 255, 51, 0.06);
+  border-bottom: 1px solid rgba(51, 255, 51, 0.06);
 }
 
 /* Selection */
 ::selection {
-  background: rgba(13, 148, 136, 0.15);
-  color: var(--fg);
+  background: rgba(51, 255, 51, 0.15);
+  color: #33ff33;
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+::-webkit-scrollbar-thumb { background: rgba(51, 255, 51, 0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(51, 255, 51, 0.3); }

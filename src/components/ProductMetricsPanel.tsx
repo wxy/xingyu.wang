@@ -20,7 +20,7 @@ export async function ProductMetricsPanel({ metrics, locale }: Props) {
   const activityLabel = t(metrics.activity);
 
   return (
-    <section className="mb-12 card p-6">
+    <section style={{ marginBottom: 0, padding: 0 }}>
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold">{t("panelTitle")}</h2>
         <ActivityIndicator level={metrics.activity} label={activityLabel} />
@@ -89,12 +89,12 @@ function MetricTile({
   sub?: string;
 }) {
   return (
-    <div className="rounded-lg border border-border bg-surface-alt p-4">
-      <p className="mb-1 text-xs font-medium uppercase tracking-wide text-muted">
+    <div style={{ border: "1px solid rgba(51,255,51,0.1)", padding: "10px 14px", background: "rgba(0,0,0,0.2)" }}>
+      <p style={{ margin: "0 0 4px", fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1, color: "rgba(51,255,51,0.4)" }}>
         {label}
       </p>
-      <p className="text-xl font-semibold text-fg">{value}</p>
-      {sub && <p className="text-xs text-muted">{sub}</p>}
+      <p style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#33ff33" }}>{value}</p>
+      {sub && <p style={{ margin: 0, fontSize: 9, color: "rgba(51,255,51,0.35)" }}>{sub}</p>}
     </div>
   );
 }

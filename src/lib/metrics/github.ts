@@ -87,12 +87,25 @@ export async function fetchCommitsLast30d(repoUrl: string): Promise<number> {
   if (cached !== undefined) return cached;
 
   try {
+    // Use per_page=1 and parse the Link header to get total commit count.
     const res = await fetch(
-      `https://api.github.com/repos/${parsed.owner}/${parsed.repo}/commits?per_page=100`,
+      `https://api.github.com/repos/${parsed.owner}/${parsed.repo}/commits?per_page=1`,
       { headers: githubHeaders(), next: { revalidate: 3600 } },
     );
     if (!res.ok) return 0;
 
+    // Parse rel="last" URL from Link header — its page number = total commits.
+    const link = res.headers.get("link");
+    if (link) {
+      const m = link.match(/[?&]page=(\d+)[^>]*>; rel="last"/);
+      if (m) {
+        const count = parseInt(m[1], 10);
+        setCache(key, count);
+        return count;
+      }
+    }
+
+    // Fallback: if no Link header (single page), count returned items.
     const data = (await res.json()) as unknown[];
     const count = data.length;
     setCache(key, count);
