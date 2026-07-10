@@ -100,8 +100,8 @@ export default async function ExtensionDetailPage({ params }: Props) {
         )}
 
         {/* Description */}
+        <h2 style={{ fontSize: 12, fontWeight: "bold", color: "#ffaa00", margin: "0 0 6px" }}>{t("about")}</h2>
         <div style={{ marginBottom: 24, border: "1px solid rgba(51,255,51,0.08)", padding: "14px 16px" }}>
-          <h2 style={{ fontSize: 12, fontWeight: "bold", color: "#ffaa00", margin: "0 0 6px", padding: 0, border: "none", background: "transparent" }}>{t("about")}</h2>
           <p style={{ fontSize: 11, color: "rgba(51,255,51,0.5)", lineHeight: 1.6, margin: 0 }}>{product.description}</p>
         </div>
 

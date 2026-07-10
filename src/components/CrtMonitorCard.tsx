@@ -155,8 +155,8 @@ export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
                     {product.name}
                   </div>
                   <div style={{ color: "#33ff3355", fontSize: 8, marginTop: 1 }}>
-                    {product.tagline.length > 55
-                      ? product.tagline.slice(0, 55) + "…"
+                    {product.tagline.length > 100
+                      ? product.tagline.slice(0, 100) + "…"
                       : product.tagline}
                   </div>
                 </div>
