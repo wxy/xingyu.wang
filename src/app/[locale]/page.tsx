@@ -158,9 +158,9 @@ export default async function HomePage({ params }: Props) {
             </div>
             {/* Vertical pipes */}
             <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ width: 220, display: "flex", flexDirection: "column", alignItems: "center" }}><EndCap direction="vertical" /><PipeSegment direction="vertical" length={40} /><EndCap direction="vertical" /></div>
+              <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><EndCap direction="vertical" /><PipeSegment direction="vertical" length={40} /><EndCap direction="vertical" /></div>
               <div style={{ width: 156 }} />
-              <div style={{ width: 220, display: "flex", flexDirection: "column", alignItems: "center" }}><EndCap direction="vertical" /><PipeSegment direction="vertical" length={40} /><EndCap direction="vertical" /></div>
+              <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><EndCap direction="vertical" /><PipeSegment direction="vertical" length={40} /><EndCap direction="vertical" /></div>
             </div>
             {/* Row 2 */}
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -173,7 +173,7 @@ export default async function HomePage({ params }: Props) {
               {extensions[3] ? (
                 <CrtMonitorCard product={extensions[3]} href={`/extensions/${extensions[3].slug}`} mon="04" status="standby" stats={cardStats(extensions[3])} />
               ) : (
-                <div style={{ width: 220 }} />
+                <div style={{ width: 260 }} />
               )}
             </div>
           </div>

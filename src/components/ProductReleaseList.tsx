@@ -32,9 +32,6 @@ export async function ProductReleaseList({
     <section className="mb-12">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold">{t("releasesTitle")}</h2>
-        {activity && (
-          <ActivityIndicator level={activity} label={m(activity)} size="sm" />
-        )}
       </div>
 
       <ul className="space-y-3">

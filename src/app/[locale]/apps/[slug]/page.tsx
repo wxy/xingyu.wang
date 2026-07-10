@@ -45,15 +45,30 @@ export default async function AppDetailPage({ params }: Props) {
           </div>
         </div>
 
-        <div style={{ background: "linear-gradient(180deg, #f5f0e8, #e8e0d0 8%, #ddd5c0 20%, #e0d8c5 40%, #d5ccb5 70%, #f0ead8)", borderRadius: 16, padding: "12px 12px 16px 12px", marginBottom: 24, boxShadow: "0 6px 24px rgba(0,0,0,0.5), 0 0 0 2px #1a1a1a, 0 0 0 4px #2a2a2a" }}>
-          <div style={{ display: "flex", justifyContent: "center", gap: 5, marginBottom: 6 }}><div style={{ width: 14, height: 2, background: "#8a8070", borderRadius: 1 }} /><div style={{ width: 14, height: 2, background: "#8a8070", borderRadius: 1 }} /><div style={{ width: 14, height: 2, background: "#8a8070", borderRadius: 1 }} /><div style={{ width: 14, height: 2, background: "#8a8070", borderRadius: 1 }} /><div style={{ width: 14, height: 2, background: "#8a8070", borderRadius: 1 }} /></div>
-          <div style={{ background: "#1a1a1a", borderRadius: 9, padding: 3, boxShadow: "inset 0 2px 8px rgba(0,0,0,0.8)" }}>
-            <div style={{ background: "radial-gradient(ellipse at 40% 30%, #0d200d, #050d05)", borderRadius: 7, padding: 12, border: "1px solid #33ff3310", boxShadow: "inset 0 0 40px rgba(0,0,0,0.5)", position: "relative", overflow: "hidden" }}>
-              <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,20,0,0.04) 2px, rgba(0,20,0,0.04) 4px)", pointerEvents: "none", zIndex: 2 }} />
-              <div style={{ position: "relative", zIndex: 1, padding: 8 }}>{metrics && <ProductMetricsPanel metrics={metrics} locale={locale} />}</div>
+        {/* Live Stats — terminal panel */}
+        {metrics && (
+          <div style={{
+            border: "2px solid rgba(51,255,51,0.15)",
+            background: "rgba(0,0,0,0.3)",
+            marginBottom: 24,
+            boxShadow: "0 0 16px rgba(51,255,51,0.04), inset 0 0 16px rgba(0,0,0,0.3)",
+          }}>
+            <div style={{
+              background: "rgba(51,255,51,0.06)",
+              borderBottom: "1px solid rgba(51,255,51,0.1)",
+              padding: "6px 12px", display: "flex", alignItems: "center", gap: 8,
+              fontSize: 9, color: "rgba(51,255,51,0.5)",
+            }}>
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#ffaa00", boxShadow: "0 0 4px #ffaa00" }} />
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(51,255,51,0.2)" }} />
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(51,255,51,0.2)" }} />
+              <span style={{ flex: 1, textAlign: "center" }}>live_stats.sh — {product.name}</span>
+            </div>
+            <div style={{ padding: 12 }}>
+              <ProductMetricsPanel metrics={metrics} locale={locale} />
             </div>
           </div>
-        </div>
+        )}
 
         {/* Releases — outside CRT frame */}
         {releases.length > 0 && (

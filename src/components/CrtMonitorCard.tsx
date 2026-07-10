@@ -39,7 +39,7 @@ export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
           padding: "12px 12px 16px 12px",
           boxShadow:
             "0 6px 24px rgba(0,0,0,0.5), inset 0 2px 3px rgba(255,255,255,0.4), inset 0 -2px 3px rgba(0,0,0,0.12), 0 0 0 2px #1a1a1a, 0 0 0 4px #2a2a2a",
-          width: 220,
+          width: 260,
           transition: "transform 0.15s",
           cursor: "pointer",
         }}
@@ -155,29 +155,24 @@ export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
                     {product.name}
                   </div>
                   <div style={{ color: "#33ff3355", fontSize: 8, marginTop: 1 }}>
-                    {product.tagline.length > 40
-                      ? product.tagline.slice(0, 40) + "…"
+                    {product.tagline.length > 55
+                      ? product.tagline.slice(0, 55) + "…"
                       : product.tagline}
                   </div>
                 </div>
               </div>
 
-              {/* Stats row — always visible */}
-              <div style={{ display: "flex", gap: 8, fontSize: 8, flexWrap: "wrap", minHeight: 12 }}>
+              {/* Stats + Activity on one line */}
+              <div style={{ display: "flex", gap: 8, fontSize: 8, flexWrap: "wrap", minHeight: 12, alignItems: "center" }}>
                 {stats?.commits != null && <span style={{ color: "#33ff3377" }}>{stats.commits} commits</span>}
                 {stats?.prs != null && <span style={{ color: "#33ff3377" }}>{stats.prs} PRs</span>}
                 {stats?.release && <span style={{ color: "#ffaa00" }}>{stats.release}</span>}
-                {!stats?.commits && !stats?.prs && !stats?.release && (
-                  <span style={{ color: "transparent" }}>—</span>
-                )}
-              </div>
-              {/* Activity label — always on its own line */}
-              <div style={{ fontSize: 8, marginTop: 4, minHeight: 12 }}>
-                {stats?.activity ? (
+                {stats?.activity && (
                   <span style={{ color: raw === "active" ? "#33ff33" : "#666", textShadow: raw === "active" ? "0 0 4px #33ff3366" : undefined }}>
                     ● {stats.activity}
                   </span>
-                ) : (
+                )}
+                {!stats?.commits && !stats?.prs && !stats?.release && !stats?.activity && (
                   <span style={{ color: "transparent" }}>—</span>
                 )}
               </div>
