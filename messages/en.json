@@ -1,0 +1,135 @@
+{
+  "nav": {
+    "home": "Home",
+    "extensions": "Extensions",
+    "apps": "Apps",
+    "activity": "Updates",
+    "about": "About"
+  },
+  "home": {
+    "title": "Xingyu Wang",
+    "subtitle": "Crafting browser extensions & cross-platform apps with precision.",
+    "extensions": "Chrome Extensions",
+    "apps": "Apps",
+    "achievements": "Achievements",
+    "viewAll": "View all →",
+    "browseExtensions": "Browse Extensions",
+    "browseApps": "Browse Apps",
+    "extensionsDesc": "Tools that enhance your browsing experience.",
+    "appsDesc": "Desktop and mobile applications."
+  },
+  "extensions": {
+    "title": "Chrome Extensions",
+    "subtitle": "Browser extensions built to enhance productivity, add features, and solve everyday problems on the web.",
+    "empty": "No extensions yet",
+    "emptyHint": "Add your Chrome extensions to",
+    "backToList": "← All Extensions",
+    "about": "About",
+    "features": "Features",
+    "techStack": "Tech Stack",
+    "viewOnGitHub": "View on GitHub →",
+    "install": "Install from Chrome Web Store →"
+  },
+  "apps": {
+    "title": "Apps",
+    "subtitle": "Desktop and mobile applications — from productivity tools to little utilities that scratch my own itch.",
+    "empty": "No apps yet",
+    "emptyHint": "Add your apps to",
+    "backToList": "← All Apps",
+    "about": "About",
+    "features": "Features",
+    "techStack": "Tech Stack",
+    "viewOnGitHub": "View on GitHub →",
+    "install": "Get it on Google Play →",
+    "visitWebsite": "Visit website →"
+  },
+  "about": {
+    "title": "About",
+    "content": {
+      "p1": "Hi, I'm Xingyu Wang — a developer who enjoys building tools that make everyday life a little better. I create Chrome extensions, desktop &amp; mobile apps, and other side projects.",
+      "p2": "This site is a home for my projects — each extension and app gets its own page with details, features, and links to learn more.",
+      "p3": "When I'm not coding, you might find me tinkering with new technologies, designing things, or exploring ideas for the next project.",
+      "p4": "I was a core contributor to the Linux China Translation Project (LCTT), helping translate thousands of technical articles into Chinese for over a decade."
+    },
+    "contact": "Get in touch",
+    "emailLabel": "Email",
+    "githubLabel": "GitHub",
+    "namecardTitle": "Digital Namecard",
+    "namecardDesc": "This is my original digital namecard, designed in Adobe Illustrator back in 2016. Click it to flip between the front and back."
+  },
+  "badge": {
+    "stars": "stars",
+    "license": "license",
+    "lastCommit": "last commit"
+  },
+  "metrics": {
+    "panelTitle": "Live Stats",
+    "active": "Active",
+    "maintained": "Maintained",
+    "quiet": "Quiet",
+    "unknown": "Unknown",
+    "stars": "Stars",
+    "users": "Users",
+    "commits30d": "Commits",
+    "prsMerged": "PRs merged",
+    "latestRelease": "Latest release",
+    "openIssues": "Open issues",
+    "lastPush": "Last push",
+    "vs7d": "vs 7 days ago",
+    "justNow": "Just now",
+    "hoursAgo": "'{count}h ago'",
+    "daysAgo": "'{count}d ago'",
+    "weeksAgo": "'{count}w ago'"
+  },
+  "activity": {
+    "title": "Product Updates",
+    "subtitle": "Release history across all projects — a developer's view of what's shipping.",
+    "previewTitle": "Recent Updates",
+    "previewSubtitle": "Latest releases across extensions and apps.",
+    "viewAll": "View all →",
+    "viewOnGitHub": "View on GitHub →",
+    "viewAllReleases": "View all releases →",
+    "releasesTitle": "What's New",
+    "empty": "No releases yet.",
+    "emptyHint": "Release data is pulled from GitHub when available.",
+    "filterAll": "All",
+    "filterExtensions": "Extensions",
+    "filterApps": "Apps",
+    "sinceRelease": "Since {tag}: {commits} commits",
+    "sinceReleaseSimple": "Active development since {tag}",
+    "backToHome": "← Home"
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved."
+  },
+  "achievements": {
+    "lctt": {
+      "name": "LCTT TranslateProject",
+      "description": "Core contributor to the Linux China Translation Project (LCTT), the largest Chinese open-source translation community. Helped translate and publish thousands of technical articles, making Linux and open-source knowledge accessible to Chinese readers worldwide.",
+      "org": "Linux China",
+      "year": "2013 – 2025"
+    }
+  },
+  "productPage": {
+    "privacyTitle": "Privacy Policy",
+    "aboutTitle": "About {product}",
+    "backToProduct": "← Back to {product}",
+    "support": "Support",
+    "supportContact": "For bug reports, feature requests, or questions, please contact:",
+    "openSource": "Open Source",
+    "licenseLabel": "Licensed under {license}.",
+    "viewSource": "View source on GitHub →",
+    "lastUpdated": "Last updated: {date}",
+    "dataCollection": "Data Collection",
+    "apiKeys": "API Keys",
+    "networkRequests": "Network Requests",
+    "permissions": "Permissions",
+    "fileAccess": "File System Access",
+    "appSandbox": "App Sandbox",
+    "thirdParty": "Third-Party Services",
+    "contact": "Contact",
+    "privacyContact": "If you have questions about this privacy policy, please contact:",
+    "features": "Features",
+    "techStack": "Tech Stack"
+  }
+}
