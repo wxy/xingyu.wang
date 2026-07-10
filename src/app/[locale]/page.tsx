@@ -249,7 +249,7 @@ export default async function HomePage({ params }: Props) {
           <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
             {achievements.map((a) => (
               <a key={a.name} href={a.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-                <div className="card" style={{ padding: "16px 20px", textAlign: "left", maxWidth: 300 }}>
+                <div style={{ padding: "16px 20px", textAlign: "left", maxWidth: 300, background: "rgba(10,20,10,0.6)", border: "1px solid rgba(51,255,51,0.1)", borderRadius: 8 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                     <span style={{ fontSize: 20 }}>{a.icon}</span>
                     <span style={{ fontSize: 9, color: "rgba(51,255,51,0.3)", border: "1px solid rgba(51,255,51,0.1)", borderRadius: 10, padding: "2px 8px", textTransform: "uppercase", letterSpacing: 1 }}>{ach("lctt.org")}</span>

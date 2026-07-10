@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import type { ActivityEvent } from "@/lib/metrics/types";
-import { ActivityIndicator } from "./ActivityIndicator";
 import { formatRelativeTime } from "@/lib/metrics/format";
 import type { ActivityLevel } from "@/lib/metrics/types";
 
