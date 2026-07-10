@@ -1,36 +1,61 @@
-import { apps } from "@/lib/products";
-import { ProductCard } from "@/components/ProductCard";
+import { apps, getProductId } from "@/lib/products";
+import { getLatestMetricsForProducts } from "@/lib/metrics";
 import { getTranslations } from "next-intl/server";
+import { CrtMonitorCard } from "@/components/CrtMonitorCard";
+import { PipeSegment, EndCap, StraightCoupling } from "@/components/pipes";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Apps",
-};
+export const metadata: Metadata = { title: "Apps" };
 
 export default async function AppsPage() {
   const t = await getTranslations("apps");
-  const hasApps = apps.length > 0;
+  const m = await getTranslations("metrics");
+  const metricsMap = await getLatestMetricsForProducts();
+
+  function stats(slug: string) {
+    const snap = metricsMap[getProductId(apps.find((a) => a.slug === slug)!)];
+    if (!snap) return undefined;
+    return {
+      commits: snap.github?.commitsLast30d,
+      prs: snap.github?.mergedPRsLast30d,
+      release: snap.github?.latestRelease?.tag,
+      activity: snap.activity ? m(snap.activity as "active" | "maintained" | "quiet" | "unknown") : undefined,
+    };
+  }
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
-      <div className="mb-12">
-        <h1 className="mb-3 font-mono text-3xl font-bold">{t("title")}</h1>
-        <p className="max-w-xl text-muted">{t("subtitle")}</p>
-      </div>
+    <div style={{ background: "#0a0a06", minHeight: "100vh", padding: "32px 24px" }}>
+      <div style={{ maxWidth: 1024, margin: "0 auto", textAlign: "center" }}>
+        <div style={{
+          border: "4px double #ffaa00",
+          display: "inline-block",
+          padding: "20px 32px",
+          minWidth: 700,
+          boxShadow: "0 0 20px rgba(255,170,0,0.08), inset 0 0 20px rgba(255,170,0,0.04)",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>
+            <span style={{ flex: 1, height: 2, background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)", maxWidth: 80 }} />
+            <span style={{ fontSize: 13, fontWeight: "bold", color: "#ffaa00", textShadow: "0 0 6px rgba(255,170,0,0.3)" }}>
+              {t("title").toUpperCase()}
+            </span>
+            <span style={{ flex: 1, height: 2, background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)", maxWidth: 80 }} />
+          </div>
 
-      {hasApps ? (
-        <div className="grid gap-5 sm:grid-cols-2">
-          {apps.map((app) => (
-            <ProductCard key={app.slug} product={app} />
-          ))}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 0 }}>
+            <CrtMonitorCard product={apps[0]} href={`/apps/${apps[0].slug}`} mon="05" status="idle" stats={stats(apps[0].slug)} />
+            {apps.length > 1 && (
+              <>
+                <EndCap direction="horizontal" />
+                <PipeSegment direction="horizontal" length={60} />
+                <StraightCoupling direction="horizontal" />
+                <PipeSegment direction="horizontal" length={60} />
+                <EndCap direction="horizontal" />
+                <CrtMonitorCard product={apps[1]} href={`/apps/${apps[1].slug}`} mon="06" status="idle" stats={stats(apps[1].slug)} />
+              </>
+            )}
+          </div>
         </div>
-      ) : (
-        <div className="card p-12 text-center">
-          <p className="mb-2 text-4xl">📱</p>
-          <h2 className="mb-2 text-lg font-semibold">{t("empty")}</h2>
-          <p className="text-sm text-muted">{t("emptyHint")} src/lib/products.ts</p>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

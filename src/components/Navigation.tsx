@@ -24,13 +24,21 @@ const BTN_BASE: React.CSSProperties = {
 };
 
 const BTN_ACTIVE: React.CSSProperties = {
-  ...BTN_BASE,
   background:
-    "linear-gradient(180deg, #a08030 0%, #907020 40%, #806020 60%, #a08030 100%)",
+    "linear-gradient(180deg, #888 0%, #666 30%, #555 60%, #777 100%)",
+  border: "2px solid #ffaa00",
+  borderRadius: 5,
+  padding: "7px 18px",
+  fontFamily: "'Courier New', monospace",
+  fontSize: 11,
+  fontWeight: "bold",
+  letterSpacing: 2,
   color: "#ffaa00",
-  textShadow: "0 1px 0 rgba(0,0,0,0.7), 0 0 10px rgba(255,170,0,0.3)",
+  textShadow: "0 0 12px rgba(255,170,0,0.5)",
   boxShadow:
-    "0 1px 0 #5a4010, 0 2px 3px rgba(0,0,0,0.4), inset 0 3px 5px rgba(0,0,0,0.45), inset 0 -0.5px 1px rgba(255,255,200,0.1)",
+    "0 1px 0 #333, 0 2px 4px rgba(0,0,0,0.4), inset 0 3px 6px rgba(0,0,0,0.5), 0 0 10px rgba(255,170,0,0.2)",
+  cursor: "pointer",
+  transition: "all 0.08s",
 };
 
 export function Navigation({ locale }: { locale: string }) {

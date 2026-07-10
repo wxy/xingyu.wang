@@ -6,14 +6,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ProductMetricsSection } from "@/components/ProductMetricsSection";
 
-interface Props {
-  params: Promise<{ slug: string; locale: string }>;
-}
-
-export function generateStaticParams() {
-  return apps.map((app) => ({ slug: app.slug }));
-}
-
+interface Props { params: Promise<{ slug: string; locale: string }>; }
+export function generateStaticParams() { return apps.map((app) => ({ slug: app.slug })); }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = getProductBySlug(slug, "app");
@@ -26,106 +20,51 @@ export default async function AppDetailPage({ params }: Props) {
   const t = await getTranslations("apps");
   const raw = getProductBySlug(slug, "app");
   if (!raw || raw.type !== "app") notFound();
-
   const product = localized(raw, locale as Locale);
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
-      <nav className="mb-8">
-        <Link href="/apps" className="text-sm text-muted transition-colors hover:text-accent">
-          {t("backToList")}
-        </Link>
-      </nav>
+    <div style={{ background: "#0a0a06", minHeight: "100vh", padding: "32px 24px", fontFamily: "'Courier New', monospace" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <Link href="/apps" style={{ color: "rgba(51,255,51,0.4)", fontSize: 11, textDecoration: "none" }}>← {t("backToList")}</Link>
 
-      {/* Header */}
-      <div className="mb-12">
-        <div className="mb-4 flex items-center gap-4">
-          {product.iconUrl ? (
-            <img
-              src={product.iconUrl}
-              alt=""
-              className="h-12 w-12 rounded-xl object-contain"
-            />
-          ) : (
-            <span className="text-4xl">{product.icon}</span>
-          )}
+        <div style={{ marginTop: 16, marginBottom: 16, display: "flex", alignItems: "center", gap: 12 }}>
+          {product.iconUrl ? <img src={product.iconUrl} alt="" style={{ width: 32, height: 32, borderRadius: 6, objectFit: "contain" }} /> : <span style={{ fontSize: 28 }}>{product.icon}</span>}
           <div>
-            <h1 className="font-mono text-3xl font-bold">{product.name}</h1>
-            <p className="text-lg text-muted">{product.tagline}</p>
+            <h1 style={{ fontSize: 22, fontWeight: "bold", color: "#33ff33", textShadow: "0 0 10px rgba(51,255,51,0.5)", margin: 0 }}>{product.name}</h1>
+            <p style={{ fontSize: 11, color: "rgba(51,255,51,0.4)", margin: "2px 0 0" }}>{product.tagline}</p>
           </div>
         </div>
-      </div>
 
-      <ProductMetricsSection
-        product={raw}
-        slug={slug}
-        type="app"
-        locale={locale}
-      />
-
-      {/* Description */}
-      <div className="mb-12">
-        <h2 className="mb-3 text-lg font-semibold">{t("about")}</h2>
-        <p className="max-w-2xl leading-relaxed text-muted">
-          {product.description}
-        </p>
-      </div>
-
-      {/* Features */}
-      {product.features.length > 0 && (
-        <div className="mb-12">
-          <h2 className="mb-4 text-lg font-semibold">{t("features")}</h2>
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {product.features.map((feature, i) => (
-              <li
-                key={i}
-                className="flex items-start gap-3 rounded-lg border border-border p-4"
-              >
-                <span className="mt-0.5 flex-shrink-0 text-accent">▹</span>
-                <span className="text-sm leading-relaxed">{feature}</span>
-              </li>
-            ))}
-          </ul>
+        <div style={{ background: "linear-gradient(180deg, #f5f0e8, #e8e0d0 8%, #ddd5c0 20%, #e0d8c5 40%, #d5ccb5 70%, #f0ead8)", borderRadius: 16, padding: "12px 12px 16px 12px", marginBottom: 24, boxShadow: "0 6px 24px rgba(0,0,0,0.5), 0 0 0 2px #1a1a1a, 0 0 0 4px #2a2a2a" }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 5, marginBottom: 6 }}><div style={{ width: 14, height: 2, background: "#8a8070", borderRadius: 1 }} /><div style={{ width: 14, height: 2, background: "#8a8070", borderRadius: 1 }} /><div style={{ width: 14, height: 2, background: "#8a8070", borderRadius: 1 }} /><div style={{ width: 14, height: 2, background: "#8a8070", borderRadius: 1 }} /><div style={{ width: 14, height: 2, background: "#8a8070", borderRadius: 1 }} /></div>
+          <div style={{ background: "#1a1a1a", borderRadius: 9, padding: 3, boxShadow: "inset 0 2px 8px rgba(0,0,0,0.8)" }}>
+            <div style={{ background: "radial-gradient(ellipse at 40% 30%, #0d200d, #050d05)", borderRadius: 7, padding: 12, border: "1px solid #33ff3310", boxShadow: "inset 0 0 40px rgba(0,0,0,0.5)", position: "relative", overflow: "hidden" }}>
+              <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,20,0,0.04) 2px, rgba(0,20,0,0.04) 4px)", pointerEvents: "none", zIndex: 2 }} />
+              <div style={{ position: "relative", zIndex: 1, padding: 8 }}><ProductMetricsSection product={raw} slug={slug} type="app" locale={locale} /></div>
+            </div>
+          </div>
         </div>
-      )}
 
-      {/* Tech Stack */}
-      <div className="mb-12">
-        <h2 className="mb-3 text-lg font-semibold">{t("techStack")}</h2>
-        <div className="flex flex-wrap gap-2">
-          {product.technologies.map((tech) => (
-            <span
-              key={tech}
-              className="rounded-md bg-accent/10 px-3 py-1.5 text-sm text-accent"
-            >
-              {tech}
-            </span>
-          ))}
+        <div style={{ marginBottom: 24, border: "1px solid rgba(51,255,51,0.08)", padding: "14px 16px" }}>
+          <h2 style={{ fontSize: 12, fontWeight: "bold", color: "#ffaa00", marginBottom: 6 }}>{t("about")}</h2>
+          <p style={{ fontSize: 11, color: "rgba(51,255,51,0.5)", lineHeight: 1.6, margin: 0 }}>{product.description}</p>
         </div>
-      </div>
-
-      {/* Links */}
-      <div className="flex flex-wrap gap-3">
-        {product.url && (
-          <a
-            href={product.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-accent/90"
-          >
-            {t("visitWebsite")}
-          </a>
+        {product.features.length > 0 && (
+          <div style={{ marginBottom: 24 }}>
+            <h2 style={{ fontSize: 12, fontWeight: "bold", color: "#ffaa00", marginBottom: 8 }}>{t("features")}</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+              {product.features.map((f, i) => <div key={i} style={{ border: "1px solid rgba(51,255,51,0.08)", padding: "8px 12px", fontSize: 10, color: "rgba(51,255,51,0.45)", display: "flex", alignItems: "flex-start", gap: 6 }}><span style={{ color: "#ffaa00", flexShrink: 0 }}>▸</span><span>{f}</span></div>)}
+            </div>
+          </div>
         )}
-        {product.repoUrl && (
-          <a
-            href={product.repoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-6 py-3 text-sm font-medium text-fg transition-all hover:border-accent hover:text-accent"
-          >
-            {t("viewOnGitHub")}
-          </a>
-        )}
+        <div style={{ marginBottom: 24 }}>
+          <h2 style={{ fontSize: 12, fontWeight: "bold", color: "#ffaa00", marginBottom: 8 }}>{t("techStack")}</h2>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{product.technologies.map((t) => <span key={t} style={{ border: "1px solid rgba(51,255,51,0.1)", padding: "4px 10px", fontSize: 10, color: "rgba(51,255,51,0.5)", fontFamily: "'Courier New', monospace" }}>{t}</span>)}</div>
+        </div>
+        <div style={{ display: "flex", gap: 10 }}>
+          {product.url && <a href={product.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}><button style={{ background: "linear-gradient(180deg, #e8c878, #c89840 25%, #d4a850 50%, #b88830 75%, #c09838)", border: "2px solid #7a6020", borderRadius: 4, padding: "8px 20px", fontFamily: "'Courier New', monospace", fontSize: 11, fontWeight: "bold", color: "#1a1a08", cursor: "pointer", boxShadow: "0 3px 0 #5a4010, 0 4px 8px rgba(0,0,0,0.4)" }}>[ {t("visitWebsite")} ]</button></a>}
+          {product.repoUrl && <a href={product.repoUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}><button style={{ background: "transparent", border: "2px solid rgba(51,255,51,0.2)", borderRadius: 4, padding: "8px 20px", fontFamily: "'Courier New', monospace", fontSize: 11, fontWeight: "bold", color: "#33ff33", cursor: "pointer" }}>[ {t("viewOnGitHub")} ]</button></a>}
+        </div>
       </div>
     </div>
   );

@@ -11,11 +11,18 @@ interface Props {
   stats?: { commits?: number; prs?: number; release?: string; activity?: string };
 }
 
-export function CrtMonitorCard({ product, href, mon, status = "standby", stats }: Props) {
+export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
+  // Derive monitor status from project activity level
+  const activityLevel = stats?.activity;
+  const derivedStatus = activityLevel === "Active" ? "rec"
+    : activityLevel === "Maintained" ? "idle"
+    : "standby";
+  const actualStatus = status ?? derivedStatus;
+
   const dot =
-    status === "rec"
+    actualStatus === "rec"
       ? { color: "#ffaa00", label: "● REC", bg: "#ffaa00" }
-      : status === "idle"
+      : actualStatus === "idle"
         ? { color: "#33ff3366", label: "● IDLE", bg: "#666" }
         : { color: "#666", label: "● STBY", bg: "#666" };
 
@@ -157,35 +164,39 @@ export function CrtMonitorCard({ product, href, mon, status = "standby", stats }
 
               {/* Stats row */}
               {stats && (
-                <div
-                  style={{
-                    display: "flex",
-                    gap: 8,
-                    fontSize: 8,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  {stats.commits != null && (
-                    <span style={{ color: "#33ff3377" }}>{stats.commits} commits</span>
-                  )}
-                  {stats.prs != null && (
-                    <span style={{ color: "#33ff3377" }}>{stats.prs} PRs</span>
-                  )}
-                  {stats.release && (
-                    <span style={{ color: "#ffaa00" }}>{stats.release}</span>
-                  )}
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: 8,
+                      fontSize: 8,
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {stats.commits != null && (
+                      <span style={{ color: "#33ff3377" }}>{stats.commits} commits</span>
+                    )}
+                    {stats.prs != null && (
+                      <span style={{ color: "#33ff3377" }}>{stats.prs} PRs</span>
+                    )}
+                    {stats.release && (
+                      <span style={{ color: "#ffaa00" }}>{stats.release}</span>
+                    )}
+                  </div>
+                  {/* Activity label — always on its own line */}
                   {stats.activity && (
-                    <span
-                      style={{
-                        color: stats.activity === "Active" ? "#33ff33" : "#666",
-                        textShadow:
-                          stats.activity === "Active" ? "0 0 4px #33ff3366" : undefined,
-                      }}
-                    >
-                      ● {stats.activity}
-                    </span>
+                    <div style={{ fontSize: 8, marginTop: 4 }}>
+                      <span
+                        style={{
+                          color: stats.activity === "Active" ? "#33ff33" : "#666",
+                          textShadow: stats.activity === "Active" ? "0 0 4px #33ff3366" : undefined,
+                        }}
+                      >
+                        ● {stats.activity}
+                      </span>
+                    </div>
                   )}
-                </div>
+                </>
               )}
             </div>
           </div>
