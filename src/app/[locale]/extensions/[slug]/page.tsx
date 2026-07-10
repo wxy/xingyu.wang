@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BadgeImg } from "@/components/BadgeImg";
+import { ProductMetricsSection } from "@/components/ProductMetricsSection";
 
 interface Props {
   params: Promise<{ slug: string; locale: string }>;
@@ -21,9 +21,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: product.name };
 }
 
-const ghBadgeBase = "https://img.shields.io/github";
-const cwsBadgeBase = "https://img.shields.io/chrome-web-store";
-
 export default async function ExtensionDetailPage({ params }: Props) {
   const { slug, locale } = await params;
   const t = await getTranslations("extensions");
@@ -31,8 +28,6 @@ export default async function ExtensionDetailPage({ params }: Props) {
   if (!raw || raw.type !== "extension") notFound();
 
   const product = localized(raw, locale as Locale);
-  const owner = product.repoUrl?.split("/").slice(-2, -1)[0] || "";
-  const repo = product.repoUrl?.split("/").pop() || "";
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
@@ -60,34 +55,14 @@ export default async function ExtensionDetailPage({ params }: Props) {
           </div>
         </div>
 
-        {/* Badges */}
-        <div className="flex flex-wrap gap-2 mt-4">
-          {product.chromeStoreId && (
-            <>
-              <BadgeImg
-                src={`${cwsBadgeBase}/users/${product.chromeStoreId}?style=for-the-badge&color=0d9488`}
-                alt="Users"
-              />
-              <BadgeImg
-                src={`${cwsBadgeBase}/rating/${product.chromeStoreId}?style=for-the-badge&color=0d9488`}
-                alt="Rating"
-              />
-            </>
-          )}
-          {product.repoUrl && (
-            <>
-              <BadgeImg
-                src={`${ghBadgeBase}/stars/${owner}/${repo}?style=for-the-badge&color=0d9488`}
-                alt="Stars"
-              />
-              <BadgeImg
-                src={`${ghBadgeBase}/last-commit/${owner}/${repo}?style=for-the-badge&color=71717a`}
-                alt="Last commit"
-              />
-            </>
-          )}
-        </div>
       </div>
+
+      <ProductMetricsSection
+        product={raw}
+        slug={slug}
+        type="extension"
+        locale={locale}
+      />
 
       {/* Description */}
       <div className="mb-12">

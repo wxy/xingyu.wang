@@ -25,6 +25,17 @@ export interface Product {
   featured: boolean;
   platform?: Platform;
   license?: string;
+  /** When false, skip metrics, releases, and activity feed for this product. */
+  metricsEnabled?: boolean;
+}
+
+export function getProductId(product: Product): string {
+  return `${product.type}:${product.slug}`;
+}
+
+export function isMetricsEnabled(product: Product): boolean {
+  if (product.metricsEnabled === false) return false;
+  return Boolean(product.repoUrl);
 }
 
 export interface Achievement {
@@ -175,6 +186,8 @@ export const extensions: Product[] = [
   },
 ];
 
+// ActionMoments uses a private repo — no public metrics or release feed.
+
 // --- Android Apps ---
 
 export const apps: Product[] = [
@@ -211,6 +224,7 @@ export const apps: Product[] = [
       "隐私优先：不直接上传原始视频",
     ],
     featured: true,
+    metricsEnabled: false,
   },
   {
     slug: "ai-pulse",

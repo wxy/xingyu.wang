@@ -1,12 +1,58 @@
-import { getFeaturedProducts, achievements } from "@/lib/products";
+import {
+  getFeaturedProducts,
+  achievements,
+  getProductId,
+  localized,
+  type Locale,
+} from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
+import {
+  getActivityFeed,
+  getDiverseActivityFeed,
+  getLatestMetricsForProducts,
+  resolveProductFromId,
+} from "@/lib/metrics";
+import {
+  ActivityFeedItem,
+  type ActivityFeedTimeLabels,
+} from "@/components/ActivityFeedItem";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-export default async function HomePage() {
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function HomePage({ params }: Props) {
+  const { locale } = await params;
   const t = await getTranslations("home");
   const ach = await getTranslations("achievements");
+  const at = await getTranslations("activity");
+  const m = await getTranslations("metrics");
   const featured = getFeaturedProducts();
+
+  // Fetch live metrics + recent activity for enhanced display.
+  const [recentEvents, metricsMap] = await Promise.all([
+    getDiverseActivityFeed(5),
+    getLatestMetricsForProducts(),
+  ]);
+
+  const timeLabels: ActivityFeedTimeLabels = {
+    justNow: m("justNow"),
+    hoursAgo: m("hoursAgo"),
+    daysAgo: m("daysAgo"),
+    weeksAgo: m("weeksAgo"),
+  };
+
+  // Helpers to build ProductCard metrics props.
+  function cardMetrics(product: (typeof featured)[number]) {
+    const snap = metricsMap[getProductId(product)];
+    if (!snap) return undefined;
+    return {
+      activity: snap.activity,
+      latestRelease: snap.github?.latestRelease,
+    };
+  }
 
   return (
     <>
@@ -36,8 +82,59 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Activity Preview */}
+      {recentEvents.length > 0 && (
+        <section className="section-alt px-6 py-16">
+          <div className="mx-auto max-w-4xl">
+            <div className="mb-2 flex items-center justify-between">
+              <h2 className="text-xl font-semibold">{at("previewTitle")}</h2>
+              <Link
+                href="/activity"
+                className="text-sm font-medium text-accent hover:opacity-80"
+              >
+                {at("viewAll")}
+              </Link>
+            </div>
+            <p className="mb-8 text-sm text-muted">{at("previewSubtitle")}</p>
+
+            <ul className="space-y-2">
+              {recentEvents.map((event) => {
+                const product = resolveProductFromId(event.productId);
+                if (!product) return null;
+                const p = localized(product, locale as Locale);
+                const isExt = product.type === "extension";
+                const href = isExt
+                  ? `/extensions/${p.slug}`
+                  : `/apps/${p.slug}`;
+                const activityLevel = metricsMap[event.productId]?.activity;
+                const activityLabel = activityLevel
+                  ? m(activityLevel)
+                  : undefined;
+
+                return (
+                  <li key={event.id}>
+                    <ActivityFeedItem
+                      event={event}
+                      productName={p.name}
+                      productIcon={p.icon}
+                      productIconUrl={p.iconUrl}
+                      productHref={href}
+                      activityLevel={activityLevel}
+                      activityLabel={activityLabel}
+                      timeLabels={timeLabels}
+                      locale={locale}
+                      compact
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+      )}
+
       {/* Extensions */}
-      <section className="section-alt px-6 py-16">
+      <section className="px-6 py-16">
         <div className="mx-auto max-w-4xl">
           <div className="mb-2 flex items-center justify-between">
             <h2 className="text-xl font-semibold">{t("extensions")}</h2>
@@ -53,18 +150,25 @@ export default async function HomePage() {
             {featured
               .filter((p) => p.type === "extension")
               .map((product) => (
-                <ProductCard key={product.slug} product={product} />
+                <ProductCard
+                  key={product.slug}
+                  product={product}
+                  metrics={cardMetrics(product)}
+                />
               ))}
           </div>
         </div>
       </section>
 
       {/* Apps */}
-      <section className="px-6 py-16">
+      <section className="section-alt px-6 py-16">
         <div className="mx-auto max-w-4xl">
           <div className="mb-2 flex items-center justify-between">
             <h2 className="text-xl font-semibold">{t("apps")}</h2>
-            <Link href="/apps" className="text-sm font-medium text-accent hover:opacity-80">
+            <Link
+              href="/apps"
+              className="text-sm font-medium text-accent hover:opacity-80"
+            >
               {t("viewAll")}
             </Link>
           </div>
@@ -73,7 +177,11 @@ export default async function HomePage() {
             {featured
               .filter((p) => p.type === "app")
               .map((product) => (
-                <ProductCard key={product.slug} product={product} />
+                <ProductCard
+                  key={product.slug}
+                  product={product}
+                  metrics={cardMetrics(product)}
+                />
               ))}
           </div>
         </div>
@@ -81,7 +189,7 @@ export default async function HomePage() {
 
       {/* Achievements */}
       {achievements.length > 0 && (
-        <section className="section-alt px-6 py-16">
+        <section className="px-6 py-16">
           <div className="mx-auto max-w-4xl">
             <h2 className="mb-8 text-center text-xl font-semibold">
               {t("achievements")}

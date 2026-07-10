@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Android Apps",
+  title: "Apps",
 };
 
 export default async function AppsPage() {

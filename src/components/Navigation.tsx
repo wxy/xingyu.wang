@@ -13,6 +13,7 @@ export function Navigation({ locale }: { locale: string }) {
     { href: "/", label: t("home") },
     { href: "/extensions", label: t("extensions") },
     { href: "/apps", label: t("apps") },
+    { href: "/activity", label: t("activity") },
     { href: "/about", label: t("about") },
   ];
 

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ProductMetricsSection } from "@/components/ProductMetricsSection";
 
 interface Props {
   params: Promise<{ slug: string; locale: string }>;
@@ -20,8 +21,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: product.name };
 }
 
-const badgeBase = "https://img.shields.io/github";
-
 export default async function AppDetailPage({ params }: Props) {
   const { slug, locale } = await params;
   const t = await getTranslations("apps");
@@ -29,8 +28,6 @@ export default async function AppDetailPage({ params }: Props) {
   if (!raw || raw.type !== "app") notFound();
 
   const product = localized(raw, locale as Locale);
-  const owner = product.repoUrl?.split("/").slice(-2, -1)[0] || "";
-  const repo = product.repoUrl?.split("/").pop() || "";
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
@@ -57,27 +54,14 @@ export default async function AppDetailPage({ params }: Props) {
             <p className="text-lg text-muted">{product.tagline}</p>
           </div>
         </div>
-        {/* Badges — only for public repos */}
-        {product.repoUrl && (
-          <div className="flex flex-wrap gap-1.5 mt-4">
-            <img
-              src={`${badgeBase}/stars/${owner}/${repo}?style=for-the-badge&color=0d9488`}
-              alt="Stars"
-              className="h-7"
-            />
-            <img
-              src={`${badgeBase}/license/${owner}/${repo}?style=for-the-badge&color=71717a`}
-              alt="License"
-              className="h-7"
-            />
-            <img
-              src={`${badgeBase}/last-commit/${owner}/${repo}?style=for-the-badge&color=71717a`}
-              alt="Last commit"
-              className="h-7"
-            />
-          </div>
-        )}
       </div>
+
+      <ProductMetricsSection
+        product={raw}
+        slug={slug}
+        type="app"
+        locale={locale}
+      />
 
       {/* Description */}
       <div className="mb-12">
@@ -129,7 +113,7 @@ export default async function AppDetailPage({ params }: Props) {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-accent/90"
           >
-            {product.url}
+            {t("visitWebsite")}
           </a>
         )}
         {product.repoUrl && (

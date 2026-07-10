@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 export function Footer() {
   const t = useTranslations("footer");
+  const n = useTranslations("nav");
 
   return (
     <footer className="border-t border-border">
@@ -10,6 +12,12 @@ export function Footer() {
           &copy; {new Date().getFullYear()} Xingyu Wang. {t("allRightsReserved")}
         </p>
         <div className="flex items-center gap-4 text-xs text-muted">
+          <Link
+            href="/activity"
+            className="transition-colors hover:text-accent"
+          >
+            {n("activity")}
+          </Link>
           <a
             href="https://github.com/wxy"
             target="_blank"

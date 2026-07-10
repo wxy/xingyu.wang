@@ -3,13 +3,14 @@
     "home": "首页",
     "extensions": "扩展",
     "apps": "应用",
+    "activity": "动态",
     "about": "关于"
   },
   "home": {
     "title": "Xingyu Wang",
-    "subtitle": "精工打造浏览器扩展与移动应用。",
+    "subtitle": "精工打造浏览器扩展与跨平台应用。",
     "extensions": "Chrome 扩展",
-    "apps": "Android 应用",
+    "apps": "应用",
     "achievements": "成就",
     "viewAll": "查看全部 →",
     "browseExtensions": "浏览扩展",
@@ -30,21 +31,22 @@
     "install": "从 Chrome Web Store 安装 →"
   },
   "apps": {
-    "title": "Android 应用",
-    "subtitle": "Android 应用——从效率工具到解决小需求的自用小工具。",
+    "title": "应用",
+    "subtitle": "桌面与移动应用——从效率工具到解决小需求的自用小工具。",
     "empty": "暂无应用",
-    "emptyHint": "将你的 Android 应用添加到",
+    "emptyHint": "将你的应用添加到",
     "backToList": "← 所有应用",
     "about": "关于",
     "features": "功能特性",
     "techStack": "技术栈",
     "viewOnGitHub": "在 GitHub 查看 →",
-    "install": "从 Google Play 获取 →"
+    "install": "从 Google Play 获取 →",
+    "visitWebsite": "访问网站 →"
   },
   "about": {
     "title": "关于",
     "content": {
-      "p1": "你好，我是 Xingyu Wang —— 一个热爱打造让日常生活更便捷的工具的开发者。我制作 Chrome 扩展、Android 应用以及各类小项目。",
+      "p1": "你好，我是 Xingyu Wang —— 一个热爱打造让日常生活更便捷的工具的开发者。我制作 Chrome 扩展、桌面与移动应用以及各类小项目。",
       "p2": "这个网站汇集了我的作品——每个扩展和应用都有独立的详情页，包含功能、技术栈和相关链接。",
       "p3": "不写代码的时候，我可能在捣鼓新技术、做设计，或者探索下一个项目的点子。",
       "p4": "我曾是 Linux 中国翻译项目（LCTT）的核心贡献者，十多年来帮助将数千篇技术文章翻译成中文。"
@@ -59,6 +61,43 @@
     "stars": "stars",
     "license": "license",
     "lastCommit": "last commit"
+  },
+  "metrics": {
+    "panelTitle": "实时指标",
+    "active": "活跃",
+    "maintained": "维护中",
+    "quiet": "静默",
+    "unknown": "未知",
+    "stars": "Stars",
+    "users": "安装量",
+    "commits30d": "Commits",
+    "prsMerged": "合并 PR",
+    "latestRelease": "最新版本",
+    "openIssues": "Open Issues",
+    "lastPush": "最近 push",
+    "vs7d": "较 7 天前",
+    "justNow": "刚刚",
+    "hoursAgo": "'{count} 小时前'",
+    "daysAgo": "'{count} 天前'",
+    "weeksAgo": "'{count} 周前'"
+  },
+  "activity": {
+    "title": "产品动态",
+    "subtitle": "跨所有项目的发布记录——开发者视角下的交付进展。",
+    "previewTitle": "最近动态",
+    "previewSubtitle": "扩展与应用的最新发布。",
+    "viewAll": "查看全部 →",
+    "viewOnGitHub": "在 GitHub 查看 →",
+    "viewAllReleases": "查看所有版本 →",
+    "releasesTitle": "更新记录",
+    "empty": "暂无发布记录。",
+    "emptyHint": "在有 GitHub 仓库时会自动拉取 Release 数据。",
+    "filterAll": "全部",
+    "filterExtensions": "扩展",
+    "filterApps": "应用",
+    "sinceRelease": "自 {tag} 以来，{commits} 次提交",
+    "sinceReleaseSimple": "自 {tag} 以来持续开发中",
+    "backToHome": "← 返回首页"
   },
   "footer": {
     "allRightsReserved": "保留所有权利。"
