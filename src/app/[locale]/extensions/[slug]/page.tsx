@@ -4,7 +4,10 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ProductMetricsSection } from "@/components/ProductMetricsSection";
+import { ProductMetricsPanel } from "@/components/ProductMetricsPanel";
+import { ProductReleaseList } from "@/components/ProductReleaseList";
+import { getMetricsForProductSlug, getReleasesForProductSlug } from "@/lib/metrics";
+import { isMetricsEnabled } from "@/lib/products";
 
 interface Props {
   params: Promise<{ slug: string; locale: string }>;
@@ -28,6 +31,13 @@ export default async function ExtensionDetailPage({ params }: Props) {
   if (!raw || raw.type !== "extension") notFound();
 
   const product = localized(raw, locale as Locale);
+
+  const metricsEnabled = isMetricsEnabled(raw);
+  const [metrics, releases] = metricsEnabled
+    ? await Promise.all([getMetricsForProductSlug(slug, "extension"), getReleasesForProductSlug(slug, "extension")])
+    : [null, []];
+
+  const repoReleasesUrl = raw.repoUrl ? `${raw.repoUrl}/releases` : undefined;
 
   return (
     <div style={{ background: "#0a0a06", minHeight: "100vh", padding: "32px 24px", fontFamily: "'Courier New', monospace" }}>
@@ -71,15 +81,22 @@ export default async function ExtensionDetailPage({ params }: Props) {
             <div style={{ background: "radial-gradient(ellipse at 40% 30%, #0d200d, #050d05)", borderRadius: 7, padding: 12, border: "1px solid #33ff3310", boxShadow: "inset 0 0 40px rgba(0,0,0,0.5)", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,20,0,0.04) 2px, rgba(0,20,0,0.04) 4px)", pointerEvents: "none", zIndex: 2 }} />
               <div style={{ position: "relative", zIndex: 1, padding: 8 }}>
-                <ProductMetricsSection product={raw} slug={slug} type="extension" locale={locale} />
+                {metrics && <ProductMetricsPanel metrics={metrics} locale={locale} />}
               </div>
             </div>
           </div>
         </div>
 
+        {/* Releases — outside CRT frame */}
+        {releases.length > 0 && (
+          <div style={{ marginBottom: 24 }}>
+            <ProductReleaseList releases={releases} locale={locale} activity={metrics?.activity} repoReleasesUrl={repoReleasesUrl} />
+          </div>
+        )}
+
         {/* Description */}
         <div style={{ marginBottom: 24, border: "1px solid rgba(51,255,51,0.08)", padding: "14px 16px" }}>
-          <h2 style={{ fontSize: 12, fontWeight: "bold", color: "#ffaa00", marginBottom: 6 }}>{t("about")}</h2>
+          <h2 style={{ fontSize: 12, fontWeight: "bold", color: "#ffaa00", margin: "0 0 6px", padding: 0, border: "none", background: "transparent" }}>{t("about")}</h2>
           <p style={{ fontSize: 11, color: "rgba(51,255,51,0.5)", lineHeight: 1.6, margin: 0 }}>{product.description}</p>
         </div>
 

@@ -162,42 +162,25 @@ export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
                 </div>
               </div>
 
-              {/* Stats row */}
-              {stats && (
-                <>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: 8,
-                      fontSize: 8,
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    {stats.commits != null && (
-                      <span style={{ color: "#33ff3377" }}>{stats.commits} commits</span>
-                    )}
-                    {stats.prs != null && (
-                      <span style={{ color: "#33ff3377" }}>{stats.prs} PRs</span>
-                    )}
-                    {stats.release && (
-                      <span style={{ color: "#ffaa00" }}>{stats.release}</span>
-                    )}
-                  </div>
-                  {/* Activity label — always on its own line */}
-                  <div style={{ fontSize: 8, marginTop: 4, minHeight: 12 }}>
-                    {stats.activity ? (
-                      <span style={{
-                        color: raw === "active" ? "#33ff33" : "#666",
-                        textShadow: raw === "active" ? "0 0 4px #33ff3366" : undefined,
-                      }}>
-                        ● {stats.activity}
-                      </span>
-                    ) : (
-                      <span style={{ color: "transparent" }}>—</span>
-                    )}
-                  </div>
-                </>
-              )}
+              {/* Stats row — always visible */}
+              <div style={{ display: "flex", gap: 8, fontSize: 8, flexWrap: "wrap", minHeight: 12 }}>
+                {stats?.commits != null && <span style={{ color: "#33ff3377" }}>{stats.commits} commits</span>}
+                {stats?.prs != null && <span style={{ color: "#33ff3377" }}>{stats.prs} PRs</span>}
+                {stats?.release && <span style={{ color: "#ffaa00" }}>{stats.release}</span>}
+                {!stats?.commits && !stats?.prs && !stats?.release && (
+                  <span style={{ color: "transparent" }}>—</span>
+                )}
+              </div>
+              {/* Activity label — always on its own line */}
+              <div style={{ fontSize: 8, marginTop: 4, minHeight: 12 }}>
+                {stats?.activity ? (
+                  <span style={{ color: raw === "active" ? "#33ff33" : "#666", textShadow: raw === "active" ? "0 0 4px #33ff3366" : undefined }}>
+                    ● {stats.activity}
+                  </span>
+                ) : (
+                  <span style={{ color: "transparent" }}>—</span>
+                )}
+              </div>
             </div>
           </div>
         </div>
