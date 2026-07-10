@@ -154,7 +154,7 @@ export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
                   >
                     {product.name}
                   </div>
-                  <div style={{ color: "#33ff3355", fontSize: 8, marginTop: 1 }}>
+                  <div style={{ color: "#33ff3355", fontSize: 8, marginTop: 1, lineHeight: 1.5, minHeight: 36, overflow: "hidden" }}>
                     {product.tagline.length > 100
                       ? product.tagline.slice(0, 100) + "…"
                       : product.tagline}
@@ -167,9 +167,9 @@ export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
                 {stats?.commits != null && <span style={{ color: "#33ff3377" }}>{stats.commits} commits</span>}
                 {stats?.prs != null && <span style={{ color: "#33ff3377" }}>{stats.prs} PRs</span>}
                 {stats?.release && <span style={{ color: "#ffaa00" }}>{stats.release}</span>}
-                {stats?.activity && (
-                  <span style={{ color: raw === "active" ? "#33ff33" : "#666", textShadow: raw === "active" ? "0 0 4px #33ff3366" : undefined }}>
-                    ● {stats.activity}
+                {raw && (
+                  <span style={{ color: raw === "active" ? "#33ff33" : raw === "maintained" ? "rgba(51,255,51,0.5)" : "#666", textShadow: raw === "active" ? "0 0 4px #33ff3366" : undefined }}>
+                    ● {raw.charAt(0).toUpperCase() + raw.slice(1)}
                   </span>
                 )}
                 {!stats?.commits && !stats?.prs && !stats?.release && !stats?.activity && (
