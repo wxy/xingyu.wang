@@ -2,21 +2,12 @@ import {
   getFeaturedProducts,
   achievements,
   getProductId,
-  localized,
   type Locale,
 } from "@/lib/products";
-import { ProductCard } from "@/components/ProductCard";
-import {
-  getActivityFeed,
-  getDiverseActivityFeed,
-  getLatestMetricsForProducts,
-  resolveProductFromId,
-} from "@/lib/metrics";
-import {
-  ActivityFeedItem,
-  type ActivityFeedTimeLabels,
-} from "@/components/ActivityFeedItem";
+import { getActivityFeed, getLatestMetricsForProducts } from "@/lib/metrics";
 import { getTranslations } from "next-intl/server";
+import { CrtMonitorCard } from "@/components/CrtMonitorCard";
+import { PipeSegment, EndCap, StraightCoupling } from "@/components/pipes";
 import Link from "next/link";
 
 interface Props {
@@ -27,201 +18,357 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations("home");
   const ach = await getTranslations("achievements");
-  const at = await getTranslations("activity");
   const m = await getTranslations("metrics");
   const featured = getFeaturedProducts();
 
-  // Fetch live metrics + recent activity for enhanced display.
   const [recentEvents, metricsMap] = await Promise.all([
-    getDiverseActivityFeed(5),
+    getActivityFeed(3),
     getLatestMetricsForProducts(),
   ]);
 
-  const timeLabels: ActivityFeedTimeLabels = {
-    justNow: m("justNow"),
-    hoursAgo: m("hoursAgo"),
-    daysAgo: m("daysAgo"),
-    weeksAgo: m("weeksAgo"),
-  };
+  // Aggregate stats across all products
+  let totalCommits = 0;
+  let totalPRs = 0;
+  for (const snap of Object.values(metricsMap)) {
+    totalCommits += snap.github?.commitsLast30d ?? 0;
+    totalPRs += snap.github?.mergedPRsLast30d ?? 0;
+  }
 
-  // Helpers to build ProductCard metrics props.
-  function cardMetrics(product: (typeof featured)[number]) {
+  const extensions = featured.filter((p) => p.type === "extension");
+  const apps = featured.filter((p) => p.type === "app");
+
+  function cardStats(product: (typeof featured)[number]) {
     const snap = metricsMap[getProductId(product)];
     if (!snap) return undefined;
     return {
-      activity: snap.activity,
-      latestRelease: snap.github?.latestRelease,
+      commits: snap.github?.commitsLast30d,
+      prs: snap.github?.mergedPRsLast30d,
+      release: snap.github?.latestRelease?.tag,
+      activity: snap.activity
+        ? m(snap.activity as "active" | "maintained" | "quiet" | "unknown")
+        : undefined,
     };
   }
 
   return (
     <>
-      {/* Hero */}
-      <section className="px-6 pb-20 pt-24 sm:pt-32">
-        <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-5xl font-bold tracking-tight sm:text-6xl">
-            {t("title")}
-          </h1>
-          <p className="mx-auto mt-5 max-w-lg text-balance text-lg leading-relaxed text-muted">
-            {t("subtitle")}
-          </p>
-          <div className="mt-8 flex items-center justify-center gap-3">
-            <Link
-              href="/extensions"
-              className="rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-accent/90"
+      {/* ═══════ HERO ═══════ */}
+      <section style={{ padding: "40px 24px 32px", textAlign: "center" }}>
+        <h1
+          style={{
+            color: "#33ff33",
+            fontSize: 34,
+            fontWeight: "bold",
+            textShadow:
+              "0 0 10px rgba(51,255,51,0.6), 0 0 30px rgba(51,255,51,0.2), 3px 3px 0 #1a2a1a",
+            letterSpacing: 3,
+            margin: "0 0 6px",
+          }}
+        >
+          XINGYU WANG
+        </h1>
+        <p
+          style={{
+            color: "rgba(51,255,51,0.5)",
+            fontSize: 11,
+            letterSpacing: 1,
+            margin: "0 0 20px",
+          }}
+        >
+          {t("subtitle")}
+        </p>
+
+        {/* Stat counters */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 12,
+            marginBottom: 20,
+          }}
+        >
+          <StatBox value={totalCommits} label="COMMITS" color="#33ff33" />
+          <StatBox value={totalPRs} label="PRs MERGED" color="#ffaa00" />
+          <StatBox value={featured.length} label="PRODUCTS" color="#33ff33" />
+        </div>
+
+        {/* CTA buttons */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 10 }}>
+          <Link href="/extensions" style={{ textDecoration: "none" }}>
+            <button
+              style={{
+                background:
+                  "linear-gradient(180deg, #e8c878 0%, #c89840 25%, #d4a850 50%, #b88830 75%, #c09838 100%)",
+                border: "2px solid #7a6020",
+                borderRadius: 4,
+                padding: "8px 24px",
+                fontFamily: "'Courier New', monospace",
+                fontSize: 11,
+                fontWeight: "bold",
+                letterSpacing: 1,
+                color: "#1a1a08",
+                textShadow: "0 1px 0 rgba(255,255,200,0.3)",
+                boxShadow:
+                  "0 3px 0 #5a4010, 0 4px 8px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,200,0.3)",
+                cursor: "pointer",
+              }}
             >
-              {t("browseExtensions")}
-            </Link>
-            <Link
-              href="/apps"
-              className="rounded-lg border border-border bg-surface px-5 py-2.5 text-sm font-medium text-fg transition-all hover:border-accent hover:text-accent"
+              [ {t("browseExtensions")} ]
+            </button>
+          </Link>
+          <Link href="/apps" style={{ textDecoration: "none" }}>
+            <button
+              style={{
+                background:
+                  "linear-gradient(180deg, #e8c878 0%, #c89840 25%, #d4a850 50%, #b88830 75%, #c09838 100%)",
+                border: "2px solid #7a6020",
+                borderRadius: 4,
+                padding: "8px 24px",
+                fontFamily: "'Courier New', monospace",
+                fontSize: 11,
+                fontWeight: "bold",
+                letterSpacing: 1,
+                color: "#1a1a08",
+                textShadow: "0 1px 0 rgba(255,255,200,0.3)",
+                boxShadow:
+                  "0 3px 0 #5a4010, 0 4px 8px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,200,0.3)",
+                cursor: "pointer",
+              }}
             >
-              {t("browseApps")}
-            </Link>
-          </div>
+              [ {t("browseApps")} ]
+            </button>
+          </Link>
         </div>
       </section>
 
-      {/* Activity Preview */}
-      {recentEvents.length > 0 && (
-        <section className="section-alt px-6 py-16">
-          <div className="mx-auto max-w-4xl">
-            <div className="mb-2 flex items-center justify-between">
-              <h2 className="text-xl font-semibold">{at("previewTitle")}</h2>
-              <Link
-                href="/activity"
-                className="text-sm font-medium text-accent hover:opacity-80"
-              >
-                {at("viewAll")}
-              </Link>
+      {/* ═══════ EXTENSIONS ═══════ */}
+      <SectionBox title={t("extensions").toUpperCase()} viewAllHref="/extensions" viewAllLabel={t("viewAll")}>
+        {extensions.length >= 2 ? (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
+            {/* Row 1 */}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <CrtMonitorCard product={extensions[0]} href={`/extensions/${extensions[0].slug}`} mon="01" status="rec" stats={cardStats(extensions[0])} />
+              <EndCap direction="horizontal" />
+              <PipeSegment direction="horizontal" length={60} />
+              <StraightCoupling direction="horizontal" />
+              <PipeSegment direction="horizontal" length={60} />
+              <EndCap direction="horizontal" />
+              <CrtMonitorCard product={extensions[1]} href={`/extensions/${extensions[1].slug}`} mon="02" status="idle" stats={cardStats(extensions[1])} />
             </div>
-            <p className="mb-8 text-sm text-muted">{at("previewSubtitle")}</p>
-
-            <ul className="space-y-2">
-              {recentEvents.map((event) => {
-                const product = resolveProductFromId(event.productId);
-                if (!product) return null;
-                const p = localized(product, locale as Locale);
-                const isExt = product.type === "extension";
-                const href = isExt
-                  ? `/extensions/${p.slug}`
-                  : `/apps/${p.slug}`;
-                const activityLevel = metricsMap[event.productId]?.activity;
-                const activityLabel = activityLevel
-                  ? m(activityLevel)
-                  : undefined;
-
-                return (
-                  <li key={event.id}>
-                    <ActivityFeedItem
-                      event={event}
-                      productName={p.name}
-                      productIcon={p.icon}
-                      productIconUrl={p.iconUrl}
-                      productHref={href}
-                      activityLevel={activityLevel}
-                      activityLabel={activityLabel}
-                      timeLabels={timeLabels}
-                      locale={locale}
-                      compact
-                    />
-                  </li>
-                );
-              })}
-            </ul>
+            {/* Vertical pipes */}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ width: 220, display: "flex", flexDirection: "column", alignItems: "center" }}><EndCap direction="vertical" /><PipeSegment direction="vertical" length={40} /><EndCap direction="vertical" /></div>
+              <div style={{ width: 156 }} />
+              <div style={{ width: 220, display: "flex", flexDirection: "column", alignItems: "center" }}><EndCap direction="vertical" /><PipeSegment direction="vertical" length={40} /><EndCap direction="vertical" /></div>
+            </div>
+            {/* Row 2 */}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <CrtMonitorCard product={extensions[2] || extensions[0]} href={`/extensions/${extensions[2]?.slug || extensions[0].slug}`} mon="03" status="idle" stats={extensions[2] ? cardStats(extensions[2]) : undefined} />
+              <EndCap direction="horizontal" />
+              <PipeSegment direction="horizontal" length={60} />
+              <StraightCoupling direction="horizontal" />
+              <PipeSegment direction="horizontal" length={60} />
+              <EndCap direction="horizontal" />
+              {extensions[3] ? (
+                <CrtMonitorCard product={extensions[3]} href={`/extensions/${extensions[3].slug}`} mon="04" status="standby" stats={cardStats(extensions[3])} />
+              ) : (
+                <div style={{ width: 220 }} />
+              )}
+            </div>
           </div>
-        </section>
+        ) : (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {extensions.map((ext, i) => (
+              <CrtMonitorCard key={ext.slug} product={ext} href={`/extensions/${ext.slug}`} mon={String(i + 1).padStart(2, "0")} status="rec" stats={cardStats(ext)} />
+            ))}
+          </div>
+        )}
+      </SectionBox>
+
+      {/* ═══════ APPS ═══════ */}
+      {apps.length > 0 && (
+        <SectionBox title={t("apps").toUpperCase()} viewAllHref="/apps" viewAllLabel={t("viewAll")}>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 0 }}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 0 }}>
+              {apps.map((app, i) => (
+                <span key={app.slug} style={{ display: "flex", alignItems: "center", gap: 0 }}>
+                  {i > 0 && (
+                    <>
+                      <EndCap direction="horizontal" />
+                      <PipeSegment direction="horizontal" length={60} />
+                      <StraightCoupling direction="horizontal" />
+                      <PipeSegment direction="horizontal" length={60} />
+                      <EndCap direction="horizontal" />
+                    </>
+                  )}
+                  <CrtMonitorCard product={app} href={`/apps/${app.slug}`} mon={String(i + 5).padStart(2, "0")} status="idle" stats={cardStats(app)} />
+                </span>
+              ))}
+            </div>
+          </div>
+        </SectionBox>
       )}
 
-      {/* Extensions */}
-      <section className="px-6 py-16">
-        <div className="mx-auto max-w-4xl">
-          <div className="mb-2 flex items-center justify-between">
-            <h2 className="text-xl font-semibold">{t("extensions")}</h2>
-            <Link
-              href="/extensions"
-              className="text-sm font-medium text-accent hover:opacity-80"
-            >
-              {t("viewAll")}
-            </Link>
+      {/* ═══════ ACTIVITY PREVIEW ═══════ */}
+      {recentEvents.length > 0 && (
+        <SectionBox title="RECENT UPDATES" viewAllHref="/activity" viewAllLabel="VIEW ALL →">
+          <div
+            style={{
+              background: "rgba(10, 20, 10, 0.5)",
+              border: "1px solid rgba(51,255,51,0.08)",
+              padding: "12px 16px",
+              fontFamily: "'Courier New', monospace",
+              textAlign: "left",
+              minWidth: 400,
+            }}
+          >
+            {recentEvents.map((event) => (
+              <div
+                key={event.id}
+                style={{
+                  fontSize: 10,
+                  color: "rgba(51,255,51,0.5)",
+                  padding: "4px 0",
+                  borderBottom: "1px solid rgba(51,255,51,0.04)",
+                }}
+              >
+                <span style={{ color: "#33ff33" }}>[{event.occurredAt.slice(0, 10)}]</span>{" "}
+                <span style={{ color: "#ffaa00" }}>{event.version ?? event.title}</span>
+                {" — "}
+                <span>{event.title}</span>
+              </div>
+            ))}
           </div>
-          <p className="mb-8 text-sm text-muted">{t("extensionsDesc")}</p>
-          <div className="grid gap-5 sm:grid-cols-2">
-            {featured
-              .filter((p) => p.type === "extension")
-              .map((product) => (
-                <ProductCard
-                  key={product.slug}
-                  product={product}
-                  metrics={cardMetrics(product)}
-                />
-              ))}
-          </div>
-        </div>
-      </section>
+        </SectionBox>
+      )}
 
-      {/* Apps */}
-      <section className="section-alt px-6 py-16">
-        <div className="mx-auto max-w-4xl">
-          <div className="mb-2 flex items-center justify-between">
-            <h2 className="text-xl font-semibold">{t("apps")}</h2>
-            <Link
-              href="/apps"
-              className="text-sm font-medium text-accent hover:opacity-80"
-            >
-              {t("viewAll")}
-            </Link>
-          </div>
-          <p className="mb-8 text-sm text-muted">{t("appsDesc")}</p>
-          <div className="grid gap-5 sm:grid-cols-2">
-            {featured
-              .filter((p) => p.type === "app")
-              .map((product) => (
-                <ProductCard
-                  key={product.slug}
-                  product={product}
-                  metrics={cardMetrics(product)}
-                />
-              ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Achievements */}
+      {/* ═══════ ACHIEVEMENTS ═══════ */}
       {achievements.length > 0 && (
-        <section className="px-6 py-16">
-          <div className="mx-auto max-w-4xl">
-            <h2 className="mb-8 text-center text-xl font-semibold">
-              {t("achievements")}
-            </h2>
-            <div className="grid gap-6 sm:grid-cols-2">
-              {achievements.map((a) => (
-                <a
-                  key={a.name}
-                  href={a.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="card flex flex-col p-6 transition-all hover:-translate-y-0.5"
-                >
-                  <div className="mb-3 flex items-center gap-2">
-                    <span className="text-2xl">{a.icon}</span>
-                    <span className="rounded-full border border-border px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted">
-                      {ach(`lctt.org`)}
-                    </span>
+        <SectionBox title={t("achievements").toUpperCase()} viewAllHref="" viewAllLabel="">
+          <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
+            {achievements.map((a) => (
+              <a key={a.name} href={a.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+                <div className="card" style={{ padding: "16px 20px", textAlign: "left", maxWidth: 300 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                    <span style={{ fontSize: 20 }}>{a.icon}</span>
+                    <span style={{ fontSize: 9, color: "rgba(51,255,51,0.3)", border: "1px solid rgba(51,255,51,0.1)", borderRadius: 10, padding: "2px 8px", textTransform: "uppercase", letterSpacing: 1 }}>{ach("lctt.org")}</span>
                   </div>
-                  <h3 className="mb-2 font-semibold text-fg">
-                    {ach(`lctt.name`)}
-                  </h3>
-                  <p className="mb-3 text-sm leading-relaxed text-muted">
-                    {ach(`lctt.description`)}
-                  </p>
-                  <p className="text-xs text-muted">{ach(`lctt.year`)}</p>
-                </a>
-              ))}
-            </div>
+                  <h3 style={{ fontSize: 12, color: "#33ff33", marginBottom: 4 }}>{ach("lctt.name")}</h3>
+                  <p style={{ fontSize: 9, color: "rgba(51,255,51,0.4)", lineHeight: 1.5 }}>{ach("lctt.description")}</p>
+                  <p style={{ fontSize: 8, color: "rgba(51,255,51,0.25)", marginTop: 6 }}>{ach("lctt.year")}</p>
+                </div>
+              </a>
+            ))}
           </div>
-        </section>
+        </SectionBox>
       )}
     </>
+  );
+}
+
+function SectionBox({
+  title,
+  viewAllHref,
+  viewAllLabel,
+  children,
+}: {
+  title: string;
+  viewAllHref: string;
+  viewAllLabel: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div style={{ padding: "24px 0", textAlign: "center" }}>
+      <div style={{
+        display: "inline-block",
+        border: "4px double #ffaa00",
+        boxShadow: "0 0 20px rgba(255,170,0,0.08), inset 0 0 20px rgba(255,170,0,0.04)",
+        padding: "20px 32px",
+        minWidth: 700,
+      }}>
+        {/* Title with horizontal rules */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 12,
+          marginBottom: 16,
+        }}>
+          <span style={{
+            flex: 1,
+            height: 2,
+            background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)",
+            maxWidth: 80,
+          }} />
+          <span style={{
+            fontSize: 13,
+            fontWeight: "bold",
+            color: "#ffaa00",
+            textShadow: "0 0 6px rgba(255,170,0,0.3)",
+            whiteSpace: "nowrap",
+          }}>
+            {title}
+          </span>
+          <span style={{
+            flex: 1,
+            height: 2,
+            background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)",
+            maxWidth: 80,
+          }} />
+        </div>
+        {children}
+        {viewAllHref && (
+          <div style={{ marginTop: 12 }}>
+            <Link href={viewAllHref} style={{ color: "#ffaa00", fontSize: 10, textDecoration: "none" }}>
+              {viewAllLabel}
+            </Link>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function StatBox({
+  value,
+  label,
+  color,
+}: {
+  value: number;
+  label: string;
+  color: string;
+}) {
+  return (
+    <div
+      style={{
+        background: "rgba(10, 20, 10, 0.8)",
+        border: `2px solid ${color}18`,
+        padding: "10px 20px",
+        minWidth: 100,
+        textAlign: "center",
+      }}
+    >
+      <div
+        style={{
+          color,
+          fontSize: 22,
+          fontWeight: "bold",
+          textShadow: `0 0 8px ${color}44`,
+        }}
+      >
+        {value.toLocaleString()}
+      </div>
+      <div
+        style={{
+          color: "rgba(51,255,51,0.4)",
+          fontSize: 8,
+          textTransform: "uppercase",
+          letterSpacing: 1,
+          marginTop: 2,
+        }}
+      >
+        {label}
+      </div>
+    </div>
   );
 }
