@@ -203,21 +203,9 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 
                 return (
                   <li key={event.id}>
-                    <ActivityFeedItem
-                      event={event}
-                      productName={product.name}
-                      productIcon={product.icon}
-                      productIconUrl={product.iconUrl}
-                      productHref={product.href}
-                      activityLevel={activityLevel}
-                      activityLabel={activityLabel}
-                      timeLabels={timeLabels}
-                      locale={locale}
-                    />
-
-                    {/* Post-release development activity */}
+                    {/* Post-release activity — more recent, so ABOVE the release */}
                     {showSince && (
-                      <div className="ml-6 mt-2 border-l-2 border-border pl-5 py-2">
+                      <div className="ml-6 mb-2 border-l-2 border-border pl-5 py-2">
                         <p className="text-xs leading-relaxed text-muted">
                           {snapshot.github!.commitsLast30d > 0
                             ? t("sinceRelease", {
@@ -230,6 +218,18 @@ export default async function ActivityPage({ params, searchParams }: Props) {
                         </p>
                       </div>
                     )}
+
+                    <ActivityFeedItem
+                      event={event}
+                      productName={product.name}
+                      productIcon={product.icon}
+                      productIconUrl={product.iconUrl}
+                      productHref={product.href}
+                      activityLevel={activityLevel}
+                      activityLabel={activityLabel}
+                      timeLabels={timeLabels}
+                      locale={locale}
+                    />
                   </li>
                 );
               })}
