@@ -90,11 +90,14 @@ export function MonitorGrid({ items }: Props) {
           {/* Row content */}
           <div style={{ display: "flex", alignItems: "center" }}>
             {row[0]}
-            {row.length > 1 && (
+            {row.length > 1 ? (
               <>
                 <HPipe />
                 {row[1]}
               </>
+            ) : (
+              // Spacer to keep single-item row left-aligned
+              <div style={{ width: 260 + 156 }} />
             )}
           </div>
         </span>
