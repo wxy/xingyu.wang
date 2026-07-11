@@ -71,6 +71,8 @@ export function Navigation({ locale }: { locale: string }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 8,
           padding: "10px 24px",
         }}
       >
@@ -79,6 +81,8 @@ export function Navigation({ locale }: { locale: string }) {
           style={{
             fontSize: 12,
             fontWeight: "bold",
+            whiteSpace: "nowrap",
+            flexShrink: 0,
             color: "#33ff33",
             textShadow: "0 0 8px rgba(51,255,51,0.4)",
             letterSpacing: 1,
