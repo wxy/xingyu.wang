@@ -5,6 +5,7 @@ import {
   type Locale,
 } from "@/lib/products";
 import { getActivityFeed, getLatestMetricsForProducts } from "@/lib/metrics";
+import { fetchGitHubRepoInfo } from "@/lib/metrics/github";
 import { getTranslations } from "next-intl/server";
 import { CrtMonitorCard } from "@/components/CrtMonitorCard";
 import { MonitorGrid } from "@/components/MonitorGrid";
@@ -22,9 +23,12 @@ export default async function HomePage({ params }: Props) {
   const at = await getTranslations("activity");
   const featured = getFeaturedProducts();
 
-  const [recentEvents, metricsMap] = await Promise.all([
+  const [recentEvents, metricsMap, lcttRepo] = await Promise.all([
     getActivityFeed(3),
     getLatestMetricsForProducts(),
+    achievements.find((a) => a.repoUrl)?.repoUrl
+      ? fetchGitHubRepoInfo(achievements.find((a) => a.repoUrl)!.repoUrl!)
+      : null,
   ]);
 
   // Aggregate stats across all products
@@ -219,6 +223,12 @@ export default async function HomePage({ params }: Props) {
                   <h3 style={{ fontSize: 12, color: "#33ff33", marginBottom: 4 }}>{ach("lctt.name")}</h3>
                   <p style={{ fontSize: 9, color: "rgba(51,255,51,0.4)", lineHeight: 1.5 }}>{ach("lctt.description")}</p>
                   <p style={{ fontSize: 8, color: "rgba(51,255,51,0.25)", marginTop: 6 }}>{ach("lctt.year")}</p>
+                  {lcttRepo && (
+                    <div style={{ display: "flex", gap: 12, marginTop: 8, fontSize: 9 }}>
+                      <span style={{ color: "rgba(51,255,51,0.5)" }}>⭐ {lcttRepo.stars.toLocaleString()}</span>
+                      <span style={{ color: "rgba(51,255,51,0.5)" }}>⑂ {lcttRepo.forks.toLocaleString()}</span>
+                    </div>
+                  )}
                 </div>
               </a>
             ))}
