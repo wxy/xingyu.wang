@@ -7,7 +7,8 @@ import {
 import { getActivityFeed, getLatestMetricsForProducts } from "@/lib/metrics";
 import { getTranslations } from "next-intl/server";
 import { CrtMonitorCard } from "@/components/CrtMonitorCard";
-import { PipeSegment, EndCap, StraightCoupling } from "@/components/pipes";
+import { StackRow } from "@/components/StackRow";
+import { ResponsivePipe } from "@/components/ResponsivePipe";
 import Link from "next/link";
 
 interface Props {
@@ -145,38 +146,23 @@ export default async function HomePage({ params }: Props) {
       {/* ═══════ EXTENSIONS ═══════ */}
       <SectionBox title={t("extensions").toUpperCase()} viewAllHref="/extensions" viewAllLabel={t("viewAll")}>
         {extensions.length >= 2 ? (
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
-            {/* Row 1 */}
-            <div style={{ display: "flex", alignItems: "center" }}>
+          <StackRow>
+            <StackRow>
               <CrtMonitorCard product={extensions[0]} href={`/extensions/${extensions[0].slug}`} mon="01" status="rec" stats={cardStats(extensions[0])} />
-              <EndCap direction="horizontal" />
-              <PipeSegment direction="horizontal" length={60} />
-              <StraightCoupling direction="horizontal" />
-              <PipeSegment direction="horizontal" length={60} />
-              <EndCap direction="horizontal" />
+              <ResponsivePipe />
               <CrtMonitorCard product={extensions[1]} href={`/extensions/${extensions[1].slug}`} mon="02" status="idle" stats={cardStats(extensions[1])} />
-            </div>
-            {/* Vertical pipes */}
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><EndCap direction="vertical" /><PipeSegment direction="vertical" length={40} /><EndCap direction="vertical" /></div>
-              <div style={{ width: 156 }} />
-              <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><EndCap direction="vertical" /><PipeSegment direction="vertical" length={40} /><EndCap direction="vertical" /></div>
-            </div>
-            {/* Row 2 */}
-            <div style={{ display: "flex", alignItems: "center" }}>
+            </StackRow>
+            <ResponsivePipe />
+            <StackRow>
               <CrtMonitorCard product={extensions[2] || extensions[0]} href={`/extensions/${extensions[2]?.slug || extensions[0].slug}`} mon="03" status="idle" stats={extensions[2] ? cardStats(extensions[2]) : undefined} />
-              <EndCap direction="horizontal" />
-              <PipeSegment direction="horizontal" length={60} />
-              <StraightCoupling direction="horizontal" />
-              <PipeSegment direction="horizontal" length={60} />
-              <EndCap direction="horizontal" />
+              <ResponsivePipe />
               {extensions[3] ? (
                 <CrtMonitorCard product={extensions[3]} href={`/extensions/${extensions[3].slug}`} mon="04" status="standby" stats={cardStats(extensions[3])} />
               ) : (
                 <div style={{ width: 260 }} />
               )}
-            </div>
-          </div>
+            </StackRow>
+          </StackRow>
         ) : (
           <div style={{ display: "flex", justifyContent: "center" }}>
             {extensions.map((ext, i) => (
@@ -190,22 +176,14 @@ export default async function HomePage({ params }: Props) {
       {apps.length > 0 && (
         <SectionBox title={t("apps").toUpperCase()} viewAllHref="/apps" viewAllLabel={t("viewAll")}>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 0 }}>
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 0 }}>
+            <StackRow>
               {apps.map((app, i) => (
-                <span key={app.slug} style={{ display: "flex", alignItems: "center", gap: 0 }}>
-                  {i > 0 && (
-                    <>
-                      <EndCap direction="horizontal" />
-                      <PipeSegment direction="horizontal" length={60} />
-                      <StraightCoupling direction="horizontal" />
-                      <PipeSegment direction="horizontal" length={60} />
-                      <EndCap direction="horizontal" />
-                    </>
-                  )}
+                <span key={app.slug} style={{ display: "contents" }}>
+                  {i > 0 && <ResponsivePipe />}
                   <CrtMonitorCard product={app} href={`/apps/${app.slug}`} mon={String(i + 5).padStart(2, "0")} status="idle" stats={cardStats(app)} />
                 </span>
               ))}
-            </div>
+            </StackRow>
           </div>
         </SectionBox>
       )}
