@@ -15,8 +15,6 @@ function useMediaQuery(query: string): boolean {
   return matches;
 }
 
-/* ══════════════════════ pipe fragments ══════════════════════ */
-
 function HPipe() {
   return (
     <>
@@ -39,29 +37,21 @@ function VPipe() {
   );
 }
 
-/* ══════════════════════ MonitorGrid ══════════════════════ */
-
 interface Props {
-  /** Must be exactly 2 or 4 items (rendered as 1 or 2 rows) */
   items: ReactNode[];
 }
 
 /**
- * 2×2 grid on wide screens (≥640px), vertical stack on narrow.
- *
- * Wide layout (matches original working code):
- *   Row 1: [M1] --hpipe-- [M2]
- *          [vpipe]       [vpipe]
- *   Row 2: [M3] --hpipe-- [M4]
- *
- * Narrow layout:
- *   [M1] → vpipe → [M2] → vpipe → [M3] → vpipe → [M4]
+ * On wide screens (≥640px): monitors arranged in rows of 2, with horizontal
+ * pipes between side-by-side monitors and vertical pipes between rows.
+ * On narrow screens: all monitors stacked vertically with vertical pipes.
+ * Handles any number of monitors (1-6+).
  */
 export function MonitorGrid({ items }: Props) {
   const isWide = useMediaQuery("(min-width: 640px)");
 
+  // Narrow: vertical stack
   if (!isWide) {
-    // Narrow: vertical stack, all pipes vertical
     return (
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
         {items.map((node, i) => (
@@ -74,33 +64,41 @@ export function MonitorGrid({ items }: Props) {
     );
   }
 
-  // Wide: original 2×2 layout
-  const [m1, m2, m3, m4] = items;
-  const hasRow2 = !!(m3 || m4);
+  // Wide: rows of 2
+  const rows: ReactNode[][] = [];
+  for (let i = 0; i < items.length; i += 2) {
+    rows.push(items.slice(i, i + 2));
+  }
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
-      {/* Row 1 */}
-      <div style={{ display: "flex", alignItems: "center" }}>
-        {m1}
-        {m2 ? <HPipe /> : null}
-        {m2}
-      </div>
-      {/* Vertical pipes + Row 2 — only if there's a second row */}
-      {hasRow2 && (
-        <>
+      {rows.map((row, rowIdx) => (
+        <span key={rowIdx} style={{ display: "contents" }}>
+          {/* Vertical pipes between rows */}
+          {rowIdx > 0 && (
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <VPipe />
+              </div>
+              <div style={{ width: 156 }} />
+              <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                {row.length > 1 ? <VPipe /> : <div />}
+              </div>
+            </div>
+          )}
+
+          {/* Row content */}
           <div style={{ display: "flex", alignItems: "center" }}>
-            <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><VPipe /></div>
-            <div style={{ width: 156 }} />
-            <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><VPipe /></div>
+            {row[0]}
+            {row.length > 1 && (
+              <>
+                <HPipe />
+                {row[1]}
+              </>
+            )}
           </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            {m3 || <div style={{ width: 260 }} />}
-            {m3 && m4 ? <HPipe /> : null}
-            {m4 || <div style={{ width: 260 }} />}
-          </div>
-        </>
-      )}
+        </span>
+      ))}
     </div>
   );
 }
