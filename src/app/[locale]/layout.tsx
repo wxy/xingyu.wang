@@ -29,6 +29,9 @@ export const metadata: Metadata = {
   description:
     "Personal site of Xingyu Wang. Chrome extensions, Android apps, and side projects.",
   metadataBase: new URL("https://xingyu.wang"),
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default async function LocaleLayout({
