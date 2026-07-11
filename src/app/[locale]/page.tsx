@@ -164,13 +164,9 @@ export default async function HomePage({ params }: Props) {
       {apps.length > 0 && (
         <SectionBox title={t("apps").toUpperCase()} viewAllHref="/apps" viewAllLabel={t("viewAll")}>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 0 }}>
-            <MonitorGrid items={[
-              ...apps.map((app) => (
-                <CrtMonitorCard key={app.slug} product={app} href={`/apps/${app.slug}`} mon={String(apps.indexOf(app) + 5).padStart(2, "0")} status="idle" stats={cardStats(app)} />
-              )),
-              // Test card for odd-number layout
-              <CrtMonitorCard key="test" product={apps[0]} href={`/apps/${apps[0].slug}`} mon="07" status="standby" stats={undefined} />,
-            ]} />
+            <MonitorGrid items={apps.map((app) => (
+              <CrtMonitorCard key={app.slug} product={app} href={`/apps/${app.slug}`} mon={String(apps.indexOf(app) + 5).padStart(2, "0")} status="idle" stats={cardStats(app)} />
+            ))} />
           </div>
         </SectionBox>
       )}

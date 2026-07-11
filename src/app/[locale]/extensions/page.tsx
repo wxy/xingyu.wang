@@ -2,7 +2,7 @@ import { extensions, getProductId } from "@/lib/products";
 import { getLatestMetricsForProducts } from "@/lib/metrics";
 import { getTranslations } from "next-intl/server";
 import { CrtMonitorCard } from "@/components/CrtMonitorCard";
-import { PipeSegment, EndCap, StraightCoupling } from "@/components/pipes";
+import { MonitorGrid } from "@/components/MonitorGrid";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Extensions" };
@@ -44,35 +44,9 @@ export default async function ExtensionsPage() {
             <span style={{ flex: 1, height: 2, background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)", maxWidth: 80 }} />
           </div>
 
-          {/* 2×2 grid with pipes */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
-            {/* Row 1 */}
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <CrtMonitorCard product={extensions[0]} href={`/extensions/${extensions[0].slug}`} mon="01" status="rec" stats={stats(extensions[0].slug)} />
-              <EndCap direction="horizontal" />
-              <PipeSegment direction="horizontal" length={60} />
-              <StraightCoupling direction="horizontal" />
-              <PipeSegment direction="horizontal" length={60} />
-              <EndCap direction="horizontal" />
-              <CrtMonitorCard product={extensions[1]} href={`/extensions/${extensions[1].slug}`} mon="02" status="idle" stats={stats(extensions[1].slug)} />
-            </div>
-            {/* Vertical pipes */}
-            <div style={{ display: "flex" }}>
-              <div style={{ width: 220, display: "flex", flexDirection: "column", alignItems: "center" }}><EndCap direction="vertical" /><PipeSegment direction="vertical" length={40} /><EndCap direction="vertical" /></div>
-              <div style={{ width: 156 }} />
-              <div style={{ width: 220, display: "flex", flexDirection: "column", alignItems: "center" }}><EndCap direction="vertical" /><PipeSegment direction="vertical" length={40} /><EndCap direction="vertical" /></div>
-            </div>
-            {/* Row 2 */}
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <CrtMonitorCard product={extensions[2]} href={`/extensions/${extensions[2].slug}`} mon="03" status="idle" stats={stats(extensions[2].slug)} />
-              <EndCap direction="horizontal" />
-              <PipeSegment direction="horizontal" length={60} />
-              <StraightCoupling direction="horizontal" />
-              <PipeSegment direction="horizontal" length={60} />
-              <EndCap direction="horizontal" />
-              <CrtMonitorCard product={extensions[3]} href={`/extensions/${extensions[3].slug}`} mon="04" status="standby" stats={stats(extensions[3].slug)} />
-            </div>
-          </div>
+          <MonitorGrid items={extensions.map((ext, i) => (
+            <CrtMonitorCard key={ext.slug} product={ext} href={`/extensions/${ext.slug}`} mon={String(i + 1).padStart(2, "0")} status={i === 0 ? "rec" : "idle"} stats={stats(ext.slug)} />
+          ))} />
         </div>
       </div>
     </div>

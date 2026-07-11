@@ -2,7 +2,7 @@ import { apps, getProductId } from "@/lib/products";
 import { getLatestMetricsForProducts } from "@/lib/metrics";
 import { getTranslations } from "next-intl/server";
 import { CrtMonitorCard } from "@/components/CrtMonitorCard";
-import { PipeSegment, EndCap, StraightCoupling } from "@/components/pipes";
+import { MonitorGrid } from "@/components/MonitorGrid";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Apps" };
@@ -43,19 +43,9 @@ export default async function AppsPage() {
             <span style={{ flex: 1, height: 2, background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)", maxWidth: 80 }} />
           </div>
 
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 0 }}>
-            <CrtMonitorCard product={apps[0]} href={`/apps/${apps[0].slug}`} mon="05" status="idle" stats={stats(apps[0].slug)} />
-            {apps.length > 1 && (
-              <>
-                <EndCap direction="horizontal" />
-                <PipeSegment direction="horizontal" length={60} />
-                <StraightCoupling direction="horizontal" />
-                <PipeSegment direction="horizontal" length={60} />
-                <EndCap direction="horizontal" />
-                <CrtMonitorCard product={apps[1]} href={`/apps/${apps[1].slug}`} mon="06" status="idle" stats={stats(apps[1].slug)} />
-              </>
-            )}
-          </div>
+          <MonitorGrid items={apps.map((app, i) => (
+            <CrtMonitorCard key={app.slug} product={app} href={`/apps/${app.slug}`} mon={String(i + 5).padStart(2, "0")} status="idle" stats={stats(app.slug)} />
+          ))} />
         </div>
       </div>
     </div>
