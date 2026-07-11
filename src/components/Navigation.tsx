@@ -10,10 +10,11 @@ const BTN_BASE: React.CSSProperties = {
     "linear-gradient(180deg, #e8c878 0%, #c89840 25%, #d4a850 50%, #b88830 75%, #c09838 100%)",
   border: "none",
   borderRadius: 5,
-  padding: "7px 18px",
+  padding: "7px",
   fontFamily: "'Courier New', monospace",
   fontSize: 11,
   fontWeight: "bold",
+  whiteSpace: "nowrap",
   letterSpacing: 2,
   color: "#1a1a08",
   textShadow: "0 1px 0 rgba(255,255,200,0.3)",
@@ -28,7 +29,7 @@ const BTN_ACTIVE: React.CSSProperties = {
     "linear-gradient(180deg, #888 0%, #666 30%, #555 60%, #777 100%)",
   border: "2px solid #ffaa00",
   borderRadius: 5,
-  padding: "7px 18px",
+  padding: "7px",
   fontFamily: "'Courier New', monospace",
   fontSize: 11,
   fontWeight: "bold",
@@ -73,7 +74,7 @@ export function Navigation({ locale }: { locale: string }) {
           justifyContent: "space-between",
           flexWrap: "wrap",
           gap: 8,
-          padding: "10px 24px",
+          padding: "10px",
         }}
       >
         <Link
@@ -92,7 +93,7 @@ export function Navigation({ locale }: { locale: string }) {
           {locale === "zh" ? "硬核老王" : "xingyu.wang"}
         </Link>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", justifyContent: "center" }}>
           {links.map(({ href, label }) => {
             // Strip locale prefix: /en/xxx → /xxx, /en → /
             let pathWithoutLocale = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
