@@ -146,13 +146,11 @@ export default async function HomePage({ params }: Props) {
       <SectionBox title={t("extensions").toUpperCase()} viewAllHref="/extensions" viewAllLabel={t("viewAll")}>
         {extensions.length >= 2 ? (
           <MonitorGrid items={[
-            { node: <CrtMonitorCard product={extensions[0]} href={`/extensions/${extensions[0].slug}`} mon="01" status="rec" stats={cardStats(extensions[0])} /> },
-            { node: <CrtMonitorCard product={extensions[1]} href={`/extensions/${extensions[1].slug}`} mon="02" status="idle" stats={cardStats(extensions[1])} />, pipeBefore: true },
-            { node: <CrtMonitorCard product={extensions[2] || extensions[0]} href={`/extensions/${extensions[2]?.slug || extensions[0].slug}`} mon="03" status="idle" stats={extensions[2] ? cardStats(extensions[2]) : undefined} />, pipeBefore: true },
-            ...(extensions[3] ? [
-              { node: <CrtMonitorCard product={extensions[3]} href={`/extensions/${extensions[3].slug}`} mon="04" status="standby" stats={cardStats(extensions[3])} />, pipeBefore: true } as const,
-            ] : []),
-          ]} />
+            <CrtMonitorCard key="0" product={extensions[0]} href={`/extensions/${extensions[0].slug}`} mon="01" status="rec" stats={cardStats(extensions[0])} />,
+            <CrtMonitorCard key="1" product={extensions[1]} href={`/extensions/${extensions[1].slug}`} mon="02" status="idle" stats={cardStats(extensions[1])} />,
+            <CrtMonitorCard key="2" product={extensions[2] || extensions[0]} href={`/extensions/${extensions[2]?.slug || extensions[0].slug}`} mon="03" status="idle" stats={extensions[2] ? cardStats(extensions[2]) : undefined} />,
+            extensions[3] ? <CrtMonitorCard key="3" product={extensions[3]} href={`/extensions/${extensions[3].slug}`} mon="04" status="standby" stats={cardStats(extensions[3])} /> : null,
+          ].filter(Boolean)} />
         ) : (
           <div style={{ display: "flex", justifyContent: "center" }}>
             {extensions.map((ext, i) => (
@@ -166,10 +164,9 @@ export default async function HomePage({ params }: Props) {
       {apps.length > 0 && (
         <SectionBox title={t("apps").toUpperCase()} viewAllHref="/apps" viewAllLabel={t("viewAll")}>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 0 }}>
-            <MonitorGrid items={apps.map((app, i) => ({
-              node: <CrtMonitorCard product={app} href={`/apps/${app.slug}`} mon={String(i + 5).padStart(2, "0")} status="idle" stats={cardStats(app)} />,
-              pipeBefore: i > 0,
-            }))} />
+            <MonitorGrid items={apps.map((app) => (
+              <CrtMonitorCard key={app.slug} product={app} href={`/apps/${app.slug}`} mon={String(apps.indexOf(app) + 5).padStart(2, "0")} status="idle" stats={cardStats(app)} />
+            ))} />
           </div>
         </SectionBox>
       )}

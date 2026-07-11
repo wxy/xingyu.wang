@@ -3,8 +3,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { PipeSegment, EndCap, StraightCoupling } from "./pipes";
 
-/* ══════════════════════ useMediaQuery ══════════════════════ */
-
 function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState(false);
   useEffect(() => {
@@ -31,108 +29,73 @@ function HPipe() {
   );
 }
 
-function VPipe({ length = 40 }: { length?: number }) {
+function VPipe() {
   return (
     <>
       <EndCap direction="vertical" />
-      <PipeSegment direction="vertical" length={length} />
+      <PipeSegment direction="vertical" length={40} />
       <EndCap direction="vertical" />
     </>
   );
 }
 
-/* ══════════════════════ layouts ══════════════════════ */
-
-interface MonitorItem {
-  node: ReactNode;
-  /** Optional pipe to render BEFORE this item (between it and the previous item) */
-  pipeBefore?: ReactNode;
-}
+/* ══════════════════════ MonitorGrid ══════════════════════ */
 
 interface Props {
-  /** Array of monitors + optional pipeBefore markers */
-  items: MonitorItem[];
-  /** Columns on wide screens */
-  columns?: 2;
+  /** Must be exactly 2 or 4 items (rendered as 1 or 2 rows) */
+  items: ReactNode[];
 }
 
 /**
- * Renders a 2-column grid on wide screens (≥640px),
- * or a single vertical stack on narrow screens.
+ * 2×2 grid on wide screens (≥640px), vertical stack on narrow.
  *
- * Pipe items (`pipeBefore`) become horizontal on wide and vertical on narrow.
+ * Wide layout (matches original working code):
+ *   Row 1: [M1] --hpipe-- [M2]
+ *          [vpipe]       [vpipe]
+ *   Row 2: [M3] --hpipe-- [M4]
+ *
+ * Narrow layout:
+ *   [M1] → vpipe → [M2] → vpipe → [M3] → vpipe → [M4]
  */
-export function MonitorGrid({ items, columns = 2 }: Props) {
+export function MonitorGrid({ items }: Props) {
   const isWide = useMediaQuery("(min-width: 640px)");
 
-  if (columns !== 2 || items.length < 2) {
-    // Simple vertical stack
-    return (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
-        {items.map((item, i) => (
-          <span key={i} style={{ display: "contents" }}>
-            {item.pipeBefore && <VPipe />}
-            {item.node}
-          </span>
-        ))}
-      </div>
-    );
-  }
-
-  // Build 2-column grid items
-  const leftCol: MonitorItem[] = [];
-  const rightCol: MonitorItem[] = [];
-  items.forEach((item, i) => {
-    (i % 2 === 0 ? leftCol : rightCol).push(item);
-  });
-
   if (!isWide) {
-    // Narrow: stack all items vertically with vertical pipes
+    // Narrow: vertical stack, all pipes vertical
     return (
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
-        {items.map((item, i) => (
+        {items.map((node, i) => (
           <span key={i} style={{ display: "contents" }}>
-            {item.pipeBefore && <VPipe />}
-            {item.node}
+            {i > 0 && <VPipe />}
+            {node}
           </span>
         ))}
       </div>
     );
   }
 
-  // Wide: 2-column grid
-  const maxRows = Math.max(leftCol.length, rightCol.length);
+  // Wide: original 2×2 layout
+  const [m1, m2, m3, m4] = items;
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
-      {/* Left column */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
-        {leftCol.map((item, i) => (
-          <span key={i} style={{ display: "contents" }}>
-            {item.pipeBefore && <VPipe />}
-            {item.node}
-          </span>
-        ))}
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
+      {/* Row 1 */}
+      <div style={{ display: "flex", alignItems: "center" }}>
+        {m1}
+        <HPipe />
+        {m2}
       </div>
-
-      {/* Horizontal pipe between columns */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
-        {Array.from({ length: maxRows }).map((_, i) => (
-          <span key={i} style={{ display: "contents" }}>
-            {i > 0 && <VPipe length={60} />}
-            <HPipe />
-          </span>
-        ))}
+      {/* Vertical pipes between rows */}
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><VPipe /></div>
+        <div style={{ width: 156 }} />
+        <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><VPipe /></div>
       </div>
-
-      {/* Right column */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
-        {rightCol.map((item, i) => (
-          <span key={i} style={{ display: "contents" }}>
-            {item.pipeBefore && <VPipe />}
-            {item.node}
-          </span>
-        ))}
+      {/* Row 2 */}
+      <div style={{ display: "flex", alignItems: "center" }}>
+        {m3 || <div style={{ width: 260 }} />}
+        {m3 && m4 ? <HPipe /> : null}
+        {m4 || <div style={{ width: 260 }} />}
       </div>
     </div>
   );
