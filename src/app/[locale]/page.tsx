@@ -250,9 +250,7 @@ function SectionBox({
         border: "4px double #ffaa00",
         boxShadow: "0 0 20px rgba(255,170,0,0.08), inset 0 0 20px rgba(255,170,0,0.04)",
         padding: "20px 32px",
-        width: "fit-content",
-        maxWidth: "100%",
-        minWidth: 0,
+        width: "100%",
         boxSizing: "border-box",
       }}>
         {/* Title with horizontal rules */}

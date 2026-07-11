@@ -31,7 +31,8 @@ export default async function AppsPage() {
           border: "4px double #ffaa00",
           display: "inline-block",
           padding: "20px 32px",
-          minWidth: 700,
+          width: "100%",
+          boxSizing: "border-box",
           boxShadow: "0 0 20px rgba(255,170,0,0.08), inset 0 0 20px rgba(255,170,0,0.04)",
         }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>
