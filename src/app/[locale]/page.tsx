@@ -182,7 +182,8 @@ export default async function HomePage({ params }: Props) {
               padding: "12px 16px",
               fontFamily: "'Courier New', monospace",
               textAlign: "left",
-              minWidth: 400,
+              width: "100%",
+              boxSizing: "border-box",
             }}
           >
             {recentEvents.map((event) => (
