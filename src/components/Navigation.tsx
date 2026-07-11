@@ -10,7 +10,7 @@ const BTN_BASE: React.CSSProperties = {
     "linear-gradient(180deg, #e8c878 0%, #c89840 25%, #d4a850 50%, #b88830 75%, #c09838 100%)",
   border: "none",
   borderRadius: 5,
-  padding: "7px 18px",
+  padding: "7px",
   fontFamily: "'Courier New', monospace",
   fontSize: 11,
   fontWeight: "bold",
@@ -29,7 +29,7 @@ const BTN_ACTIVE: React.CSSProperties = {
     "linear-gradient(180deg, #888 0%, #666 30%, #555 60%, #777 100%)",
   border: "2px solid #ffaa00",
   borderRadius: 5,
-  padding: "7px 18px",
+  padding: "7px",
   fontFamily: "'Courier New', monospace",
   fontSize: 11,
   fontWeight: "bold",
@@ -74,7 +74,7 @@ export function Navigation({ locale }: { locale: string }) {
           justifyContent: "space-between",
           flexWrap: "wrap",
           gap: 8,
-          padding: "10px 24px",
+          padding: "10px",
         }}
       >
         <Link

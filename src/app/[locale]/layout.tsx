@@ -29,6 +29,9 @@ export const metadata: Metadata = {
   description:
     "Personal site of Xingyu Wang. Chrome extensions, Android apps, and side projects.",
   metadataBase: new URL("https://xingyu.wang"),
+  icons: {
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect x='3' y='4' width='42' height='30' rx='6' fill='%23d5ccb5' stroke='%231a1a1a' stroke-width='1.5'/><rect x='8' y='9' width='32' height='20' rx='3' fill='%230d0d0d'/><rect x='10' y='11' width='28' height='16' rx='2' fill='%230a1a0a'/><line x1='10' y1='15' x2='38' y2='15' stroke='%2333ff33' stroke-width='0.5' opacity='0.3'/><line x1='10' y1='19' x2='38' y2='19' stroke='%2333ff33' stroke-width='0.5' opacity='0.3'/><line x1='10' y1='23' x2='38' y2='23' stroke='%2333ff33' stroke-width='0.5' opacity='0.3'/><rect x='12' y='6' width='3' height='1' rx='0.5' fill='%238a8070'/><rect x='17' y='6' width='3' height='1' rx='0.5' fill='%238a8070'/><rect x='22' y='6' width='3' height='1' rx='0.5' fill='%238a8070'/><rect x='27' y='6' width='3' height='1' rx='0.5' fill='%238a8070'/><rect x='32' y='6' width='3' height='1' rx='0.5' fill='%238a8070'/><circle cx='40' cy='37' r='2' fill='%2333ff33' opacity='0.9'/><rect x='14' y='35' width='20' height='2' rx='1' fill='%238a8070'/></svg>",
+  },
 };
 
 export default async function LocaleLayout({
