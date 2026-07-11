@@ -30,7 +30,7 @@ export default async function AboutPage() {
 
           <div style={{ marginTop: 20, borderTop: "1px solid rgba(51,255,51,0.08)", paddingTop: 16 }}>
             <div style={{ fontSize: 11, color: "#ffaa00", marginBottom: 8 }}>{t("contact")}</div>
-            <div style={{ fontSize: 10, color: "rgba(51,255,51,0.4)" }}>
+            <div style={{ fontSize: 10, color: "rgba(51,255,51,0.5)" }}>
               <a href="https://github.com/wxy" target="_blank" rel="noopener noreferrer" style={{ color: "#33ff33" }}>[GitHub]</a>{" "}
               <a href="mailto:xingyu.wang@gmail.com" style={{ color: "#33ff33" }}>[xingyu.wang@gmail.com]</a>
             </div>

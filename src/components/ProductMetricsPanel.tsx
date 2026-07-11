@@ -90,11 +90,11 @@ function MetricTile({
 }) {
   return (
     <div style={{ border: "1px solid rgba(51,255,51,0.1)", padding: "10px 14px", background: "rgba(0,0,0,0.2)" }}>
-      <p style={{ margin: "0 0 4px", fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1, color: "rgba(51,255,51,0.4)" }}>
+      <p style={{ margin: "0 0 4px", fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1, color: "rgba(51,255,51,0.5)" }}>
         {label}
       </p>
       <p style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#33ff33" }}>{value}</p>
-      {sub && <p style={{ margin: 0, fontSize: 9, color: "rgba(51,255,51,0.35)" }}>{sub}</p>}
+      {sub && <p style={{ margin: 0, fontSize: 9, color: "rgba(51,255,51,0.5)" }}>{sub}</p>}
     </div>
   );
 }

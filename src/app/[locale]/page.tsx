@@ -219,11 +219,11 @@ export default async function HomePage({ params }: Props) {
                 <div style={{ padding: "16px 20px", textAlign: "left", maxWidth: 300, background: "rgba(10,20,10,0.6)", border: "1px solid rgba(51,255,51,0.1)", borderRadius: 8 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                     <span style={{ fontSize: 20 }}>{a.icon}</span>
-                    <span style={{ fontSize: 9, color: "rgba(51,255,51,0.3)", border: "1px solid rgba(51,255,51,0.1)", borderRadius: 10, padding: "2px 8px", textTransform: "uppercase", letterSpacing: 1 }}>{ach("lctt.org")}</span>
+                    <span style={{ fontSize: 9, color: "rgba(51,255,51,0.5)", border: "1px solid rgba(51,255,51,0.1)", borderRadius: 10, padding: "2px 8px", textTransform: "uppercase", letterSpacing: 1 }}>{ach("lctt.org")}</span>
                   </div>
                   <h3 style={{ fontSize: 12, color: "#33ff33", marginBottom: 4 }}>{ach("lctt.name")}</h3>
-                  <p style={{ fontSize: 9, color: "rgba(51,255,51,0.4)", lineHeight: 1.5 }}>{ach("lctt.description")}</p>
-                  <p style={{ fontSize: 8, color: "rgba(51,255,51,0.25)", marginTop: 6 }}>{ach("lctt.year")}</p>
+                  <p style={{ fontSize: 9, color: "rgba(51,255,51,0.5)", lineHeight: 1.5 }}>{ach("lctt.description")}</p>
+                  <p style={{ fontSize: 8, color: "rgba(51,255,51,0.5)", marginTop: 6 }}>{ach("lctt.year")}</p>
                   {lcttRepo && (
                     <div style={{ display: "flex", gap: 12, marginTop: 8, fontSize: 9 }}>
                       <span style={{ color: "rgba(51,255,51,0.5)" }}>⭐ {lcttRepo.stars.toLocaleString()}</span>
@@ -335,7 +335,7 @@ function StatBox({
       </div>
       <div
         style={{
-          color: "rgba(51,255,51,0.4)",
+          color: "rgba(51,255,51,0.5)",
           fontSize: 8,
           textTransform: "uppercase",
           letterSpacing: 1,
