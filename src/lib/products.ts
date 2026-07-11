@@ -45,6 +45,8 @@ export interface Achievement {
   org: string;
   icon: string;
   year: string;
+  /** Optional GitHub repo URL for fetching live stats */
+  repoUrl?: string;
 }
 
 // --- Chrome Extensions (sorted by install count) ---
@@ -278,6 +280,7 @@ export const achievements: Achievement[] = [
     org: "Linux China",
     icon: "🏆",
     year: "2013 – 2025",
+    repoUrl: "https://github.com/LCTT/TranslateProject",
   },
 ];
 
