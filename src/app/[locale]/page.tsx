@@ -19,6 +19,7 @@ export default async function HomePage({ params }: Props) {
   const t = await getTranslations("home");
   const ach = await getTranslations("achievements");
   const m = await getTranslations("metrics");
+  const at = await getTranslations("activity");
   const featured = getFeaturedProducts();
 
   const [recentEvents, metricsMap] = await Promise.all([
@@ -173,7 +174,7 @@ export default async function HomePage({ params }: Props) {
 
       {/* ═══════ ACTIVITY PREVIEW ═══════ */}
       {recentEvents.length > 0 && (
-        <SectionBox title="RECENT UPDATES" viewAllHref="/activity" viewAllLabel="VIEW ALL →">
+        <SectionBox title={at("previewTitle").toUpperCase()} viewAllHref="/activity" viewAllLabel={at("viewAll")}>
           <div
             style={{
               background: "rgba(10, 20, 10, 0.5)",
