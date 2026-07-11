@@ -76,27 +76,31 @@ export function MonitorGrid({ items }: Props) {
 
   // Wide: original 2×2 layout
   const [m1, m2, m3, m4] = items;
+  const hasRow2 = !!(m3 || m4);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
       {/* Row 1 */}
       <div style={{ display: "flex", alignItems: "center" }}>
         {m1}
-        <HPipe />
+        {m2 ? <HPipe /> : null}
         {m2}
       </div>
-      {/* Vertical pipes between rows */}
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><VPipe /></div>
-        <div style={{ width: 156 }} />
-        <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><VPipe /></div>
-      </div>
-      {/* Row 2 */}
-      <div style={{ display: "flex", alignItems: "center" }}>
-        {m3 || <div style={{ width: 260 }} />}
-        {m3 && m4 ? <HPipe /> : null}
-        {m4 || <div style={{ width: 260 }} />}
-      </div>
+      {/* Vertical pipes + Row 2 — only if there's a second row */}
+      {hasRow2 && (
+        <>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><VPipe /></div>
+            <div style={{ width: 156 }} />
+            <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}><VPipe /></div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {m3 || <div style={{ width: 260 }} />}
+            {m3 && m4 ? <HPipe /> : null}
+            {m4 || <div style={{ width: 260 }} />}
+          </div>
+        </>
+      )}
     </div>
   );
 }
