@@ -74,7 +74,7 @@ export function Navigation({ locale }: { locale: string }) {
           justifyContent: "space-between",
           flexWrap: "wrap",
           gap: 8,
-          padding: "10px",
+          padding: "10px 24px",
         }}
       >
         <Link

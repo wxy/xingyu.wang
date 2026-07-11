@@ -44,7 +44,7 @@ export default async function AppsPage() {
           </div>
 
           <MonitorGrid items={apps.map((app, i) => (
-            <CrtMonitorCard key={app.slug} product={app} href={`/apps/${app.slug}`} mon={String(i + 5).padStart(2, "0")} status="idle" stats={stats(app.slug)} />
+            <CrtMonitorCard key={app.slug} product={app} href={`/apps/${app.slug}`} mon={String(i + 5).padStart(2, "0")} stats={stats(app.slug)} />
           ))} />
         </div>
       </div>

@@ -45,7 +45,7 @@ export default async function ExtensionsPage() {
           </div>
 
           <MonitorGrid items={extensions.map((ext, i) => (
-            <CrtMonitorCard key={ext.slug} product={ext} href={`/extensions/${ext.slug}`} mon={String(i + 1).padStart(2, "0")} status={i === 0 ? "rec" : "idle"} stats={stats(ext.slug)} />
+            <CrtMonitorCard key={ext.slug} product={ext} href={`/extensions/${ext.slug}`} mon={String(i + 1).padStart(2, "0")} stats={stats(ext.slug)} />
           ))} />
         </div>
       </div>
