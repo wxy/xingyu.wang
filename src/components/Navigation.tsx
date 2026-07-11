@@ -14,6 +14,7 @@ const BTN_BASE: React.CSSProperties = {
   fontFamily: "'Courier New', monospace",
   fontSize: 11,
   fontWeight: "bold",
+  whiteSpace: "nowrap",
   letterSpacing: 2,
   color: "#1a1a08",
   textShadow: "0 1px 0 rgba(255,255,200,0.3)",
@@ -92,7 +93,7 @@ export function Navigation({ locale }: { locale: string }) {
           {locale === "zh" ? "硬核老王" : "xingyu.wang"}
         </Link>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", justifyContent: "center" }}>
           {links.map(({ href, label }) => {
             // Strip locale prefix: /en/xxx → /xxx, /en → /
             let pathWithoutLocale = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
