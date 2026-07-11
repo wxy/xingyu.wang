@@ -7,8 +7,7 @@ import {
 import { getActivityFeed, getLatestMetricsForProducts } from "@/lib/metrics";
 import { getTranslations } from "next-intl/server";
 import { CrtMonitorCard } from "@/components/CrtMonitorCard";
-import { StackRow } from "@/components/StackRow";
-import { ResponsivePipe } from "@/components/ResponsivePipe";
+import { MonitorGrid } from "@/components/MonitorGrid";
 import Link from "next/link";
 
 interface Props {
@@ -146,23 +145,14 @@ export default async function HomePage({ params }: Props) {
       {/* ═══════ EXTENSIONS ═══════ */}
       <SectionBox title={t("extensions").toUpperCase()} viewAllHref="/extensions" viewAllLabel={t("viewAll")}>
         {extensions.length >= 2 ? (
-          <StackRow>
-            <StackRow>
-              <CrtMonitorCard product={extensions[0]} href={`/extensions/${extensions[0].slug}`} mon="01" status="rec" stats={cardStats(extensions[0])} />
-              <ResponsivePipe />
-              <CrtMonitorCard product={extensions[1]} href={`/extensions/${extensions[1].slug}`} mon="02" status="idle" stats={cardStats(extensions[1])} />
-            </StackRow>
-            <ResponsivePipe />
-            <StackRow>
-              <CrtMonitorCard product={extensions[2] || extensions[0]} href={`/extensions/${extensions[2]?.slug || extensions[0].slug}`} mon="03" status="idle" stats={extensions[2] ? cardStats(extensions[2]) : undefined} />
-              <ResponsivePipe />
-              {extensions[3] ? (
-                <CrtMonitorCard product={extensions[3]} href={`/extensions/${extensions[3].slug}`} mon="04" status="standby" stats={cardStats(extensions[3])} />
-              ) : (
-                <div style={{ width: 260 }} />
-              )}
-            </StackRow>
-          </StackRow>
+          <MonitorGrid items={[
+            { node: <CrtMonitorCard product={extensions[0]} href={`/extensions/${extensions[0].slug}`} mon="01" status="rec" stats={cardStats(extensions[0])} /> },
+            { node: <CrtMonitorCard product={extensions[1]} href={`/extensions/${extensions[1].slug}`} mon="02" status="idle" stats={cardStats(extensions[1])} />, pipeBefore: true },
+            { node: <CrtMonitorCard product={extensions[2] || extensions[0]} href={`/extensions/${extensions[2]?.slug || extensions[0].slug}`} mon="03" status="idle" stats={extensions[2] ? cardStats(extensions[2]) : undefined} />, pipeBefore: true },
+            ...(extensions[3] ? [
+              { node: <CrtMonitorCard product={extensions[3]} href={`/extensions/${extensions[3].slug}`} mon="04" status="standby" stats={cardStats(extensions[3])} />, pipeBefore: true } as const,
+            ] : []),
+          ]} />
         ) : (
           <div style={{ display: "flex", justifyContent: "center" }}>
             {extensions.map((ext, i) => (
@@ -176,14 +166,10 @@ export default async function HomePage({ params }: Props) {
       {apps.length > 0 && (
         <SectionBox title={t("apps").toUpperCase()} viewAllHref="/apps" viewAllLabel={t("viewAll")}>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 0 }}>
-            <StackRow>
-              {apps.map((app, i) => (
-                <span key={app.slug} style={{ display: "contents" }}>
-                  {i > 0 && <ResponsivePipe />}
-                  <CrtMonitorCard product={app} href={`/apps/${app.slug}`} mon={String(i + 5).padStart(2, "0")} status="idle" stats={cardStats(app)} />
-                </span>
-              ))}
-            </StackRow>
+            <MonitorGrid items={apps.map((app, i) => ({
+              node: <CrtMonitorCard product={app} href={`/apps/${app.slug}`} mon={String(i + 5).padStart(2, "0")} status="idle" stats={cardStats(app)} />,
+              pipeBefore: i > 0,
+            }))} />
           </div>
         </SectionBox>
       )}
