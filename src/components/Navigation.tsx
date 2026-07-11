@@ -85,7 +85,7 @@ export function Navigation({ locale }: { locale: string }) {
             whiteSpace: "nowrap",
             flexShrink: 0,
             color: "#33ff33",
-            textShadow: "0 0 8px rgba(51,255,51,0.4)",
+            textShadow: "0 0 8px rgba(51,255,51,0.15)",
             letterSpacing: 1,
             textDecoration: "none",
           }}

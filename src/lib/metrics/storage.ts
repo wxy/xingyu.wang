@@ -13,7 +13,10 @@ const EVENTS_BLOB = "activity/events.json";
 const HISTORY_PREFIX = "metrics/history/";
 
 function hasBlobToken(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  // Vercel Blob: OIDC auto-auth in production, or legacy token
+  return Boolean(
+    process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL, // OIDC on Vercel
+  );
 }
 
 async function readBlobJson<T>(pathname: string): Promise<T | null> {

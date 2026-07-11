@@ -43,7 +43,7 @@ export default async function ExtensionDetailPage({ params }: Props) {
     <div style={{ background: "#0a0a06", minHeight: "100vh", padding: "32px 24px", fontFamily: "'Courier New', monospace" }}>
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         {/* Back link */}
-        <Link href="/extensions" style={{ color: "rgba(51,255,51,0.4)", fontSize: 11, textDecoration: "none" }}>
+        <Link href="/extensions" style={{ color: "rgba(51,255,51,0.5)", fontSize: 11, textDecoration: "none" }}>
           ← {t("backToList")}
         </Link>
 
@@ -59,7 +59,7 @@ export default async function ExtensionDetailPage({ params }: Props) {
               <h1 style={{ fontSize: 22, fontWeight: "bold", color: "#33ff33", textShadow: "0 0 10px rgba(51,255,51,0.5)", margin: 0 }}>
                 {product.name}
               </h1>
-              <p style={{ fontSize: 11, color: "rgba(51,255,51,0.4)", margin: "2px 0 0" }}>{product.tagline}</p>
+              <p style={{ fontSize: 11, color: "rgba(51,255,51,0.5)", margin: "2px 0 0" }}>{product.tagline}</p>
             </div>
           </div>
         </div>

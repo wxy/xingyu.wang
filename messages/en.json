@@ -16,7 +16,10 @@
     "browseExtensions": "Browse Extensions",
     "browseApps": "Browse Apps",
     "extensionsDesc": "Tools that enhance your browsing experience.",
-    "appsDesc": "Desktop and mobile applications."
+    "appsDesc": "Desktop and mobile applications.",
+    "commits": "Commits",
+    "prsMerged": "PRs Merged",
+    "products": "Products"
   },
   "extensions": {
     "title": "Chrome Extensions",

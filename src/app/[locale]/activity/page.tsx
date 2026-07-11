@@ -13,7 +13,10 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import type { ActivityEvent, ActivityLevel } from "@/lib/metrics/types";
 
-export const metadata: Metadata = { title: "Product Updates" };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("activity");
+  return { title: t("title") };
+}
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -69,12 +72,12 @@ export default async function ActivityPage({ params, searchParams }: Props) {
     <div style={{ background: "#0a0a06", minHeight: "100vh", padding: "32px 24px", fontFamily: "'Courier New', monospace" }}>
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         {/* Back link */}
-        <Link href="/" style={{ color: "rgba(51,255,51,0.4)", fontSize: 11, textDecoration: "none" }}>← {t("backToHome")}</Link>
+        <Link href="/" style={{ color: "rgba(51,255,51,0.5)", fontSize: 11, textDecoration: "none" }}>← {t("backToHome")}</Link>
 
         {/* Header */}
         <div style={{ marginTop: 16, marginBottom: 24 }}>
-          <h1 style={{ fontSize: 22, fontWeight: "bold", color: "#33ff33", textShadow: "0 0 10px rgba(51,255,51,0.4)", margin: "0 0 4px" }}>{t("title")}</h1>
-          <p style={{ fontSize: 11, color: "rgba(51,255,51,0.4)", margin: 0 }}>{t("subtitle")}</p>
+          <h1 style={{ fontSize: 22, fontWeight: "bold", color: "#33ff33", textShadow: "0 0 10px rgba(51,255,51,0.5)", margin: "0 0 4px" }}>{t("title")}</h1>
+          <p style={{ fontSize: 11, color: "rgba(51,255,51,0.5)", margin: 0 }}>{t("subtitle")}</p>
         </div>
 
         {/* Filter tabs */}
@@ -87,7 +90,7 @@ export default async function ActivityPage({ params, searchParams }: Props) {
                 <span style={{
                   padding: "6px 16px", fontSize: 11, fontWeight: 600, fontFamily: "'Courier New', monospace",
                   background: isActive ? "rgba(51,255,51,0.1)" : "rgba(51,255,51,0.03)",
-                  color: isActive ? "#33ff33" : "rgba(51,255,51,0.4)",
+                  color: isActive ? "#33ff33" : "rgba(51,255,51,0.15)",
                   border: `1px solid ${isActive ? "rgba(51,255,51,0.2)" : "rgba(51,255,51,0.06)"}`,
                 }}>
                   {tab.label}
@@ -102,7 +105,7 @@ export default async function ActivityPage({ params, searchParams }: Props) {
           <div style={{ border: "1px solid rgba(51,255,51,0.08)", padding: 32, textAlign: "center", background: "rgba(10,20,10,0.5)" }}>
             <p style={{ fontSize: 32, margin: "0 0 8px" }}>📦</p>
             <h2 style={{ fontSize: 14, color: "#33ff33", margin: "0 0 4px" }}>{t("empty")}</h2>
-            <p style={{ fontSize: 10, color: "rgba(51,255,51,0.3)" }}>{t("emptyHint")}</p>
+            <p style={{ fontSize: 10, color: "rgba(51,255,51,0.5)" }}>{t("emptyHint")}</p>
           </div>
         )}
 
@@ -111,7 +114,7 @@ export default async function ActivityPage({ params, searchParams }: Props) {
           const seenProductIds = new Set<string>();
           return (
             <section key={month} style={{ marginBottom: 32 }}>
-              <h2 style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "rgba(51,255,51,0.3)", marginBottom: 12 }}>
+              <h2 style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "rgba(51,255,51,0.5)", marginBottom: 12 }}>
                 {month}
               </h2>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12 }}>
@@ -133,7 +136,7 @@ export default async function ActivityPage({ params, searchParams }: Props) {
                     <li key={event.id}>
                       {showSince && (
                         <div style={{ marginLeft: 24, marginBottom: 8, borderLeft: "2px solid rgba(51,255,51,0.1)", paddingLeft: 20, paddingTop: 8, paddingBottom: 8 }}>
-                          <p style={{ fontSize: 10, lineHeight: 1.5, color: "rgba(51,255,51,0.35)", margin: 0 }}>
+                          <p style={{ fontSize: 10, lineHeight: 1.5, color: "rgba(51,255,51,0.5)", margin: 0 }}>
                             {snapshot.github!.commitsLast30d > 0
                               ? t("sinceRelease", { tag: event.version ?? event.title, commits: snapshot.github!.commitsLast30d })
                               : t("sinceReleaseSimple", { tag: event.version ?? event.title })}
