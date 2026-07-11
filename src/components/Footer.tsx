@@ -21,9 +21,18 @@ export function Footer() {
           &copy; {new Date().getFullYear()} Xingyu Wang. {t("allRightsReserved")}
           {" · "}
           <span style={{ color: "rgba(51,255,51,0.15)", fontSize: 9 }}>
-            {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA
-              ? `build ${process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA.slice(0, 7)}`
-              : ""}
+            {(() => {
+              const sha = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
+              const t = process.env.NEXT_PUBLIC_BUILD_TIME;
+              if (!sha && !t) return null;
+              const parts = [];
+              if (sha) parts.push(`build ${sha.slice(0, 7)}`);
+              if (t) {
+                const d = new Date(parseInt(t) * 1000);
+                parts.push(d.toISOString().slice(0, 16).replace("T", " "));
+              }
+              return parts.join(" · ");
+            })()}
           </span>
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 10 }}>
