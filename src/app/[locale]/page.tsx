@@ -93,9 +93,9 @@ export default async function HomePage({ params }: Props) {
             marginBottom: 20,
           }}
         >
-          <StatBox value={totalCommits} label="COMMITS" color="#33ff33" />
-          <StatBox value={totalPRs} label="PRs MERGED" color="#ffaa00" />
-          <StatBox value={featured.length} label="PRODUCTS" color="#33ff33" />
+          <StatBox value={totalCommits} label={t("commits").toUpperCase()} color="#33ff33" />
+          <StatBox value={totalPRs} label={t("prsMerged").toUpperCase()} color="#ffaa00" />
+          <StatBox value={featured.length} label={t("products").toUpperCase()} color="#33ff33" />
         </div>
 
         {/* CTA buttons */}

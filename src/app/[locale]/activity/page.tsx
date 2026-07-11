@@ -13,7 +13,10 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import type { ActivityEvent, ActivityLevel } from "@/lib/metrics/types";
 
-export const metadata: Metadata = { title: "Product Updates" };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("activity");
+  return { title: t("title") };
+}
 
 interface Props {
   params: Promise<{ locale: string }>;

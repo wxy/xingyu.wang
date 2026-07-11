@@ -19,6 +19,12 @@ export function Footer() {
       }}>
         <p style={{ fontFamily: "'Courier New', monospace", fontSize: 10, color: "rgba(51,255,51,0.3)", margin: 0 }}>
           &copy; {new Date().getFullYear()} Xingyu Wang. {t("allRightsReserved")}
+          {" · "}
+          <span style={{ color: "rgba(51,255,51,0.15)", fontSize: 9 }}>
+            {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA
+              ? `build ${process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA.slice(0, 7)}`
+              : ""}
+          </span>
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 10 }}>
           <Link href="/activity" style={{ color: "rgba(51,255,51,0.35)", textDecoration: "none", fontFamily: "'Courier New', monospace" }}>
