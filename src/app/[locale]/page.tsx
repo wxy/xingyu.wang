@@ -59,88 +59,30 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       {/* ═══════ HERO ═══════ */}
-      <section style={{ padding: "40px 24px 32px", textAlign: "center" }}>
-        <h1
-          style={{
-            color: "#33ff33",
-            fontSize: 34,
-            fontWeight: "bold",
-            textShadow:
-              "0 0 10px rgba(51,255,51,0.6), 0 0 30px rgba(51,255,51,0.2), 3px 3px 0 #1a2a1a",
-            letterSpacing: 3,
-            margin: "0 0 6px",
-          }}
-        >
+      <section className="px-6 pt-10 pb-8 text-center">
+        <h1 className="heading-glow text-[34px] tracking-[3px] mb-1">
           XINGYU WANG
         </h1>
-        <p
-          style={{
-            color: "rgba(51,255,51,0.5)",
-            fontSize: 11,
-            letterSpacing: 1,
-            margin: "0 0 20px",
-          }}
-        >
+        <p className="text-muted-dim text-[11px] tracking-[1px] mb-5">
           {t("subtitle")}
         </p>
 
         {/* Stat counters */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 12,
-            marginBottom: 20,
-          }}
-        >
+        <div className="flex justify-center gap-3 mb-5">
           <StatBox value={totalCommits} label="COMMITS" color="#33ff33" />
           <StatBox value={totalPRs} label="PRs MERGED" color="#ffaa00" />
           <StatBox value={featured.length} label="PRODUCTS" color="#33ff33" />
         </div>
 
         {/* CTA buttons */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 10 }}>
-          <Link href="/extensions" style={{ textDecoration: "none" }}>
-            <button
-              style={{
-                background:
-                  "linear-gradient(180deg, #e8c878 0%, #c89840 25%, #d4a850 50%, #b88830 75%, #c09838 100%)",
-                border: "2px solid #7a6020",
-                borderRadius: 4,
-                padding: "8px 24px",
-                fontFamily: "'Courier New', monospace",
-                fontSize: 11,
-                fontWeight: "bold",
-                letterSpacing: 1,
-                color: "#1a1a08",
-                textShadow: "0 1px 0 rgba(255,255,200,0.3)",
-                boxShadow:
-                  "0 3px 0 #5a4010, 0 4px 8px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,200,0.3)",
-                cursor: "pointer",
-              }}
-            >
+        <div className="flex justify-center gap-2.5">
+          <Link href="/extensions" className="no-underline">
+            <button className="btn-gold">
               [ {t("browseExtensions")} ]
             </button>
           </Link>
-          <Link href="/apps" style={{ textDecoration: "none" }}>
-            <button
-              style={{
-                background:
-                  "linear-gradient(180deg, #e8c878 0%, #c89840 25%, #d4a850 50%, #b88830 75%, #c09838 100%)",
-                border: "2px solid #7a6020",
-                borderRadius: 4,
-                padding: "8px 24px",
-                fontFamily: "'Courier New', monospace",
-                fontSize: 11,
-                fontWeight: "bold",
-                letterSpacing: 1,
-                color: "#1a1a08",
-                textShadow: "0 1px 0 rgba(255,255,200,0.3)",
-                boxShadow:
-                  "0 3px 0 #5a4010, 0 4px 8px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,200,0.3)",
-                cursor: "pointer",
-              }}
-            >
+          <Link href="/apps" className="no-underline">
+            <button className="btn-gold">
               [ {t("browseApps")} ]
             </button>
           </Link>
@@ -157,7 +99,7 @@ export default async function HomePage({ params }: Props) {
             extensions[3] ? <CrtMonitorCard key="3" product={extensions[3]} href={`/extensions/${extensions[3].slug}`} mon="04"  stats={cardStats(extensions[3])} /> : null,
           ].filter(Boolean)} />
         ) : (
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div className="flex justify-center">
             {extensions.map((ext, i) => (
               <CrtMonitorCard key={ext.slug} product={ext} href={`/extensions/${ext.slug}`} mon={String(i + 1).padStart(2, "0")}  stats={cardStats(ext)} />
             ))}
@@ -168,7 +110,7 @@ export default async function HomePage({ params }: Props) {
       {/* ═══════ APPS ═══════ */}
       {apps.length > 0 && (
         <SectionBox title={t("apps").toUpperCase()} viewAllHref="/apps" viewAllLabel={t("viewAll")}>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 0 }}>
+          <div className="flex justify-center items-center gap-0">
             <MonitorGrid items={apps.map((app) => (
               <CrtMonitorCard key={app.slug} product={app} href={`/apps/${app.slug}`} mon={String(apps.indexOf(app) + 5).padStart(2, "0")}  stats={cardStats(app)} />
             ))} />
@@ -179,29 +121,14 @@ export default async function HomePage({ params }: Props) {
       {/* ═══════ ACTIVITY PREVIEW ═══════ */}
       {recentEvents.length > 0 && (
         <SectionBox title={at("previewTitle").toUpperCase()} viewAllHref="/activity" viewAllLabel={at("viewAll")}>
-          <div
-            style={{
-              background: "rgba(10, 20, 10, 0.5)",
-              border: "1px solid rgba(51,255,51,0.08)",
-              padding: "12px 16px",
-              fontFamily: "'Courier New', monospace",
-              textAlign: "left",
-              width: "100%",
-              boxSizing: "border-box",
-            }}
-          >
+          <div className="bg-[rgba(10,20,10,0.5)] border border-[rgba(51,255,51,0.08)] p-3 font-['Courier_New'] text-left w-full box-border">
             {recentEvents.map((event) => (
               <div
                 key={event.id}
-                style={{
-                  fontSize: 10,
-                  color: "rgba(51,255,51,0.5)",
-                  padding: "4px 0",
-                  borderBottom: "1px solid rgba(51,255,51,0.04)",
-                }}
+                className="text-[10px] text-muted-dim py-1 border-b border-[rgba(51,255,51,0.04)]"
               >
-                <span style={{ color: "#33ff33" }}>[{event.occurredAt.slice(0, 10)}]</span>{" "}
-                <span style={{ color: "#ffaa00" }}>{event.version ?? event.title}</span>
+                <span className="text-fg">[{event.occurredAt.slice(0, 10)}]</span>{" "}
+                <span className="text-accent">{event.version ?? event.title}</span>
                 {" — "}
                 <span>{event.title}</span>
               </div>
@@ -213,21 +140,21 @@ export default async function HomePage({ params }: Props) {
       {/* ═══════ ACHIEVEMENTS ═══════ */}
       {achievements.length > 0 && (
         <SectionBox title={t("achievements").toUpperCase()} viewAllHref="" viewAllLabel="">
-          <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
+          <div className="flex justify-center gap-4 flex-wrap">
             {achievements.map((a) => (
-              <a key={a.name} href={a.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-                <div style={{ padding: "16px 20px", textAlign: "left", maxWidth: 300, background: "rgba(10,20,10,0.6)", border: "1px solid rgba(51,255,51,0.1)", borderRadius: 8 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                    <span style={{ fontSize: 20 }}>{a.icon}</span>
-                    <span style={{ fontSize: 9, color: "rgba(51,255,51,0.3)", border: "1px solid rgba(51,255,51,0.1)", borderRadius: 10, padding: "2px 8px", textTransform: "uppercase", letterSpacing: 1 }}>{ach("lctt.org")}</span>
+              <a key={a.name} href={a.url} target="_blank" rel="noopener noreferrer" className="no-underline">
+                <div className="card p-4 max-w-[300px] text-left">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xl">{a.icon}</span>
+                    <span className="text-[9px] text-[rgba(51,255,51,0.3)] border border-border rounded-[10px] px-2 py-0.5 uppercase tracking-[1px]">{ach("lctt.org")}</span>
                   </div>
-                  <h3 style={{ fontSize: 12, color: "#33ff33", marginBottom: 4 }}>{ach("lctt.name")}</h3>
-                  <p style={{ fontSize: 9, color: "rgba(51,255,51,0.4)", lineHeight: 1.5 }}>{ach("lctt.description")}</p>
-                  <p style={{ fontSize: 8, color: "rgba(51,255,51,0.25)", marginTop: 6 }}>{ach("lctt.year")}</p>
+                  <h3 className="text-xs text-fg mb-1">{ach("lctt.name")}</h3>
+                  <p className="text-[9px] text-muted leading-relaxed">{ach("lctt.description")}</p>
+                  <p className="text-[8px] text-muted-dim mt-1.5">{ach("lctt.year")}</p>
                   {lcttRepo && (
-                    <div style={{ display: "flex", gap: 12, marginTop: 8, fontSize: 9 }}>
-                      <span style={{ color: "rgba(51,255,51,0.5)" }}>⭐ {lcttRepo.stars.toLocaleString()}</span>
-                      <span style={{ color: "rgba(51,255,51,0.5)" }}>⑂ {lcttRepo.forks.toLocaleString()}</span>
+                    <div className="flex gap-3 mt-2 text-[9px]">
+                      <span className="text-muted">⭐ {lcttRepo.stars.toLocaleString()}</span>
+                      <span className="text-muted">⑂ {lcttRepo.forks.toLocaleString()}</span>
                     </div>
                   )}
                 </div>
@@ -252,49 +179,20 @@ function SectionBox({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ padding: "24px 0", textAlign: "center" }}>
-      <div style={{
-        display: "inline-block",
-        border: "4px double #ffaa00",
-        boxShadow: "0 0 20px rgba(255,170,0,0.08), inset 0 0 20px rgba(255,170,0,0.04)",
-        padding: "20px 32px",
-        width: "100%",
-        boxSizing: "border-box",
-      }}>
+    <div className="py-6 text-center">
+      <div className="section-frame">
         {/* Title with horizontal rules */}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 12,
-          marginBottom: 16,
-        }}>
-          <span style={{
-            flex: 1,
-            height: 2,
-            background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)",
-            maxWidth: 80,
-          }} />
-          <span style={{
-            fontSize: 13,
-            fontWeight: "bold",
-            color: "#ffaa00",
-            textShadow: "0 0 6px rgba(255,170,0,0.3)",
-            whiteSpace: "nowrap",
-          }}>
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <span className="flex-1 h-0.5 max-w-20 bg-gradient-to-r from-transparent via-accent to-transparent" />
+          <span className="text-[13px] font-bold text-accent [text-shadow:0_0_6px_rgba(255,170,0,0.3)] whitespace-nowrap">
             {title}
           </span>
-          <span style={{
-            flex: 1,
-            height: 2,
-            background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)",
-            maxWidth: 80,
-          }} />
+          <span className="flex-1 h-0.5 max-w-20 bg-gradient-to-r from-transparent via-accent to-transparent" />
         </div>
         {children}
         {viewAllHref && (
-          <div style={{ marginTop: 12 }}>
-            <Link href={viewAllHref} style={{ color: "#ffaa00", fontSize: 10, textDecoration: "none" }}>
+          <div className="mt-3">
+            <Link href={viewAllHref} className="text-accent text-[10px] no-underline">
               {viewAllLabel}
             </Link>
           </div>
@@ -314,34 +212,17 @@ function StatBox({
   color: string;
 }) {
   return (
-    <div
-      style={{
-        background: "rgba(10, 20, 10, 0.8)",
-        border: `2px solid ${color}18`,
-        padding: "10px 20px",
-        minWidth: 100,
-        textAlign: "center",
-      }}
-    >
+    <div className="bg-[rgba(10,20,10,0.8)] border-2 px-5 py-2.5 min-w-[100px] text-center" style={{ borderColor: `${color}18` }}>
       <div
+        className="text-[22px] font-bold"
         style={{
           color,
-          fontSize: 22,
-          fontWeight: "bold",
           textShadow: `0 0 8px ${color}44`,
         }}
       >
         {value.toLocaleString()}
       </div>
-      <div
-        style={{
-          color: "rgba(51,255,51,0.4)",
-          fontSize: 8,
-          textTransform: "uppercase",
-          letterSpacing: 1,
-          marginTop: 2,
-        }}
-      >
+      <div className="text-muted-dim text-[8px] uppercase tracking-[1px] mt-0.5">
         {label}
       </div>
     </div>
