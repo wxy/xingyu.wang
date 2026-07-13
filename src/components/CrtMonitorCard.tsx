@@ -97,13 +97,10 @@ export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
         {/* LED indicator */}
         <div className="flex justify-center mt-[7px]">
           <span
+            className="w-1 h-1 rounded-full inline-block"
             style={{
-              width: 4,
-              height: 4,
-              borderRadius: "50%",
               background: dot.bg,
               boxShadow: actualStatus === "rec" ? "0 0 5px #ffaa00" : undefined,
-              display: "inline-block",
             }}
           />
         </div>
