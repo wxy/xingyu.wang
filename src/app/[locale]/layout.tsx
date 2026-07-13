@@ -55,7 +55,7 @@ export default async function LocaleLayout({
       <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Navigation locale={locale} />
-          <main className="flex-1" style={{ maxWidth: 960, margin: "0 auto", width: "100%", boxSizing: "border-box" }}>{children}</main>
+          <main className="flex-1 max-w-[960px] mx-auto w-full box-border">{children}</main>
           <Footer />
           <Analytics />
         </NextIntlClientProvider>
