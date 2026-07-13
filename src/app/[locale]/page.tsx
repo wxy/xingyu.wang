@@ -179,7 +179,7 @@ function SectionBox({
   children: React.ReactNode;
 }) {
   return (
-    <div className="py-6 text-center">
+    <div className="py-6 px-4 text-center">
       <div className="section-frame">
         {/* Title with horizontal rules */}
         <div className="flex items-center justify-center gap-3 mb-4">
