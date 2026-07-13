@@ -16,7 +16,10 @@
     "browseExtensions": "浏览扩展",
     "browseApps": "浏览应用",
     "extensionsDesc": "增强浏览体验的工具。",
-    "appsDesc": "各平台应用。"
+    "appsDesc": "各平台应用。",
+    "commits": "提交",
+    "prsMerged": "合并 PR",
+    "products": "产品"
   },
   "extensions": {
     "title": "Chrome 扩展",
