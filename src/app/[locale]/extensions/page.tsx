@@ -25,23 +25,16 @@ export default async function ExtensionsPage() {
   }
 
   return (
-    <div style={{ background: "#0a0a06", minHeight: "100vh", padding: "32px 24px" }}>
-      <div style={{ maxWidth: 1024, margin: "0 auto", textAlign: "center" }}>
-        <div style={{
-          border: "4px double #ffaa00",
-          display: "inline-block",
-          padding: "20px 32px",
-          width: "100%",
-          boxSizing: "border-box",
-          boxShadow: "0 0 20px rgba(255,170,0,0.08), inset 0 0 20px rgba(255,170,0,0.04)",
-        }}>
+    <div className="min-h-screen py-8 px-6">
+      <div className="max-w-[1024px] mx-auto text-center">
+        <div className="section-frame">
           {/* Title */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>
-            <span style={{ flex: 1, height: 2, background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)", maxWidth: 80 }} />
-            <span style={{ fontSize: 13, fontWeight: "bold", color: "#ffaa00", textShadow: "0 0 6px rgba(255,170,0,0.3)" }}>
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <span className="flex-1 h-0.5 max-w-20 bg-gradient-to-r from-transparent via-accent to-transparent" />
+            <span className="text-[13px] font-bold text-accent [text-shadow:0_0_6px_rgba(255,170,0,0.3)]">
               {t("title").toUpperCase()}
             </span>
-            <span style={{ flex: 1, height: 2, background: "linear-gradient(90deg, transparent, #ffaa00 20%, #ffaa00 80%, transparent)", maxWidth: 80 }} />
+            <span className="flex-1 h-0.5 max-w-20 bg-gradient-to-r from-transparent via-accent to-transparent" />
           </div>
 
           <MonitorGrid items={extensions.map((ext, i) => (
