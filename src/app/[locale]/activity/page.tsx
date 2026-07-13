@@ -69,30 +69,29 @@ export default async function ActivityPage({ params, searchParams }: Props) {
   ];
 
   return (
-    <div style={{ background: "#0a0a06", minHeight: "100vh", padding: "32px 24px", fontFamily: "'Courier New', monospace" }}>
-      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+    <div className="min-h-screen py-8 px-6 font-['Courier_New']">
+      <div className="max-w-[800px] mx-auto">
         {/* Back link */}
-        <Link href="/" style={{ color: "rgba(51,255,51,0.5)", fontSize: 11, textDecoration: "none" }}>← {t("backToHome")}</Link>
+        <Link href="/" className="text-muted-dim text-[11px] no-underline">← {t("backToHome")}</Link>
 
         {/* Header */}
-        <div style={{ marginTop: 16, marginBottom: 24 }}>
-          <h1 style={{ fontSize: 22, fontWeight: "bold", color: "#33ff33", textShadow: "0 0 10px rgba(51,255,51,0.5)", margin: "0 0 4px" }}>{t("title")}</h1>
-          <p style={{ fontSize: 11, color: "rgba(51,255,51,0.5)", margin: 0 }}>{t("subtitle")}</p>
+        <div className="mt-4 mb-6">
+          <h1 className="heading-glow text-[22px] mb-1">{t("title")}</h1>
+          <p className="text-[11px] text-muted-dim m-0">{t("subtitle")}</p>
         </div>
 
         {/* Filter tabs */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
+        <div className="flex gap-2 mb-6">
           {tabs.map((tab) => {
             const isActive = filterType === tab.type || (!filterType && !tab.type);
             const href = tab.type ? `/${locale}/activity?type=${tab.type}` : `/${locale}/activity`;
             return (
-              <Link key={tab.label} href={href} style={{ textDecoration: "none" }}>
-                <span style={{
-                  padding: "6px 16px", fontSize: 11, fontWeight: 600, fontFamily: "'Courier New', monospace",
-                  background: isActive ? "rgba(51,255,51,0.1)" : "rgba(51,255,51,0.03)",
-                  color: isActive ? "#33ff33" : "rgba(51,255,51,0.15)",
-                  border: `1px solid ${isActive ? "rgba(51,255,51,0.2)" : "rgba(51,255,51,0.06)"}`,
-                }}>
+              <Link key={tab.label} href={href} className="no-underline">
+                <span className={`px-4 py-1.5 text-[11px] font-semibold font-['Courier_New'] ${
+                  isActive
+                    ? "bg-[rgba(51,255,51,0.1)] text-fg border border-[rgba(51,255,51,0.2)]"
+                    : "bg-[rgba(51,255,51,0.03)] text-muted-dim border border-[rgba(51,255,51,0.06)]"
+                }`}>
                   {tab.label}
                 </span>
               </Link>
@@ -102,10 +101,10 @@ export default async function ActivityPage({ params, searchParams }: Props) {
 
         {/* Empty state */}
         {filtered.length === 0 && (
-          <div style={{ border: "1px solid rgba(51,255,51,0.08)", padding: 32, textAlign: "center", background: "rgba(10,20,10,0.5)" }}>
-            <p style={{ fontSize: 32, margin: "0 0 8px" }}>📦</p>
-            <h2 style={{ fontSize: 14, color: "#33ff33", margin: "0 0 4px" }}>{t("empty")}</h2>
-            <p style={{ fontSize: 10, color: "rgba(51,255,51,0.5)" }}>{t("emptyHint")}</p>
+          <div className="border border-[rgba(51,255,51,0.08)] p-8 text-center bg-[rgba(10,20,10,0.5)]">
+            <p className="text-[32px] mb-2">📦</p>
+            <h2 className="text-sm text-fg mb-1">{t("empty")}</h2>
+            <p className="text-[10px] text-[rgba(51,255,51,0.3)]">{t("emptyHint")}</p>
           </div>
         )}
 
@@ -113,11 +112,11 @@ export default async function ActivityPage({ params, searchParams }: Props) {
         {groups.map(([month, monthEvents]) => {
           const seenProductIds = new Set<string>();
           return (
-            <section key={month} style={{ marginBottom: 32 }}>
-              <h2 style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "rgba(51,255,51,0.5)", marginBottom: 12 }}>
+            <section key={month} className="mb-8">
+              <h2 className="text-[11px] font-bold uppercase tracking-[2px] text-[rgba(51,255,51,0.3)] mb-3">
                 {month}
               </h2>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12 }}>
+              <ul className="list-none p-0 m-0 flex flex-col gap-3">
                 {monthEvents.map((event) => {
                   const product = resolveProductMeta(event, locale as Locale);
                   if (!product) return null;
@@ -135,8 +134,8 @@ export default async function ActivityPage({ params, searchParams }: Props) {
                   return (
                     <li key={event.id}>
                       {showSince && (
-                        <div style={{ marginLeft: 24, marginBottom: 8, borderLeft: "2px solid rgba(51,255,51,0.1)", paddingLeft: 20, paddingTop: 8, paddingBottom: 8 }}>
-                          <p style={{ fontSize: 10, lineHeight: 1.5, color: "rgba(51,255,51,0.5)", margin: 0 }}>
+                        <div className="ml-6 mb-2 border-l-2 border-[rgba(51,255,51,0.1)] pl-5 py-2">
+                          <p className="text-[10px] leading-relaxed text-[rgba(51,255,51,0.35)] m-0">
                             {snapshot.github!.commitsLast30d > 0
                               ? t("sinceRelease", { tag: event.version ?? event.title, commits: snapshot.github!.commitsLast30d })
                               : t("sinceReleaseSimple", { tag: event.version ?? event.title })}

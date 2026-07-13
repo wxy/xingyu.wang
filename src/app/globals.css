@@ -11,6 +11,7 @@
   --color-surface-hover: var(--surface-hover);
   --color-border: var(--border);
   --color-muted: var(--muted);
+  --color-muted-dim: var(--muted-dim);
   --color-subtle: var(--subtle);
   --font-sans: var(--font-geist-mono);
   --font-mono: var(--font-geist-mono);
@@ -26,7 +27,8 @@
   --surface-alt: rgba(10, 16, 10, 0.8);
   --surface-hover: rgba(20, 30, 20, 0.7);
   --border: rgba(51, 255, 51, 0.1);
-  --muted: rgba(51, 255, 51, 0.55);
+  --muted: rgba(51, 255, 51, 0.65);
+  --muted-dim: rgba(51, 255, 51, 0.45);
   --subtle: rgba(51, 255, 51, 0.05);
 }
 
@@ -34,6 +36,7 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-geist-mono), "Courier New", monospace;
+  font-weight: 700;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -98,3 +101,101 @@ body::before {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(51, 255, 51, 0.15); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(51, 255, 51, 0.3); }
+
+/* Gold metallic button */
+.btn-gold {
+  background: linear-gradient(180deg, #e8c878 0%, #c89840 25%, #d4a850 50%, #b88830 75%, #c09838 100%);
+  border: 2px solid #7a6020;
+  border-radius: 4px;
+  padding: 8px;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #1a1a08;
+  text-shadow: 0 1px 0 rgba(255, 255, 200, 0.3);
+  box-shadow: 0 3px 0 #5a4010, 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 200, 0.3);
+  cursor: pointer;
+}
+
+/* Gold button — active/selected state */
+.btn-gold-active {
+  background: linear-gradient(180deg, #888 0%, #666 30%, #555 60%, #777 100%);
+  border: 2px solid #ffaa00;
+  border-radius: 5px;
+  padding: 7px;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ffaa00;
+  text-shadow: 0 0 12px rgba(255, 170, 0, 0.5);
+  box-shadow: 0 1px 0 #333, 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 3px 6px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 170, 0, 0.2);
+  cursor: pointer;
+}
+
+/* Shared hover transition for both button states */
+.btn-gold,
+.btn-gold-active {
+  transition: all 0.08s;
+}
+
+/* CRT green heading with glow */
+.heading-glow {
+  color: #33ff33;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(51, 255, 51, 0.6), 0 0 30px rgba(51, 255, 51, 0.2), 3px 3px 0 #1a2a1a;
+}
+
+/* CRT monitor — beige plastic exterior */
+.crt-monitor-shell {
+  background: linear-gradient(180deg, #f5f0e8 0%, #e8e0d0 8%, #ddd5c0 20%, #e0d8c5 40%, #d5ccb5 70%, #e5ddd0 90%, #f0ead8 100%);
+  border-radius: 16px;
+  padding: 12px 12px 16px 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5), inset 0 2px 3px rgba(255, 255, 255, 0.4), inset 0 -2px 3px rgba(0, 0, 0, 0.12), 0 0 0 2px #1a1a1a, 0 0 0 4px #2a2a2a;
+  width: 260px;
+  transition: transform 0.15s;
+  cursor: pointer;
+}
+
+.crt-monitor-shell:hover {
+  transform: translateY(-2px);
+}
+
+/* CRT screen — dark interior with scanlines and glare */
+.crt-screen-inner {
+  background: radial-gradient(ellipse at 40% 30%, #0d200d 0%, #050d05 100%);
+  border-radius: 7px;
+  border: 1px solid rgba(51, 255, 51, 0.06);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.crt-screen-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 20, 0, 0.05) 2px, rgba(0, 20, 0, 0.05) 4px);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.crt-screen-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 35% 25%, rgba(51, 255, 51, 0.04) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Section container with amber double border */
+.section-frame {
+  display: inline-block;
+  border: 4px double #ffaa00;
+  box-shadow: 0 0 20px rgba(255, 170, 0, 0.08), inset 0 0 20px rgba(255, 170, 0, 0.04);
+  padding: 20px 32px;
+  width: 100%;
+  box-sizing: border-box;
+}

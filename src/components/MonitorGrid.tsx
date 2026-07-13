@@ -41,21 +41,15 @@ interface Props {
   items: ReactNode[];
 }
 
-/**
- * On wide screens (≥640px): monitors arranged in rows of 2, with horizontal
- * pipes between side-by-side monitors and vertical pipes between rows.
- * On narrow screens: all monitors stacked vertically with vertical pipes.
- * Handles any number of monitors (1-6+).
- */
 export function MonitorGrid({ items }: Props) {
   const isWide = useMediaQuery("(min-width: 640px)");
 
   // Narrow: vertical stack
   if (!isWide) {
     return (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
+      <div className="flex flex-col items-center gap-0">
         {items.map((node, i) => (
-          <span key={i} style={{ display: "contents" }}>
+          <span key={i} className="contents">
             {i > 0 && <VPipe />}
             {node}
           </span>
@@ -71,24 +65,24 @@ export function MonitorGrid({ items }: Props) {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
+    <div className="flex flex-col items-center gap-0">
       {rows.map((row, rowIdx) => (
-        <span key={rowIdx} style={{ display: "contents" }}>
+        <span key={rowIdx} className="contents">
           {/* Vertical pipes between rows */}
           {rowIdx > 0 && (
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div className="flex items-center">
+              <div className="w-[260px] flex flex-col items-center">
                 <VPipe />
               </div>
-              <div style={{ width: 156 }} />
-              <div style={{ width: 260, display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div className="w-[156px]" />
+              <div className="w-[260px] flex flex-col items-center">
                 {row.length > 1 ? <VPipe /> : <div />}
               </div>
             </div>
           )}
 
           {/* Row content */}
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div className="flex items-center">
             {row[0]}
             {row.length > 1 ? (
               <>
@@ -96,8 +90,7 @@ export function MonitorGrid({ items }: Props) {
                 {row[1]}
               </>
             ) : (
-              // Spacer to keep single-item row left-aligned
-              <div style={{ width: 260 + 156 }} />
+              <div className="w-[416px]" />
             )}
           </div>
         </span>

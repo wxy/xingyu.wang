@@ -40,79 +40,68 @@ export default async function ExtensionDetailPage({ params }: Props) {
   const repoReleasesUrl = raw.repoUrl ? `${raw.repoUrl}/releases` : undefined;
 
   return (
-    <div style={{ background: "#0a0a06", minHeight: "100vh", padding: "32px 24px", fontFamily: "'Courier New', monospace" }}>
-      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+    <div className="min-h-screen py-8 px-6 font-['Courier_New']">
+      <div className="max-w-[800px] mx-auto">
         {/* Back link */}
-        <Link href="/extensions" style={{ color: "rgba(51,255,51,0.5)", fontSize: 11, textDecoration: "none" }}>
+        <Link href="/extensions" className="text-muted-dim text-[11px] no-underline">
           ← {t("backToList")}
         </Link>
 
-        {/* Header — outside box */}
-        <div style={{ marginTop: 16, marginBottom: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {/* Header */}
+        <div className="mt-4 mb-4">
+          <div className="flex items-center gap-3">
             {product.iconUrl ? (
-              <img src={product.iconUrl} alt="" style={{ width: 32, height: 32, borderRadius: 6, objectFit: "contain" }} />
+              <img src={product.iconUrl} alt="" className="w-8 h-8 rounded-md object-contain" />
             ) : (
-              <span style={{ fontSize: 28 }}>{product.icon}</span>
+              <span className="text-[28px]">{product.icon}</span>
             )}
             <div>
-              <h1 style={{ fontSize: 22, fontWeight: "bold", color: "#33ff33", textShadow: "0 0 10px rgba(51,255,51,0.5)", margin: 0 }}>
+              <h1 className="heading-glow text-[22px] m-0">
                 {product.name}
               </h1>
-              <p style={{ fontSize: 11, color: "rgba(51,255,51,0.5)", margin: "2px 0 0" }}>{product.tagline}</p>
+              <p className="text-[11px] text-muted-dim mt-0.5">{product.tagline}</p>
             </div>
           </div>
         </div>
 
         {/* Live Stats — terminal panel */}
         {metrics && (
-          <div style={{
-            border: "2px solid rgba(51,255,51,0.15)",
-            background: "rgba(0,0,0,0.3)",
-            marginBottom: 24,
-            boxShadow: "0 0 16px rgba(51,255,51,0.04), inset 0 0 16px rgba(0,0,0,0.3)",
-          }}>
+          <div className="border-2 border-[rgba(51,255,51,0.15)] bg-[rgba(0,0,0,0.3)] mb-6 [box-shadow:0_0_16px_rgba(51,255,51,0.04),inset_0_0_16px_rgba(0,0,0,0.3)]">
             {/* Title bar */}
-            <div style={{
-              background: "rgba(51,255,51,0.06)",
-              borderBottom: "1px solid rgba(51,255,51,0.1)",
-              padding: "6px 12px",
-              display: "flex", alignItems: "center", gap: 8,
-              fontSize: 9, color: "rgba(51,255,51,0.5)",
-            }}>
-              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#ffaa00", boxShadow: "0 0 4px #ffaa00", display: "inline-block" }} />
-              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(51,255,51,0.2)" }} />
-              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(51,255,51,0.2)" }} />
-              <span style={{ flex: 1, textAlign: "center" }}>live_stats.sh — {product.name}</span>
+            <div className="bg-[rgba(51,255,51,0.06)] border-b border-[rgba(51,255,51,0.1)] px-3 py-1.5 flex items-center gap-2 text-[9px] text-muted">
+              <span className="w-2 h-2 rounded-full bg-accent [box-shadow:0_0_4px_#ffaa00] inline-block" />
+              <span className="w-2 h-2 rounded-full bg-[rgba(51,255,51,0.2)]" />
+              <span className="w-2 h-2 rounded-full bg-[rgba(51,255,51,0.2)]" />
+              <span className="flex-1 text-center">live_stats.sh — {product.name}</span>
             </div>
             {/* Stats content */}
-            <div style={{ padding: 12 }}>
+            <div className="p-3">
               <ProductMetricsPanel metrics={metrics} locale={locale} />
             </div>
           </div>
         )}
 
-        {/* Releases — outside CRT frame */}
+        {/* Releases */}
         {releases.length > 0 && (
-          <div style={{ marginBottom: 24 }}>
+          <div className="mb-6">
             <ProductReleaseList releases={releases} locale={locale} activity={metrics?.activity} repoReleasesUrl={repoReleasesUrl} />
           </div>
         )}
 
         {/* Description */}
-        <h2 style={{ fontSize: 12, fontWeight: "bold", color: "#ffaa00", margin: "0 0 6px" }}>{t("about")}</h2>
-        <div style={{ marginBottom: 24, border: "1px solid rgba(51,255,51,0.08)", padding: "14px 16px" }}>
-          <p style={{ fontSize: 11, color: "rgba(51,255,51,0.5)", lineHeight: 1.6, margin: 0 }}>{product.description}</p>
+        <h2 className="text-xs font-bold text-accent mb-1.5">{t("about")}</h2>
+        <div className="mb-6 border border-[rgba(51,255,51,0.08)] px-4 py-3.5">
+          <p className="text-[11px] text-muted leading-relaxed m-0">{product.description}</p>
         </div>
 
         {/* Features */}
         {product.features.length > 0 && (
-          <div style={{ marginBottom: 24 }}>
-            <h2 style={{ fontSize: 12, fontWeight: "bold", color: "#ffaa00", marginBottom: 8 }}>{t("features")}</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+          <div className="mb-6">
+            <h2 className="text-xs font-bold text-accent mb-2">{t("features")}</h2>
+            <div className="grid grid-cols-2 gap-2">
               {product.features.map((f, i) => (
-                <div key={i} style={{ border: "1px solid rgba(51,255,51,0.08)", padding: "8px 12px", fontSize: 10, color: "rgba(51,255,51,0.45)", display: "flex", alignItems: "flex-start", gap: 6 }}>
-                  <span style={{ color: "#ffaa00", flexShrink: 0 }}>▸</span>
+                <div key={i} className="border border-[rgba(51,255,51,0.08)] px-3 py-2 text-[10px] text-muted-dim flex items-start gap-1.5">
+                  <span className="text-accent shrink-0">▸</span>
                   <span>{f}</span>
                 </div>
               ))}
@@ -121,11 +110,11 @@ export default async function ExtensionDetailPage({ params }: Props) {
         )}
 
         {/* Tech Stack */}
-        <div style={{ marginBottom: 24 }}>
-          <h2 style={{ fontSize: 12, fontWeight: "bold", color: "#ffaa00", marginBottom: 8 }}>{t("techStack")}</h2>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+        <div className="mb-6">
+          <h2 className="text-xs font-bold text-accent mb-2">{t("techStack")}</h2>
+          <div className="flex flex-wrap gap-1.5">
             {product.technologies.map((tech) => (
-              <span key={tech} style={{ border: "1px solid rgba(51,255,51,0.1)", padding: "4px 10px", fontSize: 10, color: "rgba(51,255,51,0.5)", fontFamily: "'Courier New', monospace" }}>
+              <span key={tech} className="border border-[rgba(51,255,51,0.1)] px-2.5 py-1 text-[10px] text-muted font-['Courier_New']">
                 {tech}
               </span>
             ))}
@@ -133,27 +122,17 @@ export default async function ExtensionDetailPage({ params }: Props) {
         </div>
 
         {/* Links */}
-        <div style={{ display: "flex", gap: 10 }}>
+        <div className="flex gap-2.5">
           {product.url && (
-            <a href={product.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-              <button style={{
-                background: "linear-gradient(180deg, #e8c878, #c89840 25%, #d4a850 50%, #b88830 75%, #c09838)",
-                border: "2px solid #7a6020", borderRadius: 4, padding: "8px 20px",
-                fontFamily: "'Courier New', monospace", fontSize: 11, fontWeight: "bold",
-                color: "#1a1a08", cursor: "pointer",
-                boxShadow: "0 3px 0 #5a4010, 0 4px 8px rgba(0,0,0,0.4)",
-              }}>
+            <a href={product.url} target="_blank" rel="noopener noreferrer" className="no-underline">
+              <button className="btn-gold">
                 [ {t("install")} ]
               </button>
             </a>
           )}
           {product.repoUrl && (
-            <a href={product.repoUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-              <button style={{
-                background: "transparent", border: "2px solid rgba(51,255,51,0.2)", borderRadius: 4, padding: "8px 20px",
-                fontFamily: "'Courier New', monospace", fontSize: 11, fontWeight: "bold",
-                color: "#33ff33", cursor: "pointer",
-              }}>
+            <a href={product.repoUrl} target="_blank" rel="noopener noreferrer" className="no-underline">
+              <button className="bg-transparent border-2 border-[rgba(51,255,51,0.2)] rounded px-5 py-2 font-['Courier_New'] text-[11px] font-bold text-fg cursor-pointer">
                 [ {t("viewOnGitHub")} ]
               </button>
             </a>
