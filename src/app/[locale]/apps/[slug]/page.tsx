@@ -83,7 +83,7 @@ export default async function AppDetailPage({ params }: Props) {
           <div className="flex flex-wrap gap-1.5">{product.technologies.map((t) => <span key={t} className="border border-[rgba(51,255,51,0.1)] px-2.5 py-1 text-[10px] text-muted font-['Courier_New']">{t}</span>)}</div>
         </div>
         <div className="flex gap-2.5">
-          {product.url && <a href={product.url} target="_blank" rel="noopener noreferrer" className="no-underline"><button className="btn-gold">[ {t("visitWebsite")} ]</button></a>}
+          {product.url && <a href={product.url} target="_blank" rel="noopener noreferrer" className="no-underline"><button className="btn-gold">[ {raw.platform === "macos" ? t("installMacAppStore") : t("visitWebsite")} ]</button></a>}
           {product.repoUrl && <a href={product.repoUrl} target="_blank" rel="noopener noreferrer" className="no-underline"><button className="bg-transparent border-2 border-[rgba(51,255,51,0.2)] rounded px-5 py-2 font-['Courier_New'] text-[11px] font-bold text-fg cursor-pointer">[ {t("viewOnGitHub")} ]</button></a>}
         </div>
       </div>
