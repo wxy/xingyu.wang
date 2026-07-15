@@ -38,7 +38,7 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
 async function writeBlobJson<T>(pathname: string, data: T): Promise<void> {
   if (!hasBlobToken()) return;
   await put(pathname, JSON.stringify(data), {
-    access: "public",
+    access: "private",
     addRandomSuffix: false,
     allowOverwrite: true,
     contentType: "application/json",
