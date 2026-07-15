@@ -242,6 +242,7 @@ export const apps: Product[] = [
     platform: "macos",
     icon: "⛽",
     iconUrl: "https://raw.githubusercontent.com/wxy/ai-pulse-macos/main/Resources/AIPulse.png",
+    url: "https://apps.apple.com/us/app/ai-pulse/id6786290416?mt=12",
     repoUrl: "https://github.com/wxy/ai-pulse-macos",
     license: "Apache-2.0",
     technologies: ["Swift", "SwiftUI", "AppKit", "SQLite", "libgit2"],
