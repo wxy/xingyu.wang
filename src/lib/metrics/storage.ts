@@ -7,10 +7,12 @@ import type {
   ProductMetricsSnapshot,
 } from "./types";
 import { ACTIVITY_EVENTS_LIMIT, METRICS_HISTORY_DAYS } from "./types";
+import { getCached, setCache } from "./cache";
 
 const LATEST_BLOB = "metrics/latest.json";
 const EVENTS_BLOB = "activity/events.json";
 const HISTORY_PREFIX = "metrics/history/";
+const BLOB_CACHE_TTL = 5 * 60 * 1000; // 5 min TTL to reduce Blob operations
 
 function hasBlobToken(): boolean {
   // Vercel Blob: OIDC auto-auth in production, or legacy token
@@ -22,6 +24,11 @@ function hasBlobToken(): boolean {
 async function readBlobJson<T>(pathname: string): Promise<T | null> {
   if (!hasBlobToken()) return null;
 
+  // Check in-memory cache first to reduce Blob list() calls
+  const cacheKey = `blob:${pathname}`;
+  const cached = getCached<T>(cacheKey);
+  if (cached !== undefined) return cached;
+
   try {
     const { blobs } = await list({ prefix: pathname, limit: 1 });
     const blob = blobs.find((b) => b.pathname === pathname);
@@ -29,7 +36,9 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
 
     const res = await fetch(blob.url, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
-    return (await res.json()) as T;
+    const data = (await res.json()) as T;
+    setCache(cacheKey, data, BLOB_CACHE_TTL);
+    return data;
   } catch {
     return null;
   }
