@@ -12,29 +12,38 @@ import { getCached, setCache } from "./cache";
 const LATEST_BLOB = "metrics/latest.json";
 const EVENTS_BLOB = "activity/events.json";
 const HISTORY_PREFIX = "metrics/history/";
-const BLOB_CACHE_TTL = 5 * 60 * 1000; // 5 min TTL to reduce Blob operations
+const BLOB_CACHE_TTL = 5 * 60 * 1000;
+
+// Cache blob URLs from write operations to skip list() on reads
+const urlCache = new Map<string, string>();
 
 function hasBlobToken(): boolean {
-  // Vercel Blob: OIDC auto-auth in production, or legacy token
   return Boolean(
-    process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL, // OIDC on Vercel
+    process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL,
   );
 }
 
 async function readBlobJson<T>(pathname: string): Promise<T | null> {
   if (!hasBlobToken()) return null;
 
-  // Check in-memory cache first to reduce Blob list() calls
   const cacheKey = `blob:${pathname}`;
   const cached = getCached<T>(cacheKey);
   if (cached !== undefined) return cached;
 
   try {
-    const { blobs } = await list({ prefix: pathname, limit: 1 });
-    const blob = blobs.find((b) => b.pathname === pathname);
-    if (!blob?.url) return null;
+    // Use cached URL from previous write if available (0 Advanced Requests)
+    let url = urlCache.get(pathname);
 
-    const res = await fetch(blob.url, { next: { revalidate: 3600 } });
+    if (!url) {
+      // Fallback to list() — 1 Advanced Request
+      const { blobs } = await list({ prefix: pathname, limit: 1 });
+      const blob = blobs.find((b) => b.pathname === pathname);
+      if (!blob?.url) return null;
+      url = blob.url;
+      urlCache.set(pathname, url); // cache for next time
+    }
+
+    const res = await fetch(url, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     const data = (await res.json()) as T;
     setCache(cacheKey, data, BLOB_CACHE_TTL);
@@ -46,12 +55,14 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
 
 async function writeBlobJson<T>(pathname: string, data: T): Promise<void> {
   if (!hasBlobToken()) return;
-  await put(pathname, JSON.stringify(data), {
+  const blob = await put(pathname, JSON.stringify(data), {
     access: "private",
     addRandomSuffix: false,
     allowOverwrite: true,
     contentType: "application/json",
   });
+  // Cache the URL from the write so reads can skip list()
+  urlCache.set(pathname, blob.url);
 }
 
 export async function readLatestMetricsStore(): Promise<LatestMetricsStore | null> {
