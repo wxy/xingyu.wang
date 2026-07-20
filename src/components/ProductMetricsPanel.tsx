@@ -40,7 +40,13 @@ export async function ProductMetricsPanel({ metrics, locale }: Props) {
           <MetricTile
             label={t("commits30d")}
             value={formatNumber(metrics.github.commitsLast30d, locale)}
-            sparkline={hasHistory ? <MetricSparkline points={metrics.history!.points} dataKey="stars" /> : undefined}
+          />
+        )}
+        {metrics.chromeStore?.users != null && (
+          <MetricTile
+            label={t("users")}
+            value={formatNumber(metrics.chromeStore.users, locale)}
+            sparkline={hasHistory ? <MetricSparkline points={metrics.history!.points} dataKey="users" /> : undefined}
           />
         )}
         {metrics.github?.mergedPRsLast30d != null && (
