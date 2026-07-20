@@ -38,7 +38,7 @@ export default async function AppDetailPage({ params }: Props) {
         <Link href="/apps" className="text-muted-dim text-[11px] no-underline">← {t("backToList")}</Link>
 
         <div className="mt-4 mb-4 flex items-center gap-3">
-          {product.iconUrl ? <img src={product.iconUrl} alt="" className="w-8 h-8 rounded-md object-contain" /> : <span className="text-[28px]">{product.icon}</span>}
+          {product.iconUrl ? <img src={product.iconUrl} alt="" className="w-10 h-10 rounded-lg object-contain" /> : <span className="text-[28px]">{product.icon}</span>}
           <div>
             <h1 className="heading-glow text-[22px] m-0">{product.name}</h1>
             <p className="text-[11px] text-muted-dim mt-0.5">{product.tagline}</p>

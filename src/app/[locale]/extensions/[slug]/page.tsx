@@ -51,7 +51,7 @@ export default async function ExtensionDetailPage({ params }: Props) {
         <div className="mt-4 mb-4">
           <div className="flex items-center gap-3">
             {product.iconUrl ? (
-              <img src={product.iconUrl} alt="" className="w-8 h-8 rounded-md object-contain" />
+              <img src={product.iconUrl} alt="" className="w-10 h-10 rounded-lg object-contain" />
             ) : (
               <span className="text-[28px]">{product.icon}</span>
             )}
