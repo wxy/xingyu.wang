@@ -54,7 +54,7 @@ export function CrtMonitorCard({ product, href, mon, status, stats }: Props) {
                   <img
                     src={product.iconUrl}
                     alt=""
-                    className="w-[18px] h-[18px] rounded-[3px] object-contain"
+                    className="w-[30px] h-[30px] rounded-[4px] object-contain"
                   />
                 ) : (
                   <span className="text-lg">{product.icon}</span>
