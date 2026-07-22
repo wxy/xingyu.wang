@@ -30,7 +30,7 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
   if (cached !== undefined) return cached;
 
   try {
-    // SDK's get() reads env vars (BLOB_READ_WRITE_TOKEN, BLOB_STORE_ID) automatically
+    // SDK auto-detects BLOB_READ_WRITE_TOKEN and BLOB_STORE_ID from env
     const result = await get(pathname, { access: "private" });
 
     if (!result || result.statusCode !== 200) return null;
