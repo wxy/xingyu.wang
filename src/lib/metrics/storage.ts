@@ -30,12 +30,8 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
   if (cached !== undefined) return cached;
 
   try {
-    // SDK's get() handles auth for private blobs automatically
-    const result = await get(pathname, {
-      access: "private",
-      token: process.env.BLOB_READ_WRITE_TOKEN || undefined,
-      storeId: process.env.BLOB_STORE_ID || undefined,
-    });
+    // SDK's get() reads env vars (BLOB_READ_WRITE_TOKEN, BLOB_STORE_ID) automatically
+    const result = await get(pathname, { access: "private" });
 
     if (!result || result.statusCode !== 200) return null;
     const text = await new Response(result.stream).text();
