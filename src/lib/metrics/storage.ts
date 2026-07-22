@@ -57,15 +57,19 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
 }
 
 async function writeBlobJson<T>(pathname: string, data: T): Promise<void> {
-  if (!hasBlobToken()) return;
-  const blob = await put(pathname, JSON.stringify(data), {
-    access: "private",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-    contentType: "application/json",
-  });
-  // Cache the URL from the write so reads can skip list()
-  urlCache.set(pathname, blob.url);
+  if (!hasBlobToken()) { console.warn("[Blob] skipped write — no token"); return; }
+  try {
+    const blob = await put(pathname, JSON.stringify(data), {
+      access: "private",
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      contentType: "application/json",
+    });
+    urlCache.set(pathname, blob.url);
+    console.log("[Blob] wrote", pathname);
+  } catch (err) {
+    console.error("[Blob] write failed", pathname, err);
+  }
 }
 
 export async function readLatestMetricsStore(): Promise<LatestMetricsStore | null> {
