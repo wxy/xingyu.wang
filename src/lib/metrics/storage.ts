@@ -14,11 +14,9 @@ const EVENTS_BLOB = "activity/events.json";
 const HISTORY_PREFIX = "metrics/history/";
 const BLOB_CACHE_TTL = 5 * 60 * 1000;
 
-// Cache blob URLs from write operations to skip list() on reads
 const urlCache = new Map<string, string>();
 
 function hasBlobToken(): boolean {
-  // Vercel Blob: OIDC via BLOB_STORE_ID, or legacy token, or Vercel env
   return Boolean(
     process.env.BLOB_READ_WRITE_TOKEN ||
       process.env.BLOB_STORE_ID ||
@@ -34,11 +32,9 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
   if (cached !== undefined) return cached;
 
   try {
-    // Use cached URL from previous write if available (0 Advanced Requests)
     let url = urlCache.get(pathname);
 
     if (!url) {
-      // Fallback to list() — 1 Advanced Request
       const { blobs } = await list({ prefix: pathname, limit: 1 });
       const blob = blobs.find((b) => b.pathname === pathname);
       if (!blob?.url) return null;
@@ -46,11 +42,17 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
       urlCache.set(pathname, url);
     }
 
+    // For private blobs, use the REST API with x-api-key header
+    const cleanPath = pathname.startsWith("/") ? pathname.slice(1) : pathname;
+    const storeId = process.env.BLOB_STORE_ID || "";
+    const apiUrl = storeId
+      ? `https://${storeId}.blob.vercel-storage.com/${cleanPath}`
+      : url;
     const headers: Record<string, string> = {};
     if (process.env.BLOB_READ_WRITE_TOKEN) {
-      headers["Authorization"] = `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`;
+      headers["x-api-key"] = process.env.BLOB_READ_WRITE_TOKEN;
     }
-    const res = await fetch(url, { headers, next: { revalidate: 3600 } });
+    const res = await fetch(apiUrl, { headers, next: { revalidate: 3600 } });
     if (!res.ok) return null;
     const data = (await res.json()) as T;
     setCache(cacheKey, data, BLOB_CACHE_TTL);
@@ -61,7 +63,7 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
 }
 
 async function writeBlobJson<T>(pathname: string, data: T): Promise<void> {
-  if (!hasBlobToken()) { console.warn("[Blob] skipped write — no token"); return; }
+  if (!hasBlobToken()) return;
   try {
     const blob = await put(pathname, JSON.stringify(data), {
       access: "private",
@@ -70,7 +72,6 @@ async function writeBlobJson<T>(pathname: string, data: T): Promise<void> {
       contentType: "application/json",
     });
     urlCache.set(pathname, blob.url);
-    console.log("[Blob] wrote", pathname);
   } catch (err) {
     console.error("[Blob] write failed", pathname, err);
   }

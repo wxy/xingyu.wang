@@ -5,7 +5,6 @@ import { readLatestMetricsStore, readMetricsHistory } from "@/lib/metrics/storag
 export const runtime = "nodejs";
 
 export async function GET() {
-  // Test direct Blob write/read
   let testWrite = "skipped";
   let testRead = "skipped";
   try {
@@ -20,8 +19,16 @@ export async function GET() {
     const { blobs } = await list({ prefix: "debug/test.json", limit: 1 });
     const found = blobs.find((b) => b.pathname === "debug/test.json");
     if (found?.url) {
-      const res = await fetch(found.url);
-      testRead = res.ok ? `ok: ${await res.text()}` : `fetch failed: ${res.status}`;
+      const headers: Record<string, string> = {};
+      const token = process.env.BLOB_READ_WRITE_TOKEN;
+      if (token) headers["x-api-key"] = token;
+      // Try store API URL first, fall back to blob URL
+      const storeId = process.env.BLOB_STORE_ID || "";
+      const apiUrl = storeId
+        ? `https://${storeId}.blob.vercel-storage.com/debug/test.json`
+        : found.url;
+      const res = await fetch(apiUrl, { headers });
+      testRead = res.ok ? `ok (${res.status})` : `fetch failed: ${res.status}`;
     } else {
       testRead = "not found in list";
     }
