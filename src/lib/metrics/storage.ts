@@ -1,4 +1,6 @@
-import { list, put } from "@vercel/blob";
+// Blob storage disabled — metrics are fetched live from GitHub API.
+// History/sparklines not available without persistent storage.
+
 import type {
   ActivityEvent,
   LatestMetricsStore,
@@ -6,76 +8,20 @@ import type {
   MetricsHistoryPoint,
   ProductMetricsSnapshot,
 } from "./types";
-import { ACTIVITY_EVENTS_LIMIT, METRICS_HISTORY_DAYS } from "./types";
-import { getCached, setCache } from "./cache";
-
-const LATEST_BLOB = "metrics/latest.json";
-const EVENTS_BLOB = "activity/events.json";
-const HISTORY_PREFIX = "metrics/history/";
-const BLOB_CACHE_TTL = 5 * 60 * 1000;
-
-function hasBlobToken(): boolean {
-  return Boolean(
-    process.env.BLOB_READ_WRITE_TOKEN ||
-      process.env.BLOB_STORE_ID ||
-      process.env.VERCEL,
-  );
-}
-
-async function readBlobJson<T>(pathname: string): Promise<T | null> {
-  if (!hasBlobToken()) return null;
-
-  const cacheKey = `blob:${pathname}`;
-  const cached = getCached<T>(cacheKey);
-  if (cached !== undefined) return cached;
-
-  try {
-    const { blobs } = await list({ prefix: pathname, limit: 1 });
-    const blob = blobs.find((b) => b.pathname === pathname);
-    if (!blob?.url) return null;
-
-    const storeId = process.env.BLOB_STORE_ID || "";
-    const cleanPath = pathname.startsWith("/") ? pathname.slice(1) : pathname;
-    const apiUrl = storeId
-      ? `https://${storeId}.blob.vercel-storage.com/${cleanPath}`
-      : blob.url;
-    const headers: Record<string, string> = {};
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
-      headers["x-api-key"] = process.env.BLOB_READ_WRITE_TOKEN;
-    }
-    const res = await fetch(apiUrl, { headers, next: { revalidate: 3600 } });
-    if (!res.ok) return null;
-    const data = (await res.json()) as T;
-    setCache(cacheKey, data, BLOB_CACHE_TTL);
-    return data;
-  } catch {
-    return null;
-  }
-}
-
-async function writeBlobJson<T>(pathname: string, data: T): Promise<void> {
-  if (!hasBlobToken()) return;
-  await put(pathname, JSON.stringify(data), {
-    access: "private",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-    contentType: "application/json",
-  });
-}
+import { METRICS_HISTORY_DAYS } from "./types";
 
 export async function readLatestMetricsStore(): Promise<LatestMetricsStore | null> {
-  return readBlobJson<LatestMetricsStore>(LATEST_BLOB);
+  return null;
 }
 
 export async function readMetricsHistory(
-  productId: string,
+  _productId: string,
 ): Promise<MetricsHistory | null> {
-  return readBlobJson<MetricsHistory>(`${HISTORY_PREFIX}${productId}.json`);
+  return null;
 }
 
 export async function readActivityEvents(): Promise<ActivityEvent[]> {
-  const data = await readBlobJson<{ events: ActivityEvent[] }>(EVENTS_BLOB);
-  return data?.events ?? [];
+  return [];
 }
 
 export function appendHistoryPoint(
@@ -88,35 +34,22 @@ export function appendHistoryPoint(
   const points = [...withoutToday, point]
     .sort((a, b) => a.date.localeCompare(b.date))
     .slice(-METRICS_HISTORY_DAYS);
-
   return { productId, points };
 }
 
 export async function persistMetricsSnapshot(
-  snapshot: ProductMetricsSnapshot,
-  history: MetricsHistory,
+  _snapshot: ProductMetricsSnapshot,
+  _history: MetricsHistory,
 ): Promise<void> {
-  const store =
-    (await readLatestMetricsStore()) ??
-    ({ updatedAt: new Date().toISOString(), products: {} } satisfies LatestMetricsStore);
-
-  store.products[snapshot.productId] = snapshot;
-  store.updatedAt = new Date().toISOString();
-
-  await writeBlobJson(LATEST_BLOB, store);
-  await writeBlobJson(`${HISTORY_PREFIX}${snapshot.productId}.json`, history);
+  // no-op: Blob disabled
 }
 
-export async function persistActivityEvents(events: ActivityEvent[]): Promise<void> {
-  await writeBlobJson(EVENTS_BLOB, {
-    updatedAt: new Date().toISOString(),
-    events: events.slice(0, ACTIVITY_EVENTS_LIMIT),
-  });
+export async function persistActivityEvents(_events: ActivityEvent[]): Promise<void> {
+  // no-op: Blob disabled
 }
 
 export async function readProductSnapshot(
-  productId: string,
+  _productId: string,
 ): Promise<ProductMetricsSnapshot | null> {
-  const store = await readLatestMetricsStore();
-  return store?.products[productId] ?? null;
+  return null;
 }
