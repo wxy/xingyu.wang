@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { readMetricsHistory } from "@/lib/metrics/storage";
-
 export const runtime = "nodejs";
-
 export async function GET() {
   // Test 1: direct write+read cycle
   const testPath = "test-write-read.json";
