@@ -18,8 +18,11 @@ const BLOB_CACHE_TTL = 5 * 60 * 1000;
 const urlCache = new Map<string, string>();
 
 function hasBlobToken(): boolean {
+  // Vercel Blob: OIDC via BLOB_STORE_ID, or legacy token, or Vercel env
   return Boolean(
-    process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL,
+    process.env.BLOB_READ_WRITE_TOKEN ||
+      process.env.BLOB_STORE_ID ||
+      process.env.VERCEL,
   );
 }
 
