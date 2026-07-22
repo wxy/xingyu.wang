@@ -46,7 +46,11 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
       urlCache.set(pathname, url);
     }
 
-    const res = await fetch(url, { next: { revalidate: 3600 } });
+    const headers: Record<string, string> = {};
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      headers["Authorization"] = `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`;
+    }
+    const res = await fetch(url, { headers, next: { revalidate: 3600 } });
     if (!res.ok) return null;
     const data = (await res.json()) as T;
     setCache(cacheKey, data, BLOB_CACHE_TTL);
