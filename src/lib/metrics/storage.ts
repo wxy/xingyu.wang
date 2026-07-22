@@ -1,4 +1,4 @@
-import { get, put } from "@vercel/blob";
+import { list, put } from "@vercel/blob";
 import type {
   ActivityEvent,
   LatestMetricsStore,
@@ -30,12 +30,22 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
   if (cached !== undefined) return cached;
 
   try {
-    // SDK auto-detects BLOB_READ_WRITE_TOKEN and BLOB_STORE_ID from env
-    const result = await get(pathname, { access: "private" });
+    const { blobs } = await list({ prefix: pathname, limit: 1 });
+    const blob = blobs.find((b) => b.pathname === pathname);
+    if (!blob?.url) return null;
 
-    if (!result || result.statusCode !== 200) return null;
-    const text = await new Response(result.stream).text();
-    const data = JSON.parse(text) as T;
+    const storeId = process.env.BLOB_STORE_ID || "";
+    const cleanPath = pathname.startsWith("/") ? pathname.slice(1) : pathname;
+    const apiUrl = storeId
+      ? `https://${storeId}.blob.vercel-storage.com/${cleanPath}`
+      : blob.url;
+    const headers: Record<string, string> = {};
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      headers["x-api-key"] = process.env.BLOB_READ_WRITE_TOKEN;
+    }
+    const res = await fetch(apiUrl, { headers, next: { revalidate: 3600 } });
+    if (!res.ok) return null;
+    const data = (await res.json()) as T;
     setCache(cacheKey, data, BLOB_CACHE_TTL);
     return data;
   } catch {
