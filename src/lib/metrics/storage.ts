@@ -38,7 +38,7 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
     });
 
     if (!result || result.statusCode !== 200) return null;
-    const text = await result.stream.text();
+    const text = await new Response(result.stream).text();
     const data = JSON.parse(text) as T;
     setCache(cacheKey, data, BLOB_CACHE_TTL);
     return data;
