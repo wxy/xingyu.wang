@@ -1,4 +1,4 @@
-import { list, put } from "@vercel/blob";
+import { get, put } from "@vercel/blob";
 import type {
   ActivityEvent,
   LatestMetricsStore,
@@ -13,8 +13,6 @@ const LATEST_BLOB = "metrics/latest.json";
 const EVENTS_BLOB = "activity/events.json";
 const HISTORY_PREFIX = "metrics/history/";
 const BLOB_CACHE_TTL = 5 * 60 * 1000;
-
-const urlCache = new Map<string, string>();
 
 function hasBlobToken(): boolean {
   return Boolean(
@@ -32,29 +30,16 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
   if (cached !== undefined) return cached;
 
   try {
-    let url = urlCache.get(pathname);
+    // SDK's get() handles auth for private blobs automatically
+    const result = await get(pathname, {
+      access: "private",
+      token: process.env.BLOB_READ_WRITE_TOKEN || undefined,
+      storeId: process.env.BLOB_STORE_ID || undefined,
+    });
 
-    if (!url) {
-      const { blobs } = await list({ prefix: pathname, limit: 1 });
-      const blob = blobs.find((b) => b.pathname === pathname);
-      if (!blob?.url) return null;
-      url = blob.url;
-      urlCache.set(pathname, url);
-    }
-
-    // For private blobs, use the REST API with x-api-key header
-    const cleanPath = pathname.startsWith("/") ? pathname.slice(1) : pathname;
-    const storeId = process.env.BLOB_STORE_ID || "";
-    const apiUrl = storeId
-      ? `https://${storeId}.blob.vercel-storage.com/${cleanPath}`
-      : url;
-    const headers: Record<string, string> = {};
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
-      headers["x-api-key"] = process.env.BLOB_READ_WRITE_TOKEN;
-    }
-    const res = await fetch(apiUrl, { headers, next: { revalidate: 3600 } });
-    if (!res.ok) return null;
-    const data = (await res.json()) as T;
+    if (!result || result.statusCode !== 200) return null;
+    const text = await result.stream.text();
+    const data = JSON.parse(text) as T;
     setCache(cacheKey, data, BLOB_CACHE_TTL);
     return data;
   } catch {
@@ -64,17 +49,12 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
 
 async function writeBlobJson<T>(pathname: string, data: T): Promise<void> {
   if (!hasBlobToken()) return;
-  try {
-    const blob = await put(pathname, JSON.stringify(data), {
-      access: "private",
-      addRandomSuffix: false,
-      allowOverwrite: true,
-      contentType: "application/json",
-    });
-    urlCache.set(pathname, blob.url);
-  } catch (err) {
-    console.error("[Blob] write failed", pathname, err);
-  }
+  await put(pathname, JSON.stringify(data), {
+    access: "private",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    contentType: "application/json",
+  });
 }
 
 export async function readLatestMetricsStore(): Promise<LatestMetricsStore | null> {
