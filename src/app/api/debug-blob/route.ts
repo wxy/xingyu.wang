@@ -20,8 +20,11 @@ export async function GET() {
     const { blobs } = await list({ prefix: "debug/test.json", limit: 1 });
     const found = blobs.find((b) => b.pathname === "debug/test.json");
     if (found?.url) {
-      const res = await fetch(found.url);
-      testRead = res.ok ? `ok: ${await res.text()}` : `fetch failed: ${res.status}`;
+      const headers: Record<string, string> = {};
+      const token = process.env.BLOB_READ_WRITE_TOKEN;
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+      const res = await fetch(found.url, { headers });
+      testRead = res.ok ? `ok (${res.status})` : `fetch failed: ${res.status}`;
     } else {
       testRead = "not found in list";
     }

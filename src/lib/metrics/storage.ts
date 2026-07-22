@@ -46,11 +46,19 @@ async function readBlobJson<T>(pathname: string): Promise<T | null> {
       urlCache.set(pathname, url);
     }
 
+    // For private blobs, use the REST API with x-api-key header
+    const cleanPath = pathname.startsWith("/") ? pathname.slice(1) : pathname;
+    const storeId = process.env.BLOB_STORE_ID || "";
+    const apiUrl = storeId
+      ? `https://${storeId}.blob.vercel-storage.com/${cleanPath}`
+      : url;
     const headers: Record<string, string> = {};
     if (process.env.BLOB_READ_WRITE_TOKEN) {
-      headers["Authorization"] = `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`;
+      headers["x-api-key"] = process.env.BLOB_READ_WRITE_TOKEN;
+    } else if (process.env.BLOB_STORE_ID) {
+      headers["x-api-vercel-oidc-token"] = process.env.VERCEL_OIDC_TOKEN || "";
     }
-    const res = await fetch(url, { headers, next: { revalidate: 3600 } });
+    const res = await fetch(apiUrl, { headers, next: { revalidate: 3600 } });
     if (!res.ok) return null;
     const data = (await res.json()) as T;
     setCache(cacheKey, data, BLOB_CACHE_TTL);
